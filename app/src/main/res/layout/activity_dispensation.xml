@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DispensationActivity">
+
+    <TextView
+        android:id="@+id/txtItemsPerDose"
+        android:layout_width="114dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="156dp"
+        android:text="@string/items_per_dose"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnAddDispensation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="115dp"
+        android:layout_marginEnd="115dp"
+        android:layout_marginBottom="35dp"
+        android:text="@string/add_dispensation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spnItemsPerDose"
+        android:layout_width="73dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="104dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="156dp" />
+
+    <TextView
+        android:id="@+id/txtFrequency"
+        android:layout_width="110dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="80dp"
+        android:text="@string/frequency"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="246dp" />
+
+    <Spinner
+        android:id="@+id/spnFrequency"
+        android:layout_width="73dp"
+        android:layout_height="56dp"
+        tools:layout_editor_absoluteX="232dp"
+        tools:layout_editor_absoluteY="246dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dose"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="58dp" />
+
+    <Spinner
+        android:id="@+id/spnDose"
+        android:layout_width="73dp"
+        android:layout_height="56dp"
+        tools:layout_editor_absoluteX="234dp"
+        tools:layout_editor_absoluteY="58dp" />
+
+    <TextView
+        android:id="@+id/txtRefillDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Refill date"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="329dp" />
+
+    <EditText
+        android:id="@+id/editRefillDate"
+        android:layout_width="158dp"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:inputType="date"
+        tools:layout_editor_absoluteX="204dp"
+        tools:layout_editor_absoluteY="332dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
