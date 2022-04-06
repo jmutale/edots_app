@@ -26,7 +26,7 @@ public class ClientMain extends AppCompatActivity {
     }
 
     private void openDispensationActivity() {
-        Intent intent = new Intent(this, SettingsActivity.class);
+        Intent intent = new Intent(this, DispensationActivity.class);
         startActivity(intent);
     }
 

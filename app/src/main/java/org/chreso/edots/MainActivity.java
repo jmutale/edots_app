@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.search_item:
-                openSeachForm();
+                openSearchForm();
                 return true;
             case R.id.sync_item:
                 startDataSync();
@@ -64,7 +64,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void openSeachForm() {
+    private void openSearchForm() {
+        Intent intent = new Intent(this, ClientMain.class);
+        startActivity(intent);
     }
 
     private void startDataSync() {

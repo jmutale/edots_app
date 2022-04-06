@@ -19,4 +19,18 @@
     <string name="items_per_dose">Items per dose</string>
     <string name="add_dispensation">Add Dispensation</string>
     <string name="frequency">Frequency</string>
+    <string name="refill_date">Refill date</string>
+
+    <string-array name="items_per_dose">
+        <item>tab(s)</item>
+        <item>inj</item>
+        <item>syrp</item>
+        <item>cap(s)</item>
+    </string-array>
+    <string-array name="frequency">
+        <item>od</item>
+        <item>bd</item>
+        <item>qid</item>
+        <item>td</item>
+    </string-array>
 </resources>
