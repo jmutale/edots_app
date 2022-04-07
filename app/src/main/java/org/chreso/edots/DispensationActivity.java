@@ -21,6 +21,7 @@ public class DispensationActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(R.string.pharmacy_title_text);
         }
 
         btnAddDispensation = findViewById(R.id.btnAddDispensation);
