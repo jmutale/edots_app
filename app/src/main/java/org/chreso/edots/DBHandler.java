@@ -9,10 +9,12 @@ public class DBHandler extends SQLiteOpenHelper {
 
     // creating a constant variables for our database.
     // below variable is for our database name.
+
+    private SQLiteDatabase db;
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 3;
 
     // below variable is for our table name.
     private static final String TABLE_NAME = "meddrug";
@@ -28,6 +30,7 @@ public class DBHandler extends SQLiteOpenHelper {
     // creating a constructor for our database handler.
     public DBHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+        db = getWritableDatabase();
     }
 
     @Override
@@ -38,14 +41,14 @@ public class DBHandler extends SQLiteOpenHelper {
                 + BRAND_NAME_COL + " TEXT,"
                 + FORMULATION_COL + " TEXT,"
                 + GENERIC_INGREDIENTS_COL + " TEXT,"
-                + GENERIC_STRENGTH_COL + "TEXT)";
+                + GENERIC_STRENGTH_COL + " TEXT)";
 
 
         sqLiteDatabase.execSQL(query);
     }
 
-    public void addNewMedDrug(String uuid, String genericName, String brandName, String formulation, String genericIngredients, String genericStrenght){
-        SQLiteDatabase db = this.getWritableDatabase();
+    public void addNewMedDrug(String uuid, String genericName, String brandName, String formulation, String genericIngredients, String genericStrength){
+
 
         ContentValues values = new ContentValues();
         values.put(UUID_COL, uuid);
@@ -53,9 +56,8 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(BRAND_NAME_COL, brandName);
         values.put(FORMULATION_COL, formulation);
         values.put(GENERIC_INGREDIENTS_COL, genericIngredients);
-        values.put(GENERIC_STRENGTH_COL, genericStrenght);
+        values.put(GENERIC_STRENGTH_COL, genericStrength);
         db.insert(TABLE_NAME, null, values);
-
         db.close();
     }
 
