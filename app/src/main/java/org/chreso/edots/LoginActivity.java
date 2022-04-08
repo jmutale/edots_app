@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void openDashboard() {
-        Intent intent = new Intent(this, ClientMain.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }

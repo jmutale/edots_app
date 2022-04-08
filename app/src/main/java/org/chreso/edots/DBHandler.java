@@ -50,15 +50,10 @@ public class DBHandler extends SQLiteOpenHelper {
     public void addNewMedDrug(String uuid, String genericName, String brandName, String formulation, String genericIngredients, String genericStrength){
 
 
-        ContentValues values = new ContentValues();
-        values.put(UUID_COL, uuid);
-        values.put(GENERIC_NAME_COL, genericName);
-        values.put(BRAND_NAME_COL, brandName);
-        values.put(FORMULATION_COL, formulation);
-        values.put(GENERIC_INGREDIENTS_COL, genericIngredients);
-        values.put(GENERIC_STRENGTH_COL, genericStrength);
-        db.insert(TABLE_NAME, null, values);
-        db.close();
+        String UPSERT_SQL  = "INSERT OR REPLACE INTO meddrug (uuid,generic_name,brand_name,formulation,generic_ingredients,generic_strength)" +
+                "VALUES ('"+uuid+"','"+genericName+"','"+brandName+"','"+formulation+"','"+genericIngredients+"','"+genericStrength+"')";
+        db.execSQL(UPSERT_SQL);
+        //db.close();
     }
 
     @Override
