@@ -4,19 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,24 +35,52 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Main";
     private Button btnPostData;
     private ExecutorService myExecutor;
+    private EditText textBox;
+    private TextView text;
+    private ListView list;
     private DBHandler dbHandler;
+    ArrayAdapter adapter;
 
+    String patient[] = {"John","Terry","Henry","Chisanga","Mildred","Thomas","Mutale","Steven","Trevor"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dbHandler = new DBHandler(getApplicationContext());
-        myExecutor = Executors.newSingleThreadExecutor();
+        //myExecutor = Executors.newSingleThreadExecutor();
+        textBox=(EditText)findViewById(R.id.textBox);
+        text=(TextView)findViewById(R.id.text);
+        list=(ListView)findViewById(R.id.list);
 
-        btnPostData = findViewById(R.id.btnPostData);
-        btnPostData.setOnClickListener(new View.OnClickListener() {
+        adapter=new ArrayAdapter(this,R.layout.list_item,R.id.text,patient);
+        list.setAdapter(adapter);
+
+
+        textBox.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
-                doBtnPostDataTasks();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                adapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
-    }
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                openClientRecord();
+            }
+        }
+    );
+}
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -59,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.search_item:
-                openSearchForm();
+                openClientRecord();
                 return true;
             case R.id.sync_item:
                 startDataSync();
@@ -72,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void openSearchForm() {
+    private void openClientRecord() {
         Intent intent = new Intent(this, ClientMain.class);
         startActivity(intent);
     }

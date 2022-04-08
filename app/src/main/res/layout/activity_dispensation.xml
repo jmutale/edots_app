@@ -15,6 +15,28 @@
         android:layout_marginTop="100dp">
 
         <TextView
+            android:id="@+id/txtDrugsFromDatabase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Generic Name"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        <Spinner
+            android:id="@+id/spnDrugsFromDatabase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:outlineAmbientShadowColor="@color/black"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_marginTop="100dp">
+
+        <TextView
             android:id="@+id/txtDose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,9 +88,6 @@
             android:layout_weight="1"
             android:entries="@array/items_per_dose" />
     </LinearLayout>
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

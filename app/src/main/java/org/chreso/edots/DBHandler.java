@@ -2,8 +2,13 @@ package org.chreso.edots;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.ArrayAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
 
@@ -56,6 +61,23 @@ public class DBHandler extends SQLiteOpenHelper {
         //db.close();
     }
 
+    public List<String> loadDrugsIntoSpinnerFromDatabase() {
+        List<String> spinnerArray =  new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT generic_name FROM meddrug ", null);
+        if (c.moveToFirst()){
+            do {
+                // Passing values
+                String column1 = c.getString(0);
+
+                // Do something Here with values
+                spinnerArray.add(column1);
+            } while(c.moveToNext());
+        }
+        c.close();
+        //db.close();
+        return spinnerArray;
+    }
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         // this method is called to check if the table exists already.
