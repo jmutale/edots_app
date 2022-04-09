@@ -1,14 +1,13 @@
 package org.chreso.edots;
 
-import androidx.appcompat.app.AppCompatActivity;
+
+import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,8 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
@@ -30,7 +27,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends EdotActivity {
 
     private static final String TAG = "Main";
     private Button btnPostData;
@@ -40,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView list;
     private DBHandler dbHandler;
     ArrayAdapter adapter;
+
+    private SharedPreferences prefs;
 
     String patient[] = {"John","Terry","Henry","Chisanga","Mildred","Thomas","Mutale","Steven","Trevor"};
     @Override
@@ -51,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         textBox=(EditText)findViewById(R.id.textBox);
         text=(TextView)findViewById(R.id.text);
         list=(ListView)findViewById(R.id.list);
+
+        prefs = PreferenceManager
+                .getDefaultSharedPreferences(this);
 
         adapter=new ArrayAdapter(this,R.layout.list_item,R.id.text,patient);
         list.setAdapter(adapter);
@@ -82,29 +84,9 @@ public class MainActivity extends AppCompatActivity {
     );
 }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.search_item:
-                openClientRecord();
-                return true;
-            case R.id.sync_item:
-                startDataSync();
-                return true;
-            case R.id.settings_item:
-                openSettingsForm();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+
+
 
     private void openClientRecord() {
         Intent intent = new Intent(this, ClientMain.class);
@@ -118,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         //myExecutor.execute(new NetworkTask());
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(ApiInterface.BASE_URL)
+                .baseUrl(prefs.getString("server",null))
                 .build();
 
         ApiInterface api = retrofit.create(ApiInterface.class);
@@ -141,38 +123,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void openSettingsForm() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-    }
 
-    private void doBtnPostDataTasks() {
-        DateTimeFormatter formatter_3 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String str_date_3 = "24-09-2019";
-        LocalDate local_date_3 = LocalDate.parse(str_date_3, formatter_3);
 
-        ApiInterface apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
-        Call<Client> call = apiInterface.getClientData("Johnnie",
-                "Daka",
-                local_date_3,
-                "male",
-                "+260978895623");
-        call.enqueue(new Callback<Client>() {
-            @Override
-            public void onResponse(Call<Client> call, Response<Client> response) {
-                Log.e(TAG,"onResponse: "+response.code());
-                Log.e(TAG,"onResponse: first_name : "+response.body().getFirst_name());
-                Log.e(TAG,"onResponse: last_name : "+response.body().getLast_name());
-                //Log.e(TAG,"onResponse: date_of_birth : "+response.body().getDate_of_birth());
-                Log.e(TAG,"onResponse: mobile_phone_number : "+response.body().getMobile_phone_number());
-            }
 
-            @Override
-            public void onFailure(Call<Client> call, Throwable t) {
-                Log.e(TAG,"onFailure: "+t.getMessage());
-
-            }
-        });
-
-    }
 }

@@ -3,11 +3,11 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
-    <string name="messages_header">Data</string>
+    <string name="server_settings_header">Server</string>
     <string name="sync_header">Sync</string>
 
     <!-- Messages Preferences -->
-    <string name="signature_title">Server URL</string>
+    <string name="signature_title">URL</string>
     <string name="reply_title">Default reply action</string>
 
     <!-- Sync Preferences -->
