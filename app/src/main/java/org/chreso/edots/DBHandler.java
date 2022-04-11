@@ -1,13 +1,12 @@
 package org.chreso.edots;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -19,10 +18,12 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 5;
 
     // below variable is for our table name.
-    private static final String TABLE_NAME = "meddrug";
+    private static final String MED_DRUG_TABLE_NAME = "meddrug";
+
+    private static final String CLIENT_TABLE_NAME = "client";
 
     // below variable is for our id column.
     private static final String UUID_COL = "uuid";
@@ -40,7 +41,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String query = "CREATE TABLE " + TABLE_NAME + " ("
+        String query = "CREATE TABLE " + MED_DRUG_TABLE_NAME + " ("
                 + UUID_COL + " TEXT PRIMARY KEY, "
                 + GENERIC_NAME_COL + " TEXT,"
                 + BRAND_NAME_COL + " TEXT,"
@@ -50,6 +51,15 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
         sqLiteDatabase.execSQL(query);
+
+        String client_table_query = "CREATE TABLE "+ CLIENT_TABLE_NAME + " ("
+                + "uuid TEXT PRIMARY KEY, "
+                + "first_name TEXT, "
+                + "last_name TEXT, "
+                + "date_of_birth TEXT, "
+                + "sex TEXT, "
+                + "mobile_phone_number TEXT)";
+        sqLiteDatabase.execSQL(client_table_query);
     }
 
     public void addNewMedDrug(String uuid, String genericName, String brandName, String formulation, String genericIngredients, String genericStrength){
@@ -59,6 +69,12 @@ public class DBHandler extends SQLiteOpenHelper {
                 "VALUES ('"+uuid+"','"+genericName+"','"+brandName+"','"+formulation+"','"+genericIngredients+"','"+genericStrength+"')";
         db.execSQL(UPSERT_SQL);
         //db.close();
+    }
+
+    public void addNewClient(String uuid, String firstName, String lastName, String dateOfBirth, String sex, String mobilePhoneNumber){
+        String UPSERT_SQL = "INSERT OR REPLACE INTO client (uuid,first_name,last_name,date_of_birth,sex,mobile_phone_number)" +
+                "VALUES ('"+uuid+"','"+firstName+"','"+lastName+"','"+dateOfBirth+"','"+sex+"','"+mobilePhoneNumber+"')";
+        db.execSQL(UPSERT_SQL);
     }
 
     public List<String> loadDrugsIntoSpinnerFromDatabase() {
@@ -78,10 +94,28 @@ public class DBHandler extends SQLiteOpenHelper {
         //db.close();
         return spinnerArray;
     }
+
+    public List<String> getListOfClientFromDatabase(){
+        List<String> clients = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT first_name FROM client ", null);
+        if (c.moveToFirst()){
+            do {
+                // Passing values
+                String column1 = c.getString(0);
+
+
+                // Do something Here with values
+                clients.add(column1);
+            } while(c.moveToNext());
+        }
+        c.close();
+        return clients;
+    }
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         // this method is called to check if the table exists already.
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MED_DRUG_TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

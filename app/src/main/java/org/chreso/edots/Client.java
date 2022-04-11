@@ -3,13 +3,16 @@ package org.chreso.edots;
 import java.sql.Date;
 
 public class Client {
+
+
+    private String uuid;
     private String first_name;
     private String last_name;
-    private Date date_of_birth;
+    private String date_of_birth;
     private String sex;
     private String mobile_phone_number;
 
-    public Client(String first_name, String last_name, Date date_of_birth,String sex, String mobile_phone_number) {
+    public Client(String first_name, String last_name, String date_of_birth,String sex, String mobile_phone_number) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.date_of_birth = date_of_birth;
@@ -40,11 +43,11 @@ public class Client {
         this.last_name = last_name;
     }
 
-    public Date getDate_of_birth() {
+    public String getDate_of_birth() {
         return date_of_birth;
     }
 
-    public void setDate_of_birth(Date date_of_birth) {
+    public void setDate_of_birth(String date_of_birth) {
         this.date_of_birth = date_of_birth;
     }
 
@@ -54,5 +57,13 @@ public class Client {
 
     public void setMobile_phone_number(String mobile_phone_number) {
         this.mobile_phone_number = mobile_phone_number;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

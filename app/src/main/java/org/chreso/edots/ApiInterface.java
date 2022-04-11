@@ -19,4 +19,7 @@ public interface ApiInterface {
 
     @GET("/meds")
     Call<List<MedDrug>> getMedDrugs();
+
+    @GET("/clients")
+    Call<List<Client>> getClients();
 }
