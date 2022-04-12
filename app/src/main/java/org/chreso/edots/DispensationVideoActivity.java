@@ -1,5 +1,9 @@
 package org.chreso.edots;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -21,6 +25,18 @@ public class DispensationVideoActivity extends AppCompatActivity {
     private static int CAMERA_PERMISSION_CODE = 100;
     private static int VIDE_RECORD_CODE = 101;
     private Uri videoPath;
+
+    ActivityResultLauncher<Intent> startForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result!=null && result.getResultCode() == RESULT_OK){
+                if(result.getData()!=null){
+                    videoPath = result.getData().getData();
+                    Log.i("VIDEO_RECORD_TAG", "Video recorded "+ videoPath);
+                }
+            }
+        }
+    });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +55,8 @@ public class DispensationVideoActivity extends AppCompatActivity {
                 doRecordVideo();
             }
         });
+
+
     }
 
     private void doRecordVideo(){
@@ -62,19 +80,8 @@ public class DispensationVideoActivity extends AppCompatActivity {
 
     private void recordVideo(){
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        startActivityForResult(intent, VIDE_RECORD_CODE);
+        //startActivityForResult(intent, VIDE_RECORD_CODE);
+        startForResult.launch(intent);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RESULT_OK){
-            videoPath = data.getData();
-            Log.i("VIDEO_RECORD_TAG", "Video recorded "+ videoPath);
-        }else if(requestCode == RESULT_CANCELED){
-            Log.i("VIDEO_RECORD_TAG", "Video is cancelled ");
-        }else{
-            Log.i("VIDEO_RECORD_TAG", "Recorded video Video has got an error");
-        }
-    }
 }

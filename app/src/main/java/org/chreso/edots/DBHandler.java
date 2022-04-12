@@ -25,6 +25,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
     private static final String CLIENT_TABLE_NAME = "client";
 
+    private static final String MED_DRUG_DISPENSATION_TABLE = "med_drug_dispensation";
+
     // below variable is for our id column.
     private static final String UUID_COL = "uuid";
     private static final String GENERIC_NAME_COL = "generic_name";
@@ -60,6 +62,23 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "sex TEXT, "
                 + "mobile_phone_number TEXT)";
         sqLiteDatabase.execSQL(client_table_query);
+
+        String dispensation_table_query = "CREATE TABLE "+MED_DRUG_DISPENSATION_TABLE + "("
+                + "meddrug_uuid TEXT, "
+                + "patient_uuid TEXT, "
+                + "dose TEXT, "
+                + "items_per_dose TEXT, "
+                + "frequency TEXT, "
+                + "refill_date TEXT, "
+                + "video_path TEXT)";
+        sqLiteDatabase.execSQL(dispensation_table_query);
+    }
+
+    public void saveDispensationToDatabase(String meddrug_uuid , String patient_uuid, String dose, String items_per_dose, String frequency, String refill_date, String video_path)
+    {
+        String UPSERT_SQL  = "INSERT INTO med_drug_dispensation (meddrug_uuid,patient_uuid,dose,items_per_dose,frequency,refill_date)" +
+                "VALUES ('"+meddrug_uuid+"','"+patient_uuid+"','"+dose+"','"+items_per_dose+"','"+frequency+"','"+refill_date+"','"+video_path+"')";
+        db.execSQL(UPSERT_SQL);
     }
 
     public void addNewMedDrug(String uuid, String genericName, String brandName, String formulation, String genericIngredients, String genericStrength){
@@ -118,4 +137,6 @@ public class DBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MED_DRUG_TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
+
+
 }

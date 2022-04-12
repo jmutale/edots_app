@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.List;
@@ -19,7 +20,12 @@ import java.util.List;
 public class DispensationActivity extends AppCompatActivity {
 
     private Button btnAddDispensation;
+    private EditText txtDose, txtItemsPerDose, txtRefillDate;
     DBHandler dbHandler;
+    private String meddrug_uuid;
+    private String patient_uuid;
+    private Spinner spnFrequency;
+    private String video_path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +37,17 @@ public class DispensationActivity extends AppCompatActivity {
             actionBar.setTitle(R.string.pharmacy_title_text);
         }
 
+        txtDose = findViewById(R.id.txtDose);
+        txtItemsPerDose = findViewById(R.id.txtItemsPerDose);
+        spnFrequency = findViewById(R.id.spnFrequency);
+        txtRefillDate = findViewById(R.id.editRefillDate);
+
         btnAddDispensation = findViewById(R.id.btnAddDispensation);
         btnAddDispensation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openDispensationVideoActivity();
+                saveDispensationToDatabase();
             }
         });
         dbHandler = new DBHandler(getApplicationContext());
@@ -50,6 +62,9 @@ public class DispensationActivity extends AppCompatActivity {
 
     }
 
+    private void saveDispensationToDatabase() {
+        dbHandler.saveDispensationToDatabase(meddrug_uuid,patient_uuid,txtDose.getText().toString(),txtItemsPerDose.getText().toString(),spnFrequency.getSelectedItem().toString(),txtRefillDate.getText().toString(),video_path);
+    }
 
 
     private void openDispensationVideoActivity() {

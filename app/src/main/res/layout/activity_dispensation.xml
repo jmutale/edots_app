@@ -37,7 +37,7 @@
         android:layout_marginTop="100dp">
 
         <TextView
-            android:id="@+id/txtDose"
+            android:id="@+id/lblDose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -45,6 +45,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
+            android:id="@+id/txtDose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -67,7 +68,7 @@
         android:weightSum="2"
         android:layout_marginTop="50dp">
         <TextView
-            android:id="@+id/txtItemsPerDose"
+            android:id="@+id/lblItemsPerDose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -76,11 +77,11 @@
             />
 
         <EditText
+            android:id="@+id/txtItemsPerDose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="number">
-        </EditText>
+            android:inputType="number"></EditText>
         <Spinner
             android:id="@+id/spnItemsPerDose"
             android:layout_width="wrap_content"
