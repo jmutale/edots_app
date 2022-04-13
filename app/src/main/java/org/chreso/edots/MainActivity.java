@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
@@ -47,9 +48,11 @@ public class MainActivity extends EdotActivity {
 
         setPrefs(PreferenceManager
                 .getDefaultSharedPreferences(this));
-        String patient[] = dbHandler.getListOfClientFromDatabase().toArray(new String[0]);
-        adapter=new ArrayAdapter(this,R.layout.list_item,R.id.text,patient);
-        list.setAdapter(adapter);
+        //String patient[] = dbHandler.getListOfClientFromDatabase().toArray(new String[0]);
+        //adapter=new ArrayAdapter(this,R.layout.list_item,R.id.text,patient);
+        ArrayList<Client> arrayOfClients = dbHandler.getLisOfClientDetailsFromDatabase();
+        ClientAdapter clientAdapter = new ClientAdapter(this,arrayOfClients);
+        list.setAdapter(clientAdapter);
 
 
         textBox.addTextChangedListener(new TextWatcher() {

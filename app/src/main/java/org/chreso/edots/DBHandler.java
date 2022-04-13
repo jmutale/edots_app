@@ -115,6 +115,21 @@ public class DBHandler extends SQLiteOpenHelper {
         return spinnerArray;
     }
 
+    public ArrayList<Client> getLisOfClientDetailsFromDatabase(){
+        ArrayList<Client> clients = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM client ", null);
+        if (c.moveToFirst()){
+            do {
+                Client client = new Client(c.getString(0), c.getString(1),c.getString(2), c.getString(3), c.getString(4), c.getString(5));
+
+                clients.add(client);
+            } while(c.moveToNext());
+        }
+        c.close();
+        return clients;
+    }
+
     public List<String> getListOfClientFromDatabase(){
         List<String> clients = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
