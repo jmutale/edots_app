@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -26,6 +28,7 @@ public class DispensationActivity extends AppCompatActivity {
     private String patient_uuid;
     private Spinner spnFrequency;
     private String video_path;
+    private String dispensation_date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,10 @@ public class DispensationActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(R.string.pharmacy_title_text);
         }
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+
+        dispensation_date = now.format(dtf);
 
         txtDose = findViewById(R.id.txtDose);
         txtItemsPerDose = findViewById(R.id.txtItemsPerDose);
@@ -63,7 +70,7 @@ public class DispensationActivity extends AppCompatActivity {
     }
 
     private void saveDispensationToDatabase() {
-        dbHandler.saveDispensationToDatabase(meddrug_uuid,patient_uuid,txtDose.getText().toString(),txtItemsPerDose.getText().toString(),spnFrequency.getSelectedItem().toString(),txtRefillDate.getText().toString(),video_path);
+        dbHandler.saveDispensationToDatabase(meddrug_uuid,patient_uuid,dispensation_date,txtDose.getText().toString(),txtItemsPerDose.getText().toString(),spnFrequency.getSelectedItem().toString(),txtRefillDate.getText().toString(),video_path);
     }
 
 

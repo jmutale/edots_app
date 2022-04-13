@@ -66,6 +66,7 @@ public class DBHandler extends SQLiteOpenHelper {
         String dispensation_table_query = "CREATE TABLE "+MED_DRUG_DISPENSATION_TABLE + "("
                 + "meddrug_uuid TEXT, "
                 + "patient_uuid TEXT, "
+                + "dispensation_date TEXT, "
                 + "dose TEXT, "
                 + "items_per_dose TEXT, "
                 + "frequency TEXT, "
@@ -74,9 +75,9 @@ public class DBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(dispensation_table_query);
     }
 
-    public void saveDispensationToDatabase(String meddrug_uuid , String patient_uuid, String dose, String items_per_dose, String frequency, String refill_date, String video_path)
+    public void saveDispensationToDatabase(String meddrug_uuid , String patient_uuid,String dispensationDate, String dose, String items_per_dose, String frequency, String refill_date, String video_path)
     {
-        String UPSERT_SQL  = "INSERT INTO med_drug_dispensation (meddrug_uuid,patient_uuid,dose,items_per_dose,frequency,refill_date)" +
+        String UPSERT_SQL  = "INSERT INTO med_drug_dispensation (meddrug_uuid,patient_uuid,dispensation_date,dose,items_per_dose,frequency,refill_date)" +
                 "VALUES ('"+meddrug_uuid+"','"+patient_uuid+"','"+dose+"','"+items_per_dose+"','"+frequency+"','"+refill_date+"','"+video_path+"')";
         db.execSQL(UPSERT_SQL);
     }
