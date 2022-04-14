@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">eDOTS</string>
+    <string name="app_name">eDOT</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
