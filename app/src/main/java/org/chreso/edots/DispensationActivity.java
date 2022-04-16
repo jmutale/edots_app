@@ -54,7 +54,7 @@ public class DispensationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openDispensationVideoActivity();
-                saveDispensationToDatabase();
+                //saveDispensationToDatabase();
             }
         });
         dbHandler = new DBHandler(getApplicationContext());

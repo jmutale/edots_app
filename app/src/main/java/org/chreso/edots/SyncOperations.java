@@ -1,7 +1,11 @@
 package org.chreso.edots;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.preference.PreferenceManager;
@@ -116,6 +120,7 @@ public class SyncOperations {
             public void onFailure(Call<List<MedDrug>> call, Throwable t) {
                 Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
             }
+
         });
     }
 }
