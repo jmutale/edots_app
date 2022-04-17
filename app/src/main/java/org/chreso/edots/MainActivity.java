@@ -25,7 +25,6 @@ import java.util.concurrent.ExecutorService;
 public class MainActivity extends EdotActivity {
 
     private static final String TAG = "Main";
-    private Button btnPostData;
     private ExecutorService myExecutor;
     private EditText textBox;
     private TextView text;
@@ -37,8 +36,6 @@ public class MainActivity extends EdotActivity {
     private DBHandler dbHandler;
 
 
-
-    //String patient[] = {"John","Terry","Henry","Chisanga","Mildred","Thomas","Mutale","Steven","Trevor"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +49,6 @@ public class MainActivity extends EdotActivity {
 
         setPrefs(PreferenceManager
                 .getDefaultSharedPreferences(this));
-        //String patient[] = dbHandler.getListOfClientFromDatabase().toArray(new String[0]);
         //adapter=new ArrayAdapter(this,R.layout.list_item,R.id.text,patient);
         ArrayList<Client> arrayOfClients = dbHandler.getLisOfClientDetailsFromDatabase();
         clientAdapter = new ClientAdapter(this,arrayOfClients);
@@ -76,16 +72,17 @@ public class MainActivity extends EdotActivity {
             }
         });
 
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Client client = (Client) adapterView.getItemAtPosition(i);
                 TextView fName = (TextView)view.findViewById(R.id.fName);
                 TextView lName = (TextView)view.findViewById(R.id.lName);
                 TextView dob = (TextView)view.findViewById(R.id.sDob);
                 TextView sex = (TextView)view.findViewById(R.id.sex);
                 TextView phone = (TextView)view.findViewById(R.id.mPhone);
-                openClientRecord(fName.getText().toString(), lName.getText().toString(), dob.getText().toString(),sex.getText().toString(), phone.getText().toString());
+                openClientRecord(client.getUuid(),fName.getText().toString(), lName.getText().toString(), dob.getText().toString(),sex.getText().toString(), phone.getText().toString());
             }
         }
     );
@@ -95,8 +92,9 @@ public class MainActivity extends EdotActivity {
 
 
 
-    private void openClientRecord(String first_name, String l_name, String dob, String sex, String mobilePhoneNumber) {
+    private void openClientRecord(String uuid,String first_name, String l_name, String dob, String sex, String mobilePhoneNumber) {
         Bundle b = new Bundle();
+        b.putString("uuid", uuid);
         b.putString("fName", first_name);
         b.putString("lName", l_name);
         b.putString("dob",dob);

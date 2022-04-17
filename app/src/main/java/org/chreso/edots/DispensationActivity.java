@@ -16,7 +16,10 @@ import android.widget.Spinner;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 
 public class DispensationActivity extends AppCompatActivity {
@@ -25,10 +28,13 @@ public class DispensationActivity extends AppCompatActivity {
     private EditText txtDose, txtItemsPerDose, txtRefillDate;
     DBHandler dbHandler;
     private String meddrug_uuid;
-    private String patient_uuid;
-    private Spinner spnFrequency;
+    private String genericName;
+    private String client_uuid;
+    private Spinner spnFrequency, spnDrugsFromDatabase;
     private String video_path;
     private String dispensation_date;
+    private Map<String,String> namesOfDrugs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,9 @@ public class DispensationActivity extends AppCompatActivity {
 
         dispensation_date = now.format(dtf);
 
+        Bundle bundle = getIntent().getExtras();
+        client_uuid = bundle.getString("client_uuid");
+        spnDrugsFromDatabase = findViewById(R.id.spnDrugsFromDatabase);
         txtDose = findViewById(R.id.txtDose);
         txtItemsPerDose = findViewById(R.id.txtItemsPerDose);
         spnFrequency = findViewById(R.id.spnFrequency);
@@ -53,15 +62,17 @@ public class DispensationActivity extends AppCompatActivity {
         btnAddDispensation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDispensationVideoActivity();
-                //saveDispensationToDatabase();
+                //openDispensationVideoActivity();
+                saveDispensationToDatabase();
             }
         });
         dbHandler = new DBHandler(getApplicationContext());
-        List<String> namesOfDrugs = dbHandler.loadDrugsIntoSpinnerFromDatabase();
+        namesOfDrugs = dbHandler.loadDrugsIntoSpinnerFromDatabase();
+        ArrayList<String> listOfValues
+                = new ArrayList<>(namesOfDrugs.values());
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_item, namesOfDrugs);
+                this, android.R.layout.simple_spinner_item,listOfValues );
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner sItems = (Spinner) findViewById(R.id.spnDrugsFromDatabase);
@@ -70,7 +81,17 @@ public class DispensationActivity extends AppCompatActivity {
     }
 
     private void saveDispensationToDatabase() {
-        dbHandler.saveDispensationToDatabase(meddrug_uuid,patient_uuid,dispensation_date,txtDose.getText().toString(),txtItemsPerDose.getText().toString(),spnFrequency.getSelectedItem().toString(),txtRefillDate.getText().toString(),video_path);
+        genericName = spnDrugsFromDatabase.getSelectedItem().toString();
+        meddrug_uuid = getUuidFromGenericName(genericName);
+        dbHandler.saveDispensationToDatabase(meddrug_uuid,client_uuid,dispensation_date,txtDose.getText().toString(),txtItemsPerDose.getText().toString(),spnFrequency.getSelectedItem().toString(),txtRefillDate.getText().toString(),video_path);
+    }
+
+    private String getUuidFromGenericName(String genericName) {
+        String toReturn = "";
+        for (Map.Entry<String, String> pair : namesOfDrugs.entrySet()) {
+            if(pair.getValue() == genericName) toReturn = pair.getKey();
+        }
+        return toReturn;
     }
 
 

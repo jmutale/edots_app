@@ -38,6 +38,8 @@ public class ClientAdapter extends ArrayAdapter<Client> {
         sex.setText(client.getSex());
         m_phone.setText(client.getMobile_phone_number());
 
+
+
         convertView.setBackgroundColor(position % 2 == 0 ? Color.WHITE : Color.LTGRAY);
         // Return the completed view to render on screen
         return convertView;

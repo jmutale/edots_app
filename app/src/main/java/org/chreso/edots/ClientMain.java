@@ -13,6 +13,7 @@ public class ClientMain extends AppCompatActivity {
 
     private Button btnDispenseDrugToClient;
     private TextView name ,dob, gender, mobile;
+    private String uuid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class ClientMain extends AppCompatActivity {
         mobile = findViewById(R.id.mobileNumber);
 
         Bundle bundle = getIntent().getExtras();
+        uuid = bundle.getString("uuid");
         name.setText(bundle.getString("fName") + " "+ bundle.getString("lName"));
         dob.setText(bundle.getString("dob"));
         gender.setText(bundle.getString("sex"));
@@ -49,7 +51,10 @@ public class ClientMain extends AppCompatActivity {
     }
 
     private void openDispensationActivity() {
+        Bundle b = new Bundle();
+        b.putString("client_uuid", uuid);
         Intent intent = new Intent(this, DispensationActivity.class);
+        intent.putExtras(b);
         startActivity(intent);
     }
 

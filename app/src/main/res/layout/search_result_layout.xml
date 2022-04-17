@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:orientation="vertical">
@@ -11,28 +12,28 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="5"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp">
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp">
     <TextView
         android:id="@+id/fName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="First Name"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        app:autoSizeTextType="uniform"/>
     <TextView
         android:id="@+id/lName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Last Name"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        app:autoSizeTextType="uniform"/>
     <TextView
         android:id="@+id/sDob"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        app:autoSizeTextType="uniform"
         android:text="Date of birth" />
     <TextView
         android:id="@+id/sex"
@@ -40,13 +41,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Sex"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        app:autoSizeTextType="uniform"/>
     <TextView
         android:id="@+id/mPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Mobile phone number"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        app:autoSizeTextType="uniform"/>
     </LinearLayout>
 </LinearLayout>

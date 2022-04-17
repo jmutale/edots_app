@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DBHandler extends SQLiteOpenHelper {
 
@@ -18,7 +20,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 6;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -97,22 +99,23 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(UPSERT_SQL);
     }
 
-    public List<String> loadDrugsIntoSpinnerFromDatabase() {
-        List<String> spinnerArray =  new ArrayList<String>();
+    public Map<String,String> loadDrugsIntoSpinnerFromDatabase() {
+        Map<String, String> map =
+                new HashMap<String, String>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT generic_name FROM meddrug ", null);
+        Cursor c = db.rawQuery("SELECT uuid,generic_name FROM meddrug ", null);
         if (c.moveToFirst()){
             do {
                 // Passing values
-                String column1 = c.getString(0);
+                String uuid = c.getString(0);
+                String generic_name = c.getString(1);
 
-                // Do something Here with values
-                spinnerArray.add(column1);
+                map.put(uuid,generic_name);
             } while(c.moveToNext());
         }
         c.close();
         //db.close();
-        return spinnerArray;
+        return map;
     }
 
     public ArrayList<Client> getLisOfClientDetailsFromDatabase(){
@@ -151,6 +154,8 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         // this method is called to check if the table exists already.
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MED_DRUG_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MED_DRUG_DISPENSATION_TABLE);
         onCreate(sqLiteDatabase);
     }
 
