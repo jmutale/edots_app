@@ -22,7 +22,7 @@ public class DispensationVideoActivity extends AppCompatActivity {
 
     private Button btnRecordVideo;
     private static int CAMERA_PERMISSION_CODE = 100;
-    private static int VIDE_RECORD_CODE = 101;
+    private static int VIDEO_RECORD_CODE = 101;
     private Uri videoPath;
 
     ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {

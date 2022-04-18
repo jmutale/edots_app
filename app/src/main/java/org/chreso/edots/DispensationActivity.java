@@ -1,11 +1,22 @@
 package org.chreso.edots;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,7 +34,7 @@ import java.util.Map;
 
 public class DispensationActivity extends AppCompatActivity {
 
-    private Button btnAddDispensation;
+    private Button btnAddDispensation , btnRecordVideo;
     private EditText txtDose, txtItemsPerDose;
     DBHandler dbHandler;
     private DatePicker dteRefillDate;
@@ -31,9 +42,24 @@ public class DispensationActivity extends AppCompatActivity {
     private String genericName;
     private String client_uuid;
     private Spinner spnFrequency, spnDrugsFromDatabase;
-    private String video_path;
     private String dispensation_date;
     private Map<String,String> namesOfDrugs;
+
+    private static int CAMERA_PERMISSION_CODE = 100;
+    private static int VIDEO_RECORD_CODE = 101;
+    private Uri video_path;
+
+    ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result!=null && result.getResultCode() == RESULT_OK){
+                if(result.getData()!=null){
+                    video_path = result.getData().getData();
+                    Log.i("VIDEO_RECORD_TAG", "Video recorded "+ video_path);
+                }
+            }
+        }
+    });
 
 
     @Override
@@ -47,6 +73,12 @@ public class DispensationActivity extends AppCompatActivity {
         }
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
+
+        if(isCameraPresentInDevice()){
+            getCameraPermission();
+        }else{
+
+        }
 
         dispensation_date = now.format(dtf);
         dteRefillDate = findViewById(R.id.editRefillDate);
@@ -90,6 +122,14 @@ public class DispensationActivity extends AppCompatActivity {
                 saveDispensationToDatabase();
             }
         });
+
+        btnRecordVideo = findViewById(R.id.btnRecordVideoDispensation);
+        btnRecordVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recordVideo();
+            }
+        });
         dbHandler = new DBHandler(getApplicationContext());
         namesOfDrugs = dbHandler.loadDrugsIntoSpinnerFromDatabase();
         ArrayList<String> listOfValues
@@ -129,7 +169,7 @@ public class DispensationActivity extends AppCompatActivity {
                 toReturn = (dose/4)/itemsPerDose;
                 break;
             default:
-                toReturn = 30;
+                toReturn = 0;
                 break;
         }
 
@@ -141,7 +181,7 @@ public class DispensationActivity extends AppCompatActivity {
         meddrug_uuid = getUuidFromGenericName(genericName);
 
         String refillDate = getRefillDateString();
-        dbHandler.saveDispensationToDatabase(meddrug_uuid,client_uuid,dispensation_date,txtDose.getText().toString(),txtItemsPerDose.getText().toString(),spnFrequency.getSelectedItem().toString(), refillDate,video_path);
+        dbHandler.saveDispensationToDatabase(meddrug_uuid,client_uuid,dispensation_date,txtDose.getText().toString(),txtItemsPerDose.getText().toString(),spnFrequency.getSelectedItem().toString(), refillDate, String.valueOf(video_path));
     }
 
     @NonNull
@@ -163,10 +203,26 @@ public class DispensationActivity extends AppCompatActivity {
     }
 
 
-    private void openDispensationVideoActivity() {
-        Intent intent = new Intent(this, DispensationVideoActivity.class);
-        startActivity(intent);
+    private boolean isCameraPresentInDevice(){
+        if(getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
+
+    private void getCameraPermission(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
+        }
+    }
+
+    private void recordVideo(){
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        startActivityForResult.launch(intent);
+    }
+
 
 
 }
