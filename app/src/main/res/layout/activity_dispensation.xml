@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
@@ -12,7 +16,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="3"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="15dp">
 
         <TextView
             android:id="@+id/txtDrugsFromDatabase"
@@ -34,7 +38,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="3"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="15dp">
 
         <TextView
             android:id="@+id/lblDose"
@@ -66,7 +70,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="2"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="15dp">
         <TextView
             android:id="@+id/lblItemsPerDose"
             android:layout_width="wrap_content"
@@ -94,7 +98,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="2"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="15dp">
     <TextView
         android:id="@+id/txtFrequency"
         android:layout_width="wrap_content"
@@ -116,7 +120,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="2"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="15dp">
         <TextView
             android:id="@+id/txtRefillDate"
             android:layout_width="wrap_content"
@@ -126,7 +130,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
          />
 
-        <EditText
+        <DatePicker
             android:id="@+id/editRefillDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -134,11 +138,30 @@
             android:inputType="date"
              />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnAddDispensation"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="@string/add_dispensation" />
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginTop="15dp">
+
+        <Button
+            android:id="@+id/btnRecordVideoDispensation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_weight="1"
+            android:text="Record Video"
+            android:layout_marginBottom="25dp"/>
+
+        <Button
+            android:id="@+id/btnAddDispensation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_weight="1"
+            android:text="@string/add_dispensation"
+            android:layout_marginBottom="25dp"/>
+    </LinearLayout>
 </LinearLayout>
+</ScrollView>
