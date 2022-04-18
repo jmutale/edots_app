@@ -69,7 +69,7 @@ public class DispensationActivity extends AppCompatActivity {
 
                 cal.set(now.getYear(), now.getMonthValue(), now.getDayOfMonth());
 
-                int numberOfDaysToAddToCurrentDate = getNumberOfDaysToAddToCurrentDateFromDoseItemsPerDoseAndFrequency();
+                int numberOfDaysToAddToCurrentDate = getNumberOfDaysToAddToCurrentDateFromDoseItemsPerDoseAndFrequency(Integer.parseInt(txtDose.getText().toString()),Integer.parseInt(txtItemsPerDose.getText().toString()));
                 cal.add(Calendar.DATE, numberOfDaysToAddToCurrentDate);
                 dteRefillDate.updateDate(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)-1,cal.get(Calendar.DATE));
 
