@@ -52,15 +52,11 @@ public class DispensationVideoActivity extends AppCompatActivity {
         btnRecordVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doRecordVideo();
+                recordVideo();
             }
         });
 
 
-    }
-
-    private void doRecordVideo(){
-        recordVideo();
     }
 
     private boolean isCameraPresentInDevice(){
@@ -80,7 +76,6 @@ public class DispensationVideoActivity extends AppCompatActivity {
 
     private void recordVideo(){
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        //startActivityForResult(intent, VIDE_RECORD_CODE);
         startForResult.launch(intent);
     }
 
