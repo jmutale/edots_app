@@ -41,11 +41,11 @@
         android:layout_marginTop="15dp">
 
         <TextView
-            android:id="@+id/lblDose"
+            android:id="@+id/lblUnitsDispensed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Dose"
+            android:text="Units dispensed"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText

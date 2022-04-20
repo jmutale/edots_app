@@ -95,14 +95,18 @@ public class DispensationActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 //Set the refill date here. Make sure dose, items per dose are filled in before doing this.
+
                 Calendar cal = Calendar.getInstance();
 
                 LocalDateTime now = LocalDateTime.now();
 
                 cal.set(now.getYear(), now.getMonthValue(), now.getDayOfMonth());
-
-                int numberOfDaysToAddToCurrentDate = getNumberOfDaysToAddToCurrentDateFromDoseItemsPerDoseAndFrequency(Integer.parseInt(txtDose.getText().toString()),Integer.parseInt(txtItemsPerDose.getText().toString()));
-                cal.add(Calendar.DATE, numberOfDaysToAddToCurrentDate);
+                String dose = txtDose.getText().toString();
+                String itemsPerDose = txtItemsPerDose.getText().toString();
+                if(!dose.isEmpty() && !itemsPerDose.isEmpty()) {
+                    int numberOfDaysToAddToCurrentDate = getNumberOfDaysToAddToCurrentDateFromDoseItemsPerDoseAndFrequency(Integer.parseInt(txtDose.getText().toString()), Integer.parseInt(txtItemsPerDose.getText().toString()));
+                    cal.add(Calendar.DATE, numberOfDaysToAddToCurrentDate);
+                }
                 dteRefillDate.updateDate(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)-1,cal.get(Calendar.DATE));
 
             }
