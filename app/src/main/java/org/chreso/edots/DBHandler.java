@@ -79,9 +79,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public void saveDispensationToDatabase(String meddrug_uuid , String patient_uuid,String dispensationDate, String dose, String items_per_dose, String frequency, String refill_date, String video_path)
     {
-        String UPSERT_SQL  = "INSERT INTO med_drug_dispensation (meddrug_uuid,patient_uuid,dispensation_date,dose,items_per_dose,frequency,refill_date)" +
+        String UPSERT_SQL  = "INSERT INTO med_drug_dispensation (meddrug_uuid,patient_uuid,dispensation_date,dose,items_per_dose,frequency,refill_date, video_path)" +
                 "VALUES ('"+meddrug_uuid+"','"+patient_uuid+"','"+dispensationDate+"','"+dose+"','"+items_per_dose+"','"+frequency+"','"+refill_date+"','"+video_path+"')";
         db.execSQL(UPSERT_SQL);
+
     }
 
     public void addNewMedDrug(String uuid, String genericName, String brandName, String formulation, String genericIngredients, String genericStrength){

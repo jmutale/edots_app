@@ -11,6 +11,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -24,18 +25,28 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Digits;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 
-public class DispensationActivity extends AppCompatActivity {
+public class DispensationActivity extends AppCompatActivity implements Validator.ValidationListener {
 
     private Button btnAddDispensation , btnRecordVideo;
-    private EditText txtDose, txtItemsPerDose;
+    @NotEmpty
+    private EditText txtDose;
+    @NotEmpty
+    private EditText txtItemsPerDose;
     DBHandler dbHandler;
     private DatePicker dteRefillDate;
     private String meddrug_uuid;
@@ -44,10 +55,10 @@ public class DispensationActivity extends AppCompatActivity {
     private Spinner spnFrequency, spnDrugsFromDatabase;
     private String dispensation_date;
     private Map<String,String> namesOfDrugs;
-
     private static int CAMERA_PERMISSION_CODE = 100;
     private static int VIDEO_RECORD_CODE = 101;
     private Uri video_path;
+    private Validator validator;
 
     ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -73,6 +84,9 @@ public class DispensationActivity extends AppCompatActivity {
         }
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
+
+        validator = new Validator(this);
+        validator.setValidationListener(this);
 
         if(isCameraPresentInDevice()){
             getCameraPermission();
@@ -122,8 +136,7 @@ public class DispensationActivity extends AppCompatActivity {
         btnAddDispensation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //openDispensationVideoActivity();
-                saveDispensationToDatabase();
+                validator.validate();
             }
         });
 
@@ -228,5 +241,20 @@ public class DispensationActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onValidationSucceeded() {
+        saveDispensationToDatabase();
+    }
 
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("Validation Error")
+                .setMessage("Please enter units dispensed and items per dose.")
+                .setCancelable(true)
+
+                ;
+        builder.create();
+        builder.show();
+    }
 }
