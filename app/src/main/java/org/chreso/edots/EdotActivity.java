@@ -52,6 +52,9 @@ public class EdotActivity extends AppCompatActivity {
             case R.id.settings_item:
                 openSettingsForm();
                 return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

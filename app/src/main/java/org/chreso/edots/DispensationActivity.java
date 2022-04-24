@@ -244,6 +244,13 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     @Override
     public void onValidationSucceeded() {
         saveDispensationToDatabase();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("Success")
+                .setMessage("Dispensation successfully saved.")
+                .setCancelable(true)
+                ;
+        builder.create();
+        builder.show();
     }
 
     @Override
