@@ -29,6 +29,13 @@
             android:text="Dispensation Date"
             app:autoSizeTextType="uniform"/>
         <TextView
+            android:id="@+id/unitsDispensed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Units dispensed"
+            app:autoSizeTextType="uniform"/>
+        <TextView
             android:id="@+id/refillDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

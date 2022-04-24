@@ -28,10 +28,12 @@ public class ClientDispensationAdapter extends ArrayAdapter<ClientDispensation> 
         // Lookup view for data population
         TextView drugName = (TextView) convertView.findViewById(R.id.drugName);
         TextView dispensationDate = (TextView) convertView.findViewById(R.id.dispensationDate);
+        TextView unitsDispensed = (TextView) convertView.findViewById(R.id.unitsDispensed);
         TextView refillDate = (TextView) convertView.findViewById(R.id.refillDate);
 
         drugName.setText("Drug name: "+clientDispensation.getMedDrugName(clientDispensation.getMed_drug_uuid(), context));
         dispensationDate.setText("Dispensation date: "+clientDispensation.getDispensation_date());
+        unitsDispensed.setText("Units dispensed: "+clientDispensation.getDose());
         refillDate.setText("Refill date: "+clientDispensation.getRefill_date());
 
         convertView.setBackgroundColor(position % 2 == 0 ? Color.WHITE : Color.LTGRAY);
