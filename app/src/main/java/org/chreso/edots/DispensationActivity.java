@@ -25,12 +25,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Digits;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Select;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -52,7 +54,9 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     private String meddrug_uuid;
     private String genericName;
     private String client_uuid;
-    private Spinner spnFrequency, spnDrugsFromDatabase;
+    @Select
+    private Spinner spnFrequency;
+    private Spinner spnDrugsFromDatabase;
     private String dispensation_date;
     private Map<String,String> namesOfDrugs;
     private static int CAMERA_PERMISSION_CODE = 100;
@@ -255,13 +259,17 @@ public class DispensationActivity extends AppCompatActivity implements Validator
 
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("Validation Error")
-                .setMessage("Please enter units dispensed and items per dose.")
-                .setCancelable(true)
 
-                ;
-        builder.create();
-        builder.show();
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(this);
+
+            // Display error messages
+            if (view instanceof EditText) {
+                ((EditText) view).setError(message);
+            } else if (view instanceof Spinner) {
+                ((TextView) ((Spinner) view).getSelectedView()).setError(message);
+            }
+        }
     }
 }

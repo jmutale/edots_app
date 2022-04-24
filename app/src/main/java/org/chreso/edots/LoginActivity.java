@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -60,13 +62,17 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
 
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("Login Error")
-                .setMessage("Please enter username and password.")
-                .setCancelable(true)
 
-                ;
-        builder.create();
-        builder.show();
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(this);
+
+            // Display error messages
+            if (view instanceof EditText) {
+                ((EditText) view).setError(message);
+            } else if (view instanceof Spinner) {
+                ((TextView) ((Spinner) view).getSelectedView()).setError(message);
+            }
+        }
     }
 }

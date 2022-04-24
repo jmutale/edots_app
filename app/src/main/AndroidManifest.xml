@@ -19,9 +19,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".SearchClient"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
-
         <activity
             android:name=".DispensationVideoActivity"
             android:exported="false" />
