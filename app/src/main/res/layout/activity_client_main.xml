@@ -11,10 +11,6 @@
         android:layout_height="match_parent"
         android:id="@+id/layout">
 
-
-
-
-
         <RelativeLayout
             android:id="@+id/profile_layout"
             android:layout_width="match_parent"
@@ -30,8 +26,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
                 android:clickable="true"
 
                 android:src="@android:drawable/ic_menu_edit" />
@@ -50,8 +46,8 @@
 
         </RelativeLayout>
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constLayout1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/profile_layout"
@@ -63,7 +59,6 @@
             android:elevation="4dp"
             android:orientation="vertical"
             android:paddingLeft="5dp"
-
             android:paddingTop="20dp"
             android:paddingRight="5dp"
             android:paddingBottom="20dp">
@@ -180,8 +175,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/occupation" />
 
 
-
-
             <TextView
                 android:id="@+id/textView22"
                 android:layout_width="wrap_content"
@@ -216,10 +209,43 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dispConstLayoutParent"
+            android:layout_width="wrap_content"
+            android:layout_height="570dp"
+            android:layout_below="@+id/constLayout1"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#fff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingTop="20dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="20dp">
+
+            <ListView
+                android:id="@+id/dispensationList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="19dp"
+                app:layout_constraintBottom_toBottomOf="@id/constLayout1"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="NotSibling">
+
+
+            </ListView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
     </RelativeLayout>
+
 
 </ScrollView>

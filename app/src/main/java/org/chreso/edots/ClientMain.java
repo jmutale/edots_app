@@ -7,13 +7,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class ClientMain extends AppCompatActivity {
 
     private Button btnDispenseDrugToClient;
     private TextView name ,dob, gender, mobile;
     private String uuid;
+    private DBHandler dbHandler;
+    private ClientDispensationAdapter clientDispensationAdapter;
+
+    private ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +45,6 @@ public class ClientMain extends AppCompatActivity {
         gender.setText(bundle.getString("sex"));
         mobile.setText(bundle.getString("mobile"));
 
-
-
-
         btnDispenseDrugToClient = findViewById(R.id.btnDispenseDrugToClient);
         btnDispenseDrugToClient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +52,18 @@ public class ClientMain extends AppCompatActivity {
                 openDispensationActivity();
             }
         });
+
+
+        list=(ListView)findViewById(R.id.dispensationList);
+        dbHandler = new DBHandler(this);
+        loadClientDispensationHistory(uuid);
+    }
+
+    private void loadClientDispensationHistory(String patientGuid) {
+
+        ArrayList<ClientDispensation> arrayOfClientDispensations = dbHandler.getListOfClientDispensationsFromDatabase(patientGuid);
+        clientDispensationAdapter = new ClientDispensationAdapter(this, arrayOfClientDispensations);
+        list.setAdapter(clientDispensationAdapter);
     }
 
     private void openDispensationActivity() {

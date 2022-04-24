@@ -33,7 +33,6 @@ public class EdotActivity extends AppCompatActivity {
             case R.id.sync_item:
                 if(PreferenceManager
                         .getDefaultSharedPreferences(this).getString("server",null)!=null) {
-                   // progressDialog = getDialogProgressBar().create();
 
                     new SyncOperations(getApplicationContext()).startDataSync();
 

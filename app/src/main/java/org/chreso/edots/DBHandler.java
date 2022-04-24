@@ -134,6 +134,22 @@ public class DBHandler extends SQLiteOpenHelper {
         return clients;
     }
 
+    public ArrayList<ClientDispensation> getListOfClientDispensationsFromDatabase(String patientGuid)
+    {
+        ArrayList<ClientDispensation> clientDispensations = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM med_drug_dispensation WHERE patient_uuid ='"+patientGuid+"'", null);
+        if (c.moveToFirst()){
+            do {
+                ClientDispensation client = new ClientDispensation(c.getString(0), c.getString(1),c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7));
+
+                clientDispensations.add(client);
+            } while(c.moveToNext());
+        }
+        c.close();
+        return clientDispensations;
+    }
+
     public List<String> getListOfClientFromDatabase(){
         List<String> clients = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -161,4 +177,16 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
 
+    public String getDrugNameFromDatabase(String med_drug_uuid) {
+        String name = "";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT generic_name FROM meddrug WHERE uuid ='"+med_drug_uuid+"'", null);
+        if (c.moveToFirst()){
+            do {
+                name = c.getString(0);
+            } while(c.moveToNext());
+        }
+        c.close();
+        return name;
+    }
 }
