@@ -189,4 +189,30 @@ public class DBHandler extends SQLiteOpenHelper {
         c.close();
         return name;
     }
+
+    public String getNumberOfClientsDueForRefillToday(){
+        String clientDue = "";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT count(*) FROM med_drug_dispensation WHERE refill_date = DATE('now')", null);
+        if (c.moveToFirst()){
+            do {
+                clientDue = c.getString(0);
+            } while(c.moveToNext());
+        }
+        c.close();
+        return clientDue;
+    }
+
+    public String getNumberOfClientsWithRefillToday(){
+        String clientDue = "";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT count(*) FROM med_drug_dispensation WHERE dispensation_date = DATE('now')", null);
+        if (c.moveToFirst()){
+            do {
+                clientDue = c.getString(0);
+            } while(c.moveToNext());
+        }
+        c.close();
+        return clientDue;
+    }
 }
