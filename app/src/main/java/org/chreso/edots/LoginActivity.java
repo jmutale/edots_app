@@ -51,7 +51,7 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
 
 
     private void openDashboard() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, SearchClient.class);
         startActivity(intent);
     }
 

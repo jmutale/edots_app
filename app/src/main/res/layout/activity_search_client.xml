@@ -6,4 +6,175 @@
     android:layout_height="match_parent"
     tools:context=".SearchClient">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/layoutSearch">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constLayoutDashboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#fff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingTop="20dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="20dp">
+
+
+            <TextView
+                android:id="@+id/txtClientsDueForRefillToday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp"
+                android:text="Clients due for refill today: "
+                app:layout_constraintLeft_toLeftOf="@+id/constLayoutDashboard"
+                app:layout_constraintTop_toTopOf="@+id/constLayoutDashboard">
+            </TextView>
+
+            <TextView
+                android:id="@+id/txtValueOfNumberOfClientsDueForRefillToday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:text="0"
+                app:layout_constraintLeft_toRightOf="@+id/txtClientsDueForRefillToday"
+                app:layout_constraintTop_toTopOf="@id/constLayoutDashboard" />
+
+            <TextView
+                android:id="@+id/txtClientsWithRefillToday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp"
+                android:text="Clients with refill today: "
+                app:layout_constraintLeft_toLeftOf="@+id/constLayoutDashboard"
+                app:layout_constraintTop_toBottomOf="@id/txtClientsDueForRefillToday">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/txtValueOfClientsWithRefillToday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp"
+                android:text="0"
+                app:layout_constraintLeft_toRightOf="@+id/txtClientsWithRefillToday"
+                app:layout_constraintTop_toBottomOf="@id/txtClientsDueForRefillToday">
+
+            </TextView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="429dp"
+            android:layout_below="@id/constLayoutDashboard"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#fff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingTop="20dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="20dp">
+
+
+            <EditText
+                android:id="@+id/editTextTextNRCNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="191dp"
+                android:layout_marginBottom="35dp"
+                android:ems="10"
+                android:hint="NRC Number"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                app:layout_constraintBottom_toTopOf="@+id/editTextTextARTNumber"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editTextTextARTNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginEnd="194dp"
+                android:ems="10"
+                android:hint="ART Number"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTextNRCNumber" />
+
+            <EditText
+                android:id="@+id/editTextFirstNameSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="27dp"
+                android:layout_marginEnd="194dp"
+                android:layout_marginBottom="30dp"
+                android:ems="10"
+                android:hint="First Name"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toTopOf="@+id/editTextLastNameSearch"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextTextARTNumber" />
+
+            <EditText
+                android:id="@+id/editTextLastNameSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="191dp"
+                android:ems="10"
+                android:hint="Last Name"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextFirstNameSearch" />
+
+            <Button
+                android:id="@+id/btnSearchClient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="160dp"
+                android:layout_marginBottom="4dp"
+                android:text="Search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.02"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
