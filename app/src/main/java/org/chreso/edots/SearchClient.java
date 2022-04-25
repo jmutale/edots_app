@@ -25,6 +25,7 @@ public class SearchClient extends AppCompatActivity implements Validator.Validat
     @NotEmpty
     private EditText nrcNumber;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,10 @@ public class SearchClient extends AppCompatActivity implements Validator.Validat
     @Override
     public void onValidationSucceeded() {
         //TODO: implement search logic here
+
+        if(dbHandler.doesClientExist(nrcNumber.getText())){
+
+        }
     }
 
     @Override

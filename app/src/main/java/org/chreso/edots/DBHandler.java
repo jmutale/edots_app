@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.Editable;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +21,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 6;
+    private static final int DB_VERSION = 7;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -58,6 +59,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
         String client_table_query = "CREATE TABLE "+ CLIENT_TABLE_NAME + " ("
                 + "uuid TEXT PRIMARY KEY, "
+                + "nrc_number TEXT, "
+                + "art_number TEXT,"
                 + "first_name TEXT, "
                 + "last_name TEXT, "
                 + "date_of_birth TEXT, "
@@ -214,5 +217,9 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         c.close();
         return clientDue;
+    }
+
+    public boolean doesClientExist(Editable text) {
+        return false;
     }
 }
