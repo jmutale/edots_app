@@ -97,9 +97,9 @@ public class DBHandler extends SQLiteOpenHelper {
         //db.close();
     }
 
-    public void addNewClient(String uuid, String firstName, String lastName, String dateOfBirth, String sex, String mobilePhoneNumber){
-        String UPSERT_SQL = "INSERT OR REPLACE INTO client (uuid,first_name,last_name,date_of_birth,sex,mobile_phone_number)" +
-                "VALUES ('"+uuid+"','"+firstName+"','"+lastName+"','"+dateOfBirth+"','"+sex+"','"+mobilePhoneNumber+"')";
+    public void addNewClient(String uuid, String nrcNumber, String artNumber, String firstName, String lastName, String dateOfBirth, String sex, String mobilePhoneNumber){
+        String UPSERT_SQL = "INSERT OR REPLACE INTO client (uuid, nrc_number, art_number,first_name,last_name,date_of_birth,sex,mobile_phone_number)" +
+                "VALUES ('"+uuid+"','"+nrcNumber+"','"+artNumber+"','"+firstName+"','"+lastName+"','"+dateOfBirth+"','"+sex+"','"+mobilePhoneNumber+"')";
         db.execSQL(UPSERT_SQL);
     }
 
@@ -128,7 +128,7 @@ public class DBHandler extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("SELECT * FROM client ", null);
         if (c.moveToFirst()){
             do {
-                Client client = new Client(c.getString(0), c.getString(1),c.getString(2), c.getString(3), c.getString(4), c.getString(5));
+                Client client = new Client(c.getString(0), c.getString(1),c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6),c.getString(7));
 
                 clients.add(client);
             } while(c.moveToNext());

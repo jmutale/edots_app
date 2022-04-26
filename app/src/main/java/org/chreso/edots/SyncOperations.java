@@ -85,7 +85,7 @@ public class SyncOperations {
             public void onResponse(Call<List<Client>> call, Response<List<Client>> response) {
                 for (Client client: response.body()) {
 
-                    dbHandler.addNewClient(client.getUuid(), client.getFirst_name(), client.getLast_name(), client.getDate_of_birth(), client.getSex(), client.getMobile_phone_number());
+                    dbHandler.addNewClient(client.getUuid(),client.getNrc_number(), client.getArt_number(), client.getFirst_name(), client.getLast_name(), client.getDate_of_birth(), client.getSex(), client.getMobile_phone_number());
                 }
             }
 

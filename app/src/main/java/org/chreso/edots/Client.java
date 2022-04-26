@@ -6,19 +6,39 @@ public class Client {
 
 
     private String uuid;
+    private String nrc_number;
+    private String art_number;
     private String first_name;
     private String last_name;
     private String date_of_birth;
     private String sex;
     private String mobile_phone_number;
 
-    public Client(String uuid, String first_name, String last_name, String date_of_birth,String sex, String mobile_phone_number) {
+    public Client(String uuid, String nrc_number, String art_number, String first_name, String last_name, String date_of_birth,String sex, String mobile_phone_number) {
         this.uuid = uuid;
+        this.nrc_number = nrc_number;
+        this.art_number = art_number;
         this.first_name = first_name;
         this.last_name = last_name;
         this.date_of_birth = date_of_birth;
         this.sex = sex;
         this.mobile_phone_number = mobile_phone_number;
+    }
+
+    public String getNrc_number() {
+        return nrc_number;
+    }
+
+    public void setNrc_number(String nrc_number) {
+        this.nrc_number = nrc_number;
+    }
+
+    public String getArt_number() {
+        return art_number;
+    }
+
+    public void setArt_number(String art_number) {
+        this.art_number = art_number;
     }
     public String getSex() {
         return sex;

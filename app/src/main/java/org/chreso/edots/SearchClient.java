@@ -15,7 +15,7 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.util.List;
 
-public class SearchClient extends AppCompatActivity implements Validator.ValidationListener {
+public class SearchClient extends EdotActivity implements Validator.ValidationListener {
 
     private TextView txtDueToday;
     private TextView txtRefillToday;

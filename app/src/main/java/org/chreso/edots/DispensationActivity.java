@@ -63,6 +63,8 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     private static int VIDEO_RECORD_CODE = 101;
     private Uri video_path;
     private Validator validator;
+    @NotEmpty
+    private TextView txtVideoUri;
 
     ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -70,6 +72,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
             if(result!=null && result.getResultCode() == RESULT_OK){
                 if(result.getData()!=null){
                     video_path = result.getData().getData();
+                    txtVideoUri.setText(video_path.toString());
                     Log.i("VIDEO_RECORD_TAG", "Video recorded "+ video_path);
                 }
             }
@@ -162,6 +165,8 @@ public class DispensationActivity extends AppCompatActivity implements Validator
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner sItems = (Spinner) findViewById(R.id.spnDrugsFromDatabase);
         sItems.setAdapter(adapter);
+
+        txtVideoUri = findViewById(R.id.txtVideoURL);
 
     }
 
@@ -269,6 +274,8 @@ public class DispensationActivity extends AppCompatActivity implements Validator
                 ((EditText) view).setError(message);
             } else if (view instanceof Spinner) {
                 ((TextView) ((Spinner) view).getSelectedView()).setError(message);
+            } else if(view instanceof TextView){
+                ((TextView)view).setError(message);
             }
         }
     }
