@@ -65,6 +65,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     private Validator validator;
     @NotEmpty
     private TextView txtVideoUri;
+    private DatePicker dteDispensationDate;
 
     ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -101,7 +102,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
 
         }
 
-        dispensation_date = now.format(dtf);
+        dteDispensationDate = findViewById(R.id.dteDispensationDate);
         dteRefillDate = findViewById(R.id.editRefillDate);
         setRefillDateToCurrentDate();
 
@@ -206,7 +207,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     private void saveDispensationToDatabase() {
         genericName = spnDrugsFromDatabase.getSelectedItem().toString();
         meddrug_uuid = getUuidFromGenericName(genericName);
-
+        dispensation_date = getDispensationDate();
         String refillDate = getRefillDateString();
         dbHandler.saveDispensationToDatabase(meddrug_uuid,client_uuid,dispensation_date,txtDose.getText().toString(),txtItemsPerDose.getText().toString(),spnFrequency.getSelectedItem().toString(), refillDate, String.valueOf(video_path));
     }
@@ -219,6 +220,16 @@ public class DispensationActivity extends AppCompatActivity implements Validator
 
         String refillDate = day + "/"+ month + "/" +year;
         return refillDate;
+    }
+    @NonNull
+    private String getDispensationDate()
+    {
+        int day  = dteDispensationDate.getDayOfMonth();
+        int month = dteDispensationDate.getMonth();
+        int year = dteDispensationDate.getYear();
+
+        String dispesationDate = day + "/"+ month + "/" +year;
+        return dispesationDate;
     }
 
     private String getUuidFromGenericName(String genericName) {
