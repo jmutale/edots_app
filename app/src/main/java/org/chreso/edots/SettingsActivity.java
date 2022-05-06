@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -28,6 +29,18 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+
+            final ListPreference listPreference = (ListPreference) findPreference("facility");
+
+            setListPreferenceData(listPreference);
+        }
+
+        protected static void setListPreferenceData(ListPreference lp) {
+            CharSequence[] entries = { "Petauke District Hospital", "Petauke Urban" };
+            CharSequence[] entryValues = {"11111" , "22222"};
+            lp.setEntries(entries);
+            lp.setDefaultValue("11111");
+            lp.setEntryValues(entryValues);
         }
     }
 }

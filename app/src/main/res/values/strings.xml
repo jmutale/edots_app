@@ -8,7 +8,7 @@
 
     <!-- Messages Preferences -->
     <string name="signature_title">URL</string>
-    <string name="reply_title">Default reply action</string>
+    <string name="facility_selection_title">Default health facility</string>
 
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
