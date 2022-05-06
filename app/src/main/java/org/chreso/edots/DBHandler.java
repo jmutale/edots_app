@@ -21,7 +21,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 8;
+    private static final int DB_VERSION = 12;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -87,6 +87,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "name TEXT, "
                 + "code TEXT, "
                 + "supported TEXT, "
+                + "type TEXT, "
                 + "point TEXT, "
                 + "parent TEXT)";
         sqLiteDatabase.execSQL(facility_table_query);
@@ -112,6 +113,13 @@ public class DBHandler extends SQLiteOpenHelper {
     public void addNewClient(String uuid, String nrcNumber, String artNumber, String firstName, String lastName, String dateOfBirth, String sex, String mobilePhoneNumber){
         String UPSERT_SQL = "INSERT OR REPLACE INTO client (uuid, nrc_number, art_number,first_name,last_name,date_of_birth,sex,mobile_phone_number)" +
                 "VALUES ('"+uuid+"','"+nrcNumber+"','"+artNumber+"','"+firstName+"','"+lastName+"','"+dateOfBirth+"','"+sex+"','"+mobilePhoneNumber+"')";
+        db.execSQL(UPSERT_SQL);
+    }
+
+    public void addNewLocation(String uuid, String name, String code, String supported, String type, String point, String parent)
+    {
+        String UPSERT_SQL = "INSERT OR REPLACE INTO facility(facility_uuid, name,code, supported, type, point, parent)"+
+                "VALUES ('"+uuid+"', '"+name+"', '"+code+"', '"+supported+"','"+type+"', '"+point+"','"+parent+"')";
         db.execSQL(UPSERT_SQL);
     }
 
@@ -205,6 +213,7 @@ public class DBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MED_DRUG_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MED_DRUG_DISPENSATION_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FACILITY_TABLE);
         onCreate(sqLiteDatabase);
     }
 

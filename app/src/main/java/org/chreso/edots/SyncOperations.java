@@ -69,6 +69,31 @@ public class SyncOperations {
     }
 
     private void syncFacilityData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(PreferenceManager
+                        .getDefaultSharedPreferences(myContext).getString("server",null))
+                .build();
+
+        ApiInterface api = retrofit.create(ApiInterface.class);
+
+        Call<List<Location>> call = api.getLocations();
+
+        call.enqueue(new Callback<List<Location>>() {
+
+            @Override
+            public void onResponse(Call<List<Location>> call, Response<List<Location>> response) {
+                for(Location l : response.body()) {
+                    dbHandler.addNewLocation(l.getUuid(),l.getName(), l.getCode(),l.getSupported(),l.getType(),l.getPoint(),l.getParent());
+                    Toast.makeText(myContext, "Syncing location: "+l.getName(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Location>> call, Throwable t) {
+                Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void syncDrugDispensations() {
