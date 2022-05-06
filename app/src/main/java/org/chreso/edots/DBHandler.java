@@ -21,7 +21,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 7;
+    private static final int DB_VERSION = 8;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -69,21 +69,22 @@ public class DBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(client_table_query);
 
         String dispensation_table_query = "CREATE TABLE "+MED_DRUG_DISPENSATION_TABLE + "("
-                + "meddrug_uuid TEXT, "
+                + "med_drug_uuid TEXT, "
                 + "patient_uuid TEXT, "
                 + "dispensation_date TEXT, "
                 + "dose TEXT, "
                 + "items_per_dose TEXT, "
                 + "frequency TEXT, "
                 + "refill_date TEXT, "
-                + "video_path TEXT)";
+                + "video_path TEXT,"
+                +  "location TEXT)";
         sqLiteDatabase.execSQL(dispensation_table_query);
     }
 
-    public void saveDispensationToDatabase(String meddrug_uuid , String patient_uuid,String dispensationDate, String dose, String items_per_dose, String frequency, String refill_date, String video_path)
+    public void saveDispensationToDatabase(String med_drug_uuid , String patient_uuid,String dispensationDate, String dose, String items_per_dose, String frequency, String refill_date, String video_path)
     {
-        String UPSERT_SQL  = "INSERT INTO med_drug_dispensation (meddrug_uuid,patient_uuid,dispensation_date,dose,items_per_dose,frequency,refill_date, video_path)" +
-                "VALUES ('"+meddrug_uuid+"','"+patient_uuid+"','"+dispensationDate+"','"+dose+"','"+items_per_dose+"','"+frequency+"','"+refill_date+"','"+video_path+"')";
+        String UPSERT_SQL  = "INSERT INTO med_drug_dispensation (med_drug_uuid,patient_uuid,dispensation_date,dose,items_per_dose,frequency,refill_date, video_path)" +
+                "VALUES ('"+med_drug_uuid+"','"+patient_uuid+"','"+dispensationDate+"','"+dose+"','"+items_per_dose+"','"+frequency+"','"+refill_date+"','"+video_path+"')";
         db.execSQL(UPSERT_SQL);
 
     }
@@ -152,6 +153,23 @@ public class DBHandler extends SQLiteOpenHelper {
         c.close();
         return clientDispensations;
     }
+
+    public ArrayList<ClientDispensation> getListOfClientDispensationsFromDatabase()
+    {
+        ArrayList<ClientDispensation> clientDispensations = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM med_drug_dispensation ", null);
+        if (c.moveToFirst()){
+            do {
+                ClientDispensation client = new ClientDispensation(c.getString(0), c.getString(1),c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7));
+
+                clientDispensations.add(client);
+            } while(c.moveToNext());
+        }
+        c.close();
+        return clientDispensations;
+    }
+
 
     public List<String> getListOfClientFromDatabase(){
         List<String> clients = new ArrayList<>();

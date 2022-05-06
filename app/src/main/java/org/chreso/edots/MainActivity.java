@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +28,7 @@ public class MainActivity extends EdotActivity {
     private EditText textBox;
     private TextView text;
     private ListView list;
+    private Button btnSearchClient;
 
     ArrayAdapter adapter;
     ClientAdapter clientAdapter;
@@ -86,9 +86,28 @@ public class MainActivity extends EdotActivity {
             }
         }
     );
+        btnSearchClient = findViewById(R.id.btnSearchClient);
+
+        btnSearchClient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               openSearchActivity();
+            }
+        });
 }
 
+private void openSearchActivity(){
+    Intent intent = new Intent(this, SearchClient.class);
+    startActivity(intent);
+}
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        ArrayList<Client> arrayOfClients = dbHandler.getLisOfClientDetailsFromDatabase();
+        clientAdapter = new ClientAdapter(this,arrayOfClients);
+        list.setAdapter(clientAdapter);
+    }
 
 
 

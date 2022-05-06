@@ -6,9 +6,9 @@ public class ClientDispensation {
     private String med_drug_uuid;
     private DBHandler dbHandler;
 
-    public ClientDispensation(String med_drug_uuid, String patient_uuid, String dispensation_date, String dose, String items_per_dose, String frequency, String refill_date, String video_path) {
+    public ClientDispensation(String med_drug_uuid, String client_uuid, String dispensation_date, String dose, String items_per_dose, String frequency, String refill_date, String video_path) {
         this.med_drug_uuid = med_drug_uuid;
-        this.patient_uuid = patient_uuid;
+        this.client_uuid = client_uuid;
         this.dispensation_date = dispensation_date;
         this.dose = dose;
         this.items_per_dose = items_per_dose;
@@ -17,7 +17,7 @@ public class ClientDispensation {
         this.video_path = video_path;
     }
 
-    private String patient_uuid;
+    private String client_uuid;
     private String dispensation_date;
     private String dose;
     private String items_per_dose;
@@ -34,12 +34,12 @@ public class ClientDispensation {
         this.med_drug_uuid = med_drug_uuid;
     }
 
-    public String getPatient_uuid() {
-        return patient_uuid;
+    public String getClient_uuid() {
+        return client_uuid;
     }
 
-    public void setPatient_uuid(String patient_uuid) {
-        this.patient_uuid = patient_uuid;
+    public void setClient_uuid(String client_uuid) {
+        this.client_uuid = client_uuid;
     }
 
     public String getDispensation_date() {

@@ -59,6 +59,12 @@ public class ClientMain extends AppCompatActivity {
         loadClientDispensationHistory(uuid);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        loadClientDispensationHistory(uuid);
+    }
+
     private void loadClientDispensationHistory(String patientGuid) {
 
         ArrayList<ClientDispensation> arrayOfClientDispensations = dbHandler.getListOfClientDispensationsFromDatabase(patientGuid);

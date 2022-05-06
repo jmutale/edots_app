@@ -170,6 +170,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
 
     }
 
+
     private void setRefillDateToCurrentDate() {
         Calendar cal = Calendar.getInstance();
         LocalDateTime now = LocalDateTime.now();

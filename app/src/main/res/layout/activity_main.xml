@@ -17,4 +17,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/list"/>
 
+<Button
+    android:layout_width="110dp"
+    android:layout_height="50dp"
+    android:text="Search"
+    android:id="@id/btnSearchClient"/>
+
 </LinearLayout>

@@ -1,17 +1,14 @@
 package org.chreso.edots;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.preference.PreferenceManager;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -67,6 +64,40 @@ public class SyncOperations {
     public void startDataSync(){
         syncMedDrugs();
         syncClientData();
+        syncDrugDispensations();
+    }
+
+    private void syncDrugDispensations() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(PreferenceManager
+                        .getDefaultSharedPreferences(myContext).getString("server",null))
+                .build();
+
+        ApiInterface api = retrofit.create(ApiInterface.class);
+
+        ArrayList<ClientDispensation> listOfClientDispensationsFromDatabase = dbHandler.getListOfClientDispensationsFromDatabase();
+        for(ClientDispensation cd : listOfClientDispensationsFromDatabase){
+
+            Call<ClientDispensation> call = api.postDispensationData(cd);
+
+            call.enqueue(new Callback<ClientDispensation>() {
+                @Override
+                public void onResponse(Call<ClientDispensation> call, Response<ClientDispensation> response) {
+                    Toast.makeText(myContext, "Syncing dispensations: "+cd.getMedDrugName(cd.getMed_drug_uuid(),myContext), Toast.LENGTH_LONG).show();
+
+                }
+
+                @Override
+                public void onFailure(Call<ClientDispensation> call, Throwable t) {
+                    Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+
+            });
+
+        }
+
     }
 
     private void syncClientData() {
@@ -86,6 +117,7 @@ public class SyncOperations {
                 for (Client client: response.body()) {
 
                     dbHandler.addNewClient(client.getUuid(),client.getNrc_number(), client.getArt_number(), client.getFirst_name(), client.getLast_name(), client.getDate_of_birth(), client.getSex(), client.getMobile_phone_number());
+                    Toast.makeText(myContext, "Syncing client: "+client.getNrc_number(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -113,6 +145,7 @@ public class SyncOperations {
                 for (MedDrug drug: response.body()) {
 
                     dbHandler.addNewMedDrug(drug.getUuid(), drug.getGeneric_name(), drug.getBrand_name(), drug.getFormulation(), drug.getGeneric_ingredients(), drug.getGeneric_strength());
+                    Toast.makeText(myContext, "Syncing drug: "+drug.getGeneric_name(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -120,6 +153,7 @@ public class SyncOperations {
             public void onFailure(Call<List<MedDrug>> call, Throwable t) {
                 Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
             }
+
 
         });
     }
