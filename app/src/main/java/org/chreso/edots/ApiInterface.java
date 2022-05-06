@@ -26,4 +26,7 @@ public interface ApiInterface {
 
     @POST("/dispensations/")
     Call<ClientDispensation> postDispensationData(@Body ClientDispensation cd);
+
+    @GET("/locations/")
+    Call<Location> getLocations();
 }

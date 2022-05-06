@@ -63,8 +63,12 @@ public class SyncOperations {
 
     public void startDataSync(){
         syncMedDrugs();
+        syncFacilityData();
         syncClientData();
         syncDrugDispensations();
+    }
+
+    private void syncFacilityData() {
     }
 
     private void syncDrugDispensations() {

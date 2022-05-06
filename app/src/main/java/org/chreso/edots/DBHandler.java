@@ -30,6 +30,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
     private static final String MED_DRUG_DISPENSATION_TABLE = "med_drug_dispensation";
 
+    private static final String FACILITY_TABLE = "facility";
+
     // below variable is for our id column.
     private static final String UUID_COL = "uuid";
     private static final String GENERIC_NAME_COL = "generic_name";
@@ -79,6 +81,15 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "video_path TEXT,"
                 +  "location TEXT)";
         sqLiteDatabase.execSQL(dispensation_table_query);
+
+        String facility_table_query = "CREATE TABLE "+ FACILITY_TABLE + "("
+                + "facility_uuid TEXT, "
+                + "name TEXT, "
+                + "code TEXT, "
+                + "supported TEXT, "
+                + "point TEXT, "
+                + "parent TEXT)";
+        sqLiteDatabase.execSQL(facility_table_query);
     }
 
     public void saveDispensationToDatabase(String med_drug_uuid , String patient_uuid,String dispensationDate, String dose, String items_per_dose, String frequency, String refill_date, String video_path)
