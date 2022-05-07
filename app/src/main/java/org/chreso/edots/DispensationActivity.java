@@ -9,6 +9,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -209,7 +210,14 @@ public class DispensationActivity extends AppCompatActivity implements Validator
         meddrug_uuid = getUuidFromGenericName(genericName);
         dispensation_date = getDispensationDate();
         String refillDate = getRefillDateString();
-        dbHandler.saveDispensationToDatabase(meddrug_uuid,client_uuid,dispensation_date,txtDose.getText().toString(),txtItemsPerDose.getText().toString(),spnFrequency.getSelectedItem().toString(), refillDate, String.valueOf(video_path));
+        String location = getConfiguredLocation();
+        dbHandler.saveDispensationToDatabase(meddrug_uuid,client_uuid,dispensation_date,txtDose.getText().toString(),txtItemsPerDose.getText().toString(),spnFrequency.getSelectedItem().toString(), refillDate, String.valueOf(video_path), location);
+    }
+
+    private String getConfiguredLocation() {
+        String location= PreferenceManager
+                .getDefaultSharedPreferences(this).getString("facility",null);
+        return location;
     }
 
     @NonNull

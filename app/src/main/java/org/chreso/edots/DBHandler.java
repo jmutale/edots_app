@@ -21,7 +21,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 12;
+    private static final int DB_VERSION = 14;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -83,7 +83,7 @@ public class DBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(dispensation_table_query);
 
         String facility_table_query = "CREATE TABLE "+ FACILITY_TABLE + "("
-                + "facility_uuid TEXT, "
+                + "facility_uuid TEXT PRIMARY KEY, "
                 + "name TEXT, "
                 + "code TEXT, "
                 + "supported TEXT, "
@@ -93,10 +93,10 @@ public class DBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(facility_table_query);
     }
 
-    public void saveDispensationToDatabase(String med_drug_uuid , String patient_uuid,String dispensationDate, String dose, String items_per_dose, String frequency, String refill_date, String video_path)
+    public void saveDispensationToDatabase(String med_drug_uuid , String patient_uuid,String dispensationDate, String dose, String items_per_dose, String frequency, String refill_date, String video_path, String location)
     {
-        String INSERT_SQL  = "INSERT INTO med_drug_dispensation (med_drug_uuid,patient_uuid,dispensation_date,dose,items_per_dose,frequency,refill_date, video_path)" +
-                "VALUES ('"+med_drug_uuid+"','"+patient_uuid+"','"+dispensationDate+"','"+dose+"','"+items_per_dose+"','"+frequency+"','"+refill_date+"','"+video_path+"')";
+        String INSERT_SQL  = "INSERT INTO med_drug_dispensation (med_drug_uuid,patient_uuid,dispensation_date,dose,items_per_dose,frequency,refill_date, video_path, location)" +
+                "VALUES ('"+med_drug_uuid+"','"+patient_uuid+"','"+dispensationDate+"','"+dose+"','"+items_per_dose+"','"+frequency+"','"+refill_date+"','"+video_path+"', '"+location+"')";
         db.execSQL(INSERT_SQL);
 
     }
@@ -259,5 +259,24 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public boolean doesClientExist(Editable text) {
         return false;
+    }
+
+    public Map<String, String> getListOfHealthFacilitiesFromDatabase() {
+        Map<String, String> map =
+                new HashMap<String, String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT code,name FROM facility WHERE type = '3'", null);
+        if (c.moveToFirst()){
+            do {
+                // Passing values
+                String code = c.getString(0);
+                String name = c.getString(1);
+
+                map.put(code,name);
+            } while(c.moveToNext());
+        }
+        c.close();
+        //db.close();
+        return map;
     }
 }

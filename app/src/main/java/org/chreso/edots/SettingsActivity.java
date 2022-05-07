@@ -7,7 +7,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import java.util.Map;
+
 public class SettingsActivity extends AppCompatActivity {
+    private static DBHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        dbHandler = new DBHandler(getApplicationContext());
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
@@ -35,9 +39,10 @@ public class SettingsActivity extends AppCompatActivity {
             setListPreferenceData(listPreference);
         }
 
-        protected static void setListPreferenceData(ListPreference lp) {
-            CharSequence[] entries = { "Petauke District Hospital", "Petauke Urban" };
-            CharSequence[] entryValues = {"11111" , "22222"};
+        private static void setListPreferenceData(ListPreference lp) {
+            Map<String, String> facilities = dbHandler.getListOfHealthFacilitiesFromDatabase();
+            CharSequence[] entries = facilities.values().toArray(new CharSequence[facilities.size()]);
+            CharSequence[] entryValues = facilities.keySet().toArray(new CharSequence[facilities.size()]);
             lp.setEntries(entries);
             lp.setDefaultValue("11111");
             lp.setEntryValues(entryValues);
