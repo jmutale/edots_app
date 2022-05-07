@@ -47,7 +47,7 @@ public class SyncOperations {
 
         ApiInterface api = retrofit.create(ApiInterface.class);
 
-        Call<List<Location>> call = api.getLocations();
+        Call<List<Location>> call = api.getLocations("Token "+getAuthToken());
 
         call.enqueue(new Callback<List<Location>>() {
 
@@ -78,7 +78,7 @@ public class SyncOperations {
         ArrayList<ClientDispensation> listOfClientDispensationsFromDatabase = dbHandler.getListOfClientDispensationsFromDatabase();
         for(ClientDispensation cd : listOfClientDispensationsFromDatabase){
 
-            Call<ClientDispensation> call = api.postDispensationData(cd);
+            Call<ClientDispensation> call = api.postDispensationData(cd, "Token "+getAuthToken());
 
             call.enqueue(new Callback<ClientDispensation>() {
                 @Override
@@ -108,7 +108,7 @@ public class SyncOperations {
 
         ApiInterface api = retrofit.create(ApiInterface.class);
 
-        Call<List<Client>> call = api.getClients();
+        Call<List<Client>> call = api.getClients("Token "+getAuthToken());
 
         call.enqueue(new Callback<List<Client>>() {
             @Override
@@ -135,8 +135,9 @@ public class SyncOperations {
                 .build();
 
         ApiInterface api = retrofit.create(ApiInterface.class);
+        String token = getAuthToken();
 
-        Call<List<MedDrug>> call = api.getMedDrugs();
+        Call<List<MedDrug>> call = api.getMedDrugs("Token "+getAuthToken());
 
         call.enqueue(new Callback<List<MedDrug>>() {
             @Override
@@ -155,5 +156,15 @@ public class SyncOperations {
 
 
         });
+    }
+
+    private String getAuthToken() {
+        String toReturn = "";
+        if(PreferenceManager
+                .getDefaultSharedPreferences(myContext).getString("token",null)!=null){
+            toReturn = PreferenceManager
+                    .getDefaultSharedPreferences(myContext).getString("token",null);
+        }
+        return toReturn;
     }
 }

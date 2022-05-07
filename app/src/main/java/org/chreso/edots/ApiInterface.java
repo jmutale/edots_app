@@ -9,26 +9,22 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface ApiInterface {
 
-    @FormUrlEncoded
-    @POST("/clients/")
-    Call<Client> getClientData(@Field("first_name") String first_name, @Field("last_name") String last_name, @Field("date_of_birth") LocalDate date_of_birth, @Field("sex") String sex, @Field("mobile_phone_number") String mobile_phone_number);
-
-
     @GET("/meds")
-    Call<List<MedDrug>> getMedDrugs();
+    Call<List<MedDrug>> getMedDrugs(@Header("Authorization") String authHeader);
 
     @GET("/clients")
-    Call<List<Client>> getClients();
+    Call<List<Client>> getClients(@Header("Authorization") String authHeader);
 
     @POST("/dispensations/")
-    Call<ClientDispensation> postDispensationData(@Body ClientDispensation cd);
+    Call<ClientDispensation> postDispensationData(@Body ClientDispensation cd, @Header("Authorization") String authHeader);
 
     @GET("/locations/")
-    Call<List<Location>> getLocations();
+    Call<List<Location>> getLocations(@Header("Authorization") String authHeader);
 
     @POST("/api-token-auth/")
     Call <AuthToken> login(@Body LoginBody loginBody);
