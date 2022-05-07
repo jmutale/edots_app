@@ -29,4 +29,7 @@ public interface ApiInterface {
 
     @GET("/locations/")
     Call<List<Location>> getLocations();
+
+    @POST("/api-token-auth/")
+    Call <AuthToken> login(@Body LoginBody loginBody);
 }
