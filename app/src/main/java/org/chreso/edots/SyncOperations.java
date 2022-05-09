@@ -1,5 +1,6 @@
 package org.chreso.edots;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -32,10 +33,11 @@ public class SyncOperations {
     }
 
     public void startDataSync(){
-        syncMedDrugs();
-        syncFacilityData();
-        syncClientData();
-        syncDrugDispensations();
+            syncMedDrugs();
+            syncFacilityData();
+            syncClientData();
+            syncDrugDispensations();
+
     }
 
     private void syncFacilityData() {
@@ -115,7 +117,7 @@ public class SyncOperations {
             public void onResponse(Call<List<Client>> call, Response<List<Client>> response) {
                 for (Client client: response.body()) {
 
-                    dbHandler.addNewClient(client.getUuid(),client.getNrc_number(), client.getArt_number(), client.getFirst_name(), client.getLast_name(), client.getDate_of_birth(), client.getSex(), client.getMobile_phone_number());
+                    dbHandler.addNewClient(client.getUuid(),client.getNrc_number(),client.getChreso_id(), client.getArt_number(), client.getFirst_name(), client.getLast_name(), client.getDate_of_birth(), client.getSex(), client.getMobile_phone_number());
                     Toast.makeText(myContext, "Syncing client: "+client.getNrc_number(), Toast.LENGTH_SHORT).show();
                 }
             }

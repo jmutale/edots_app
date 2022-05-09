@@ -31,16 +31,20 @@ public class EdotActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.sync_item:
-                if(PreferenceManager
-                        .getDefaultSharedPreferences(this).getString("server",null)!=null) {
+                String server = PreferenceManager
+                        .getDefaultSharedPreferences(this).getString("server",null);
+                String token = PreferenceManager
+                        .getDefaultSharedPreferences(this).getString("token",null);
+                if(server!=null&&token!=null) {
 
                     new SyncOperations(getApplicationContext()).startDataSync();
+
 
                 }else
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this)
                             .setTitle("Server Error")
-                            .setMessage("Please assign a server URL value before you can sync data.")
+                            .setMessage("Please assign a server URL value and log in before you can sync data.")
                         .setCancelable(true)
 
                             ;

@@ -6,6 +6,7 @@ public class Client {
 
 
     private String uuid;
+    private String chreso_id;
     private String nrc_number;
     private String art_number;
     private String first_name;
@@ -14,8 +15,9 @@ public class Client {
     private String sex;
     private String mobile_phone_number;
 
-    public Client(String uuid, String nrc_number, String art_number, String first_name, String last_name, String date_of_birth,String sex, String mobile_phone_number) {
+    public Client(String uuid, String chreso_id,String nrc_number, String art_number, String first_name, String last_name, String date_of_birth,String sex, String mobile_phone_number) {
         this.uuid = uuid;
+        this.chreso_id = chreso_id;
         this.nrc_number = nrc_number;
         this.art_number = art_number;
         this.first_name = first_name;
@@ -24,6 +26,10 @@ public class Client {
         this.sex = sex;
         this.mobile_phone_number = mobile_phone_number;
     }
+
+    public String getChreso_id(){return  chreso_id;}
+
+    public void setChreso_id(String chreso_id){this.chreso_id=chreso_id;}
 
     public String getNrc_number() {
         return nrc_number;

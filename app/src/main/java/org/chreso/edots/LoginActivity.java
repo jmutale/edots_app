@@ -62,9 +62,22 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
                 validator.validate();
             }
         });
+
+        checkIfLoggedIn();
     }
 
-
+    private void checkIfLoggedIn(){
+        String token = PreferenceManager
+                .getDefaultSharedPreferences(this).getString("token",null);
+        if(token!=null){
+            goToMainActivity();
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkIfLoggedIn();
+    }
 
     private void goToMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
@@ -117,7 +130,7 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
     }
 
     private void setAuthToken(String token) {
-        editor.putString("AuthToken",token);
+        editor.putString("token",token);
         editor.commit();
     }
 
