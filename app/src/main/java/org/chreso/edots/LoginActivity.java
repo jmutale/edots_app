@@ -2,6 +2,7 @@ package org.chreso.edots;
 
 import androidx.preference.PreferenceManager;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -136,7 +137,20 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
 
     @Override
     public void onValidationSucceeded() {
-        doLogin(username.getText().toString(),password.getText().toString());
+        if(PreferenceManager
+                .getDefaultSharedPreferences(this).getString("server",null)!=null) {
+            doLogin(username.getText().toString(), password.getText().toString());
+        }else
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                    .setTitle("Server Error")
+                    .setMessage("Please assign a server URL value before you log in.")
+                    .setCancelable(true)
+
+                    ;
+            builder.create();
+            builder.show();
+        }
     }
 
     @Override

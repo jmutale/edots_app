@@ -16,7 +16,7 @@ public interface ApiInterface {
     Call<List<Client>> getClients(@Header("Authorization") String authHeader);
 
     @POST("/dispensations/")
-    Call<ClientDispensation> postDispensationData(@Body ClientDispensation cd, @Header("Authorization") String authHeader);
+    Call<ClientDispensation> postDispensationData(@Body ClientDispensationEvent cd, @Header("Authorization") String authHeader);
 
     @GET("/locations/")
     Call<List<Location>> getLocations(@Header("Authorization") String authHeader);

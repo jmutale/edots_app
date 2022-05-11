@@ -32,9 +32,9 @@ public class ClientDispensationAdapter extends ArrayAdapter<ClientDispensation> 
         TextView refillDate = (TextView) convertView.findViewById(R.id.refillDate);
 
         drugName.setText("Drug name: "+clientDispensation.getMedDrugName(clientDispensation.getMed_drug_uuid(), context));
-        dispensationDate.setText("Dispensation date: "+clientDispensation.getDispensation_date());
+        dispensationDate.setText("Dispensation date: "+clientDispensation.getDispensation_date().toString());
         unitsDispensed.setText("Units dispensed: "+clientDispensation.getDose());
-        refillDate.setText("Refill date: "+clientDispensation.getRefill_date());
+        refillDate.setText("Refill date: "+clientDispensation.getRefill_date().toString());
 
         convertView.setBackgroundColor(position % 2 == 0 ? Color.WHITE : Color.LTGRAY);
 

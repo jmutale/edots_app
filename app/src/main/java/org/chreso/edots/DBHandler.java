@@ -6,8 +6,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.Editable;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,11 +42,17 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String FORMULATION_COL = "formulation";
     private static final String GENERIC_INGREDIENTS_COL = "generic_ingredients";
     private static final String GENERIC_STRENGTH_COL = "generic_strength";
+    private DateFormat df;
+    private Date dispensationDate;
+    private Date refillDate;
 
     // creating a constructor for our database handler.
     public DBHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         db = getWritableDatabase();
+        df = new SimpleDateFormat("dd/MM/yyyy");
+        dispensationDate=null;
+        refillDate = null;
     }
 
     @Override
@@ -168,7 +177,12 @@ public class DBHandler extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("SELECT * FROM med_drug_dispensation WHERE patient_uuid ='"+patientGuid+"'", null);
         if (c.moveToFirst()){
             do {
-                ClientDispensation client = new ClientDispensation(c.getString(0), c.getString(1),c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7));
+
+                String dispDateRaw = c.getString(2);
+                String refillDateRaw = c.getString(6);
+                dispensationDate = Date.valueOf(dispDateRaw);
+                refillDate = Date.valueOf(refillDateRaw);
+                ClientDispensation client = new ClientDispensation(c.getString(0), c.getString(1),dispensationDate, c.getString(3), c.getString(4), c.getString(5), refillDate, c.getString(7));
 
                 clientDispensations.add(client);
             } while(c.moveToNext());
@@ -184,7 +198,11 @@ public class DBHandler extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("SELECT * FROM med_drug_dispensation ", null);
         if (c.moveToFirst()){
             do {
-                ClientDispensation client = new ClientDispensation(c.getString(0), c.getString(1),c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7));
+                Date dispensationDate = null;
+                Date refillDate = null;
+                dispensationDate = Date.valueOf(c.getString(2));
+                refillDate = Date.valueOf(c.getString(6));
+                ClientDispensation client = new ClientDispensation(c.getString(0), c.getString(1),dispensationDate, c.getString(3), c.getString(4), c.getString(5), refillDate, c.getString(7));
 
                 clientDispensations.add(client);
             } while(c.moveToNext());

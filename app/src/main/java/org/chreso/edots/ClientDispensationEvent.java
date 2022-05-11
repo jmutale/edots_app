@@ -1,31 +1,15 @@
 package org.chreso.edots;
 
-import android.content.Context;
-
 import java.sql.Date;
 
-public class ClientDispensation {
+public class ClientDispensationEvent {
     private String med_drug_uuid;
-    private DBHandler dbHandler;
-
-    public ClientDispensation(String med_drug_uuid, String client_uuid, Date dispensation_date, String dose, String items_per_dose, String frequency, Date refill_date, String video_path) {
-        this.med_drug_uuid = med_drug_uuid;
-        this.client_uuid = client_uuid;
-        this.dispensation_date = dispensation_date;
-        this.dose = dose;
-        this.items_per_dose = items_per_dose;
-        this.frequency = frequency;
-        this.refill_date = refill_date;
-        this.video_path = video_path;
-    }
-
     private String client_uuid;
-    private Date dispensation_date;
+    private String dispensation_date;
     private String dose;
     private String items_per_dose;
     private String frequency;
-
-    private Date refill_date;
+    private String refill_date;
     private String video_path;
 
     public String getMed_drug_uuid() {
@@ -44,12 +28,12 @@ public class ClientDispensation {
         this.client_uuid = client_uuid;
     }
 
-    public Date getDispensation_date() {
+    public String getDispensation_date() {
         return dispensation_date;
     }
 
     public void setDispensation_date(Date dispensation_date) {
-        this.dispensation_date = dispensation_date;
+        this.dispensation_date =  Utils.getFormattedDate(dispensation_date);
     }
 
     public String getDose() {
@@ -76,12 +60,12 @@ public class ClientDispensation {
         this.frequency = frequency;
     }
 
-    public Date getRefill_date() {
+    public String getRefill_date() {
         return refill_date;
     }
 
     public void setRefill_date(Date refill_date) {
-        this.refill_date = refill_date;
+        this.refill_date = Utils.getFormattedDate(refill_date);
     }
 
     public String getVideo_path() {
@@ -93,9 +77,4 @@ public class ClientDispensation {
     }
 
 
-    public String getMedDrugName(String med_drug_uuid, Context context) {
-        dbHandler = new DBHandler(context);
-        String drugName = dbHandler.getDrugNameFromDatabase(med_drug_uuid);
-        return drugName;
-    }
 }

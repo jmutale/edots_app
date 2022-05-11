@@ -55,12 +55,22 @@ public class EdotActivity extends AppCompatActivity {
             case R.id.settings_item:
                 openSettingsForm();
                 return true;
+                
+            case R.id.logout_item:
+                logout();
+                return true;
             case android.R.id.home:
                 onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void logout() {
+        getPrefs().edit().remove("token").commit();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
     private void openSettingsForm() {

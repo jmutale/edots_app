@@ -80,7 +80,8 @@ public class SyncOperations {
         ArrayList<ClientDispensation> listOfClientDispensationsFromDatabase = dbHandler.getListOfClientDispensationsFromDatabase();
         for(ClientDispensation cd : listOfClientDispensationsFromDatabase){
 
-            Call<ClientDispensation> call = api.postDispensationData(cd, "Token "+getAuthToken());
+            ClientDispensationEvent cde = setValuesForClientDispensationEvent(cd);
+            Call<ClientDispensation> call = api.postDispensationData(cde, "Token "+getAuthToken());
 
             call.enqueue(new Callback<ClientDispensation>() {
                 @Override
@@ -99,6 +100,18 @@ public class SyncOperations {
 
         }
 
+    }
+
+    private ClientDispensationEvent setValuesForClientDispensationEvent(ClientDispensation cd) {
+        ClientDispensationEvent cde = new ClientDispensationEvent();
+        cde.setClient_uuid(cd.getClient_uuid());
+        cde.setDispensation_date(cd.getDispensation_date());
+        cde.setMed_drug_uuid(cd.getMed_drug_uuid());
+        cde.setRefill_date(cd.getRefill_date());
+        cde.setDose(cd.getDose());
+        cde.setItems_per_dose(cd.getItems_per_dose());
+        cde.setVideo_path(cd.getVideo_path());
+        return cde;
     }
 
     private void syncClientData() {

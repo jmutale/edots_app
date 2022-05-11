@@ -130,7 +130,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
                     int numberOfDaysToAddToCurrentDate = getNumberOfDaysToAddToCurrentDateFromDoseItemsPerDoseAndFrequency(Integer.parseInt(txtDose.getText().toString()), Integer.parseInt(txtItemsPerDose.getText().toString()));
                     cal.add(Calendar.DATE, numberOfDaysToAddToCurrentDate);
                 }
-                dteRefillDate.updateDate(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)-1,cal.get(Calendar.DATE));
+                dteRefillDate.updateDate(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DATE));
 
             }
 
@@ -177,7 +177,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
         Calendar cal = Calendar.getInstance();
         LocalDateTime now = LocalDateTime.now();
         cal.set(now.getYear(), now.getMonthValue(), now.getDayOfMonth());
-        dteRefillDate.updateDate(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)-1,cal.get(Calendar.DATE));
+        dteRefillDate.updateDate(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DATE));
     }
 
 
@@ -226,7 +226,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
         int month = dteRefillDate.getMonth();
         int year = dteRefillDate.getYear();
 
-        String refillDate = day + "/"+ month + "/" +year;
+        String refillDate = year + "-"+ month + "-" +day;
         return refillDate;
     }
     @NonNull
@@ -236,7 +236,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
         int month = dteDispensationDate.getMonth();
         int year = dteDispensationDate.getYear();
 
-        String dispesationDate = day + "/"+ month + "/" +year;
+        String dispesationDate = year + "-"+ month + "-" +day;
         return dispesationDate;
     }
 

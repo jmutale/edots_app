@@ -5,5 +5,7 @@
         android:title="Sync" />
     <item android:id="@+id/settings_item"
         android:title="Settings" />
+    <item android:id="@+id/logout_item"
+        android:title="Logout"/>
 
 </menu>
