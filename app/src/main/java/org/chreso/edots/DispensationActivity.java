@@ -223,7 +223,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     @NonNull
     private String getRefillDateString() {
         int day  = dteRefillDate.getDayOfMonth();
-        int month = dteRefillDate.getMonth();
+        int month = dteRefillDate.getMonth()+1;
         int year = dteRefillDate.getYear();
 
         String refillDate = year + "-"+ month + "-" +day;
@@ -233,7 +233,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     private String getDispensationDate()
     {
         int day  = dteDispensationDate.getDayOfMonth();
-        int month = dteDispensationDate.getMonth();
+        int month = dteDispensationDate.getMonth()+1;
         int year = dteDispensationDate.getYear();
 
         String dispesationDate = year + "-"+ month + "-" +day;
