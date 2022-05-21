@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -13,10 +14,24 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class ClientAdapter extends ArrayAdapter<Client> {
+    private ArrayList<Client> originalList;
+    private ArrayList<Client> clientList;
+    private ClientFilter filter;
     public ClientAdapter(Context context, ArrayList<Client> clients){
         super(context,0,clients);
+        this.clientList = new ArrayList<Client>();
+        this.clientList.addAll(clientList);
+        this.originalList = new ArrayList<Client>();
+        this.originalList.addAll(clientList);
     }
 
+    @Override
+    public Filter getFilter() {
+        if (filter == null){
+            filter  = new ClientFilter();
+        }
+        return filter;
+    }
 
     public View getView(int position, View convertView, ViewGroup parent){
         //Get the data item for this position
@@ -45,4 +60,46 @@ public class ClientAdapter extends ArrayAdapter<Client> {
         return convertView;
 
     }
-}
+
+    private class ClientFilter extends Filter{
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            constraint = constraint.toString().toLowerCase();
+            FilterResults result = new FilterResults();
+            if(constraint != null && constraint.toString().length() > 0)
+            {
+                ArrayList<Client> filteredItems = new ArrayList<Client>();
+
+                for(int i = 0, l = originalList.size(); i < l; i++)
+                {
+                    Client client = originalList.get(i);
+                    if(client.toString().toLowerCase().contains(constraint))
+                        filteredItems.add(client);
+                }
+                result.count = filteredItems.size();
+                result.values = filteredItems;
+            }
+            else
+            {
+                synchronized(this)
+                {
+                    result.values = originalList;
+                    result.count = originalList.size();
+                }
+            }
+            return result;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults results) {
+            clientList = (ArrayList<Client>)results.values;
+            notifyDataSetChanged();
+            clear();
+            for(int i = 0, l = clientList.size(); i < l; i++)
+                add(clientList.get(i));
+            notifyDataSetInvalidated();
+        }
+        }
+    }
+

@@ -54,16 +54,17 @@ public class MainActivity extends EdotActivity {
         clientAdapter = new ClientAdapter(this,arrayOfClients);
         list.setAdapter(clientAdapter);
 
+        list.setTextFilterEnabled(true);
 
         textBox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                clientAdapter.getFilter().filter(s);
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                clientAdapter.getFilter().filter(s);
             }
 
             @Override
@@ -124,13 +125,7 @@ private void openSearchActivity(){
         startActivity(intent);
     }
 
-    private void startDataSync() {
 
-        //Handler myHandler = new Handler(Looper.getMainLooper());
-
-        //myExecutor.execute(new NetworkTask());
-
-    }
 
 
 

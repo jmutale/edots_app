@@ -287,7 +287,7 @@ public class DBHandler extends SQLiteOpenHelper {
         Map<String, String> map =
                 new HashMap<String, String>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT code,name FROM facility WHERE type = '3'", null);
+        Cursor c = db.rawQuery("SELECT code,name FROM facility WHERE type = 'health_facility'", null);
         if (c.moveToFirst()){
             do {
                 // Passing values

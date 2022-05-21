@@ -27,14 +27,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Digits;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Select;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -121,14 +120,15 @@ public class DispensationActivity extends AppCompatActivity implements Validator
 
                 Calendar cal = Calendar.getInstance();
 
-                LocalDateTime now = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-dd");
+                LocalDate now = LocalDate.parse(getDispensationDate(),formatter);
 
-                cal.set(now.getYear(), now.getMonthValue(), now.getDayOfMonth());
+                cal.set(now.getYear(), now.getMonthValue()-1, now.getDayOfMonth());
                 String dose = txtDose.getText().toString();
                 String itemsPerDose = txtItemsPerDose.getText().toString();
                 if(!dose.isEmpty() && !itemsPerDose.isEmpty()) {
-                    int numberOfDaysToAddToCurrentDate = getNumberOfDaysToAddToCurrentDateFromDoseItemsPerDoseAndFrequency(Integer.parseInt(txtDose.getText().toString()), Integer.parseInt(txtItemsPerDose.getText().toString()));
-                    cal.add(Calendar.DATE, numberOfDaysToAddToCurrentDate);
+                    int numberOfDaysToAddToDispensationDate = getNumberOfDaysToAddToDispensationDateFromDoseItemsPerDoseAndFrequency(Integer.parseInt(txtDose.getText().toString()), Integer.parseInt(txtItemsPerDose.getText().toString()));
+                    cal.add(Calendar.DATE, numberOfDaysToAddToDispensationDate);
                 }
                 dteRefillDate.updateDate(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DATE));
 
@@ -181,7 +181,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     }
 
 
-    private int getNumberOfDaysToAddToCurrentDateFromDoseItemsPerDoseAndFrequency(int dose, int itemsPerDose) {
+    private int getNumberOfDaysToAddToDispensationDateFromDoseItemsPerDoseAndFrequency(int dose, int itemsPerDose) {
         int toReturn = 0;
 
         switch(spnFrequency.getSelectedItem().toString()){
