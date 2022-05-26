@@ -1,5 +1,6 @@
 package org.chreso.edots;
 
+import java.io.File;
 import java.sql.Date;
 
 public class ClientDispensationEvent {
@@ -10,7 +11,7 @@ public class ClientDispensationEvent {
     private String items_per_dose;
     private String frequency;
     private String refill_date;
-    private String video_path;
+    private String video;
 
     public String getMed_drug_uuid() {
         return med_drug_uuid;
@@ -68,12 +69,12 @@ public class ClientDispensationEvent {
         this.refill_date = Utils.getFormattedDate(refill_date);
     }
 
-    public String getVideo_path() {
-        return video_path;
+    public String getVideo() {
+        return video;
     }
 
-    public void setVideo_path(String video_path) {
-        this.video_path = video_path;
+    public void setFile(String video) {
+        this.video = video;
     }
 
 

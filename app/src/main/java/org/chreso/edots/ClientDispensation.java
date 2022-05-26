@@ -98,4 +98,10 @@ public class ClientDispensation {
         String drugName = dbHandler.getDrugNameFromDatabase(med_drug_uuid);
         return drugName;
     }
+
+    public String getClientNrcFromUuid(String client_uuid, Context context){
+        dbHandler = new DBHandler(context);
+        String clientNrc = dbHandler.getNrcFromClientUuid(client_uuid);
+        return clientNrc;
+    }
 }

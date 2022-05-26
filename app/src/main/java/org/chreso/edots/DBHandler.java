@@ -253,6 +253,20 @@ public class DBHandler extends SQLiteOpenHelper {
         return name;
     }
 
+    public String getNrcFromClientUuid(String client_uuid)
+    {
+        String nrc = "";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT nrc_number FROM client WHERE uuid ='"+client_uuid+"'", null);
+        if (c.moveToFirst()){
+            do {
+                nrc = c.getString(0);
+            } while(c.moveToNext());
+        }
+        c.close();
+        return nrc;
+    }
+
     public String getNumberOfClientsDueForRefillToday(){
         String clientDue = "";
         SQLiteDatabase db = this.getReadableDatabase();

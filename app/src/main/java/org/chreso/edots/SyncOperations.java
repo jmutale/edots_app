@@ -2,16 +2,26 @@ package org.chreso.edots;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.preference.PreferenceManager;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,15 +31,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SyncOperations {
     private DBHandler dbHandler;
     private Context myContext;
+    public static final int DEFAULT_BUFFER_SIZE = 8192;
 
     public SyncOperations(Context context) {
 
         this.dbHandler = new DBHandler(context);
         this.myContext = context;
-    }
-
-    public void getClientDataFromServer(){
-
     }
 
     public void startDataSync(){
@@ -81,21 +88,62 @@ public class SyncOperations {
         for(ClientDispensation cd : listOfClientDispensationsFromDatabase){
 
             ClientDispensationEvent cde = setValuesForClientDispensationEvent(cd);
-            Call<ClientDispensation> call = api.postDispensationData(cde, "Token "+getAuthToken());
+            Call<ClientDispensationEvent> call = api.postDispensationData(cde, "Token "+getAuthToken());
 
-            call.enqueue(new Callback<ClientDispensation>() {
+            call.enqueue(new Callback<ClientDispensationEvent>() {
                 @Override
-                public void onResponse(Call<ClientDispensation> call, Response<ClientDispensation> response) {
+                public void onResponse(Call<ClientDispensationEvent> call, Response<ClientDispensationEvent> response) {
                     Toast.makeText(myContext, "Syncing dispensations: "+cd.getMedDrugName(cd.getMed_drug_uuid(),myContext), Toast.LENGTH_LONG).show();
 
                 }
 
                 @Override
-                public void onFailure(Call<ClientDispensation> call, Throwable t) {
-                    //Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
+                public void onFailure(Call<ClientDispensationEvent> call, Throwable t) {
+                    Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
                 }
 
 
+            });
+            //We upload the client dispensation video here.
+            File fileObject = null;
+            InputStream inStream=null;
+            try {
+
+                try {
+                    Uri uri = Uri.parse(cd.getVideo_path());
+                    inStream = myContext.getContentResolver().openInputStream(uri);
+                    fileObject = new File(Environment.getExternalStorageDirectory().getPath()+"/"+cd.getMedDrugName(cd.getMed_drug_uuid(), myContext)+"_"+cd.getClient_uuid()+".mp4");
+                    copyInputStreamToFile(inStream,fileObject);
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                //fileObject = new File(Utils.getFileName(Uri.parse(filePath), myContext));
+
+            }catch (Exception e)
+            {
+                Toast.makeText(myContext, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+            RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), fileObject);
+
+            MultipartBody.Part file = MultipartBody.Part.createFormData("file", fileObject.getName(), requestBody);
+            RequestBody name = RequestBody.create(MediaType.parse("text/plain"), fileObject.getName());
+
+
+            Call <ClientVideoUploadServerResponse> call2 = api.uploadVideo(file, name,"Token "+getAuthToken());
+
+            call2.enqueue(new Callback<ClientVideoUploadServerResponse>() {
+
+                @Override
+                public void onResponse(Call<ClientVideoUploadServerResponse> call, Response<ClientVideoUploadServerResponse> response) {
+                    Toast.makeText(myContext, "Syncing dispensation videos: ", Toast.LENGTH_LONG).show();
+
+                }
+
+                @Override
+                public void onFailure(Call<ClientVideoUploadServerResponse> call, Throwable t) {
+                    Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
+                }
             });
 
         }
@@ -110,7 +158,7 @@ public class SyncOperations {
         cde.setRefill_date(cd.getRefill_date());
         cde.setDose(cd.getDose());
         cde.setItems_per_dose(cd.getItems_per_dose());
-        cde.setVideo_path(cd.getVideo_path());
+        //cde.setFile(cd.getVideo_path());
         return cde;
     }
 
@@ -181,5 +229,19 @@ public class SyncOperations {
                     .getDefaultSharedPreferences(myContext).getString("token",null);
         }
         return toReturn;
+    }
+
+    private static void copyInputStreamToFile(InputStream inputStream, File file)
+            throws IOException {
+
+        // append = false
+        try (FileOutputStream outputStream = new FileOutputStream(file, false)) {
+            int read;
+            byte[] bytes = new byte[DEFAULT_BUFFER_SIZE];
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+        }
+
     }
 }
