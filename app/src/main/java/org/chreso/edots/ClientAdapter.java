@@ -12,26 +12,62 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class ClientAdapter extends ArrayAdapter<Client> {
-    private ArrayList<Client> originalList;
-    private ArrayList<Client> clientList;
-    private ClientFilter filter;
+
+    private List<Client> clientListFull;
+
     public ClientAdapter(Context context, ArrayList<Client> clients){
         super(context,0,clients);
-        this.clientList = new ArrayList<Client>();
-        this.clientList.addAll(clientList);
-        this.originalList = new ArrayList<Client>();
-        this.originalList.addAll(clientList);
+        clientListFull = new ArrayList<>(clients);
+
     }
 
-    @Override
     public Filter getFilter() {
-        if (filter == null){
-            filter  = new ClientFilter();
-        }
-        return filter;
+        return clientFilter;
     }
+
+    private Filter clientFilter = new Filter(){
+
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            FilterResults results = new FilterResults();
+            List<Client> suggestions = new ArrayList<>();
+            if (charSequence == null||charSequence.length()==0){
+                suggestions.addAll(clientListFull);
+            }else{
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+
+                for(Client item : clientListFull){
+                    if(item.getFirst_name().toLowerCase().contains(filterPattern)){
+                        suggestions.add(item);
+                    }else if(item.getLast_name().toLowerCase().contains(filterPattern)){
+                        suggestions.add(item);
+                    }else if(item.getMobile_phone_number().toLowerCase().contains(filterPattern)){
+                        suggestions.add(item);
+                    }
+                }
+            }
+            results.values = suggestions;
+            results.count = suggestions.size();
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            clear();
+            addAll((List)filterResults.values);
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public CharSequence convertResultToString(Object resultValue) {
+            return super.convertResultToString(resultValue);
+        }
+    };
 
     public View getView(int position, View convertView, ViewGroup parent){
         //Get the data item for this position
@@ -41,17 +77,19 @@ public class ClientAdapter extends ArrayAdapter<Client> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.search_result_layout, parent, false);
         }
         // Lookup view for data population
-        TextView fName = (TextView) convertView.findViewById(R.id.fName);
-        TextView lName = (TextView) convertView.findViewById(R.id.lName);
-        TextView dob = (TextView) convertView.findViewById(R.id.sDob);
-        TextView sex = (TextView) convertView.findViewById(R.id.sex);
-        TextView m_phone = (TextView) convertView.findViewById(R.id.mPhone);
+        TextView fName =  convertView.findViewById(R.id.fName);
+        TextView lName =  convertView.findViewById(R.id.lName);
+        TextView dob =  convertView.findViewById(R.id.sDob);
+        TextView sex =  convertView.findViewById(R.id.sex);
+        TextView m_phone =  convertView.findViewById(R.id.mPhone);
         // Populate the data into the template view using the data object
-        fName.setText(client.getFirst_name());
-        lName.setText(client.getLast_name());
-        dob.setText(client.getDate_of_birth());
-        sex.setText(client.getSex());
-        m_phone.setText(client.getMobile_phone_number());
+        if(client!=null) {
+            fName.setText(client.getFirst_name());
+            lName.setText(client.getLast_name());
+            dob.setText(client.getDate_of_birth());
+            sex.setText(client.getSex());
+            m_phone.setText(client.getMobile_phone_number());
+        }
 
 
 
@@ -61,45 +99,5 @@ public class ClientAdapter extends ArrayAdapter<Client> {
 
     }
 
-    private class ClientFilter extends Filter{
-
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            constraint = constraint.toString().toLowerCase();
-            FilterResults result = new FilterResults();
-            if(constraint != null && constraint.toString().length() > 0)
-            {
-                ArrayList<Client> filteredItems = new ArrayList<Client>();
-
-                for(int i = 0, l = originalList.size(); i < l; i++)
-                {
-                    Client client = originalList.get(i);
-                    if(client.toString().toLowerCase().contains(constraint))
-                        filteredItems.add(client);
-                }
-                result.count = filteredItems.size();
-                result.values = filteredItems;
-            }
-            else
-            {
-                synchronized(this)
-                {
-                    result.values = originalList;
-                    result.count = originalList.size();
-                }
-            }
-            return result;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults results) {
-            clientList = (ArrayList<Client>)results.values;
-            notifyDataSetChanged();
-            clear();
-            for(int i = 0, l = clientList.size(); i < l; i++)
-                add(clientList.get(i));
-            notifyDataSetInvalidated();
-        }
-        }
     }
 

@@ -1,36 +1,27 @@
 package org.chreso.edots;
 
 
+import androidx.appcompat.widget.SearchView;
 import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 public class MainActivity extends EdotActivity {
 
     private static final String TAG = "Main";
     private ExecutorService myExecutor;
-    private EditText textBox;
-    private TextView text;
+    private SearchView searchView;
     private ListView list;
-    private Button btnSearchClient;
-
-    ArrayAdapter adapter;
     ClientAdapter clientAdapter;
 
     private DBHandler dbHandler;
@@ -43,33 +34,29 @@ public class MainActivity extends EdotActivity {
 
         dbHandler = new DBHandler(this);
 
-        textBox=(EditText)findViewById(R.id.textBox);
-        text=(TextView)findViewById(R.id.text);
-        list=(ListView)findViewById(R.id.list);
+        searchView = findViewById(R.id.search_bar);
+
+        list=findViewById(R.id.list);
 
         setPrefs(PreferenceManager
                 .getDefaultSharedPreferences(this));
-        //adapter=new ArrayAdapter(this,R.layout.list_item,R.id.text,patient);
+        //adapter=new ArrayAdapter(this,R.layout.list_item,R.id.text,nameList);
         ArrayList<Client> arrayOfClients = dbHandler.getLisOfClientDetailsFromDatabase();
+
         clientAdapter = new ClientAdapter(this,arrayOfClients);
         list.setAdapter(clientAdapter);
 
-        list.setTextFilterEnabled(true);
-
-        textBox.addTextChangedListener(new TextWatcher() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+            public boolean onQueryTextSubmit(String s) {
+                MainActivity.this.clientAdapter.getFilter().filter(s);
+                return false;
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                clientAdapter.getFilter().filter(s);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+            public boolean onQueryTextChange(String s) {
+                MainActivity.this.clientAdapter.getFilter().filter(s);
+                return false;
             }
         });
 
@@ -87,20 +74,9 @@ public class MainActivity extends EdotActivity {
             }
         }
     );
-        btnSearchClient = findViewById(R.id.btnSearchClient);
 
-        btnSearchClient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               openSearchActivity();
-            }
-        });
 }
 
-private void openSearchActivity(){
-    Intent intent = new Intent(this, SearchClient.class);
-    startActivity(intent);
-}
 
     @Override
     public void onResume(){
