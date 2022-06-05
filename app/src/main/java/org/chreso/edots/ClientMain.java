@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class ClientMain extends AppCompatActivity {
 
-    private Button btnDispenseDrugToClient;
+    private Button btnDispenseDrugToClient, btnClientStatus, btnClientFeedback;
     private TextView name ,dob, gender, mobile;
     private String uuid;
     private DBHandler dbHandler;
@@ -53,10 +53,41 @@ public class ClientMain extends AppCompatActivity {
             }
         });
 
+        btnClientStatus = findViewById(R.id.btnClientStatus);
+        btnClientStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openClientStatusActivity();
+            }
+        });
+
+        btnClientFeedback = findViewById(R.id.btnClientFeedback);
+        btnClientFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openClientFeedbackActivity();
+            }
+        });
 
         list=(ListView)findViewById(R.id.dispensationList);
         dbHandler = new DBHandler(this);
         loadClientDispensationHistory(uuid);
+    }
+
+    private void openClientFeedbackActivity() {
+        Bundle b = new Bundle();
+        b.putString("client_uuid", uuid);
+        Intent intent = new Intent(this, ClientFeedbackActivity.class);
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+
+    private void openClientStatusActivity() {
+        Bundle b = new Bundle();
+        b.putString("client_uuid", uuid);
+        Intent intent = new Intent(this, ClientStatusActivity.class);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     @Override

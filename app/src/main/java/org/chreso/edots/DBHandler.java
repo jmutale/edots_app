@@ -24,7 +24,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 15;
+    private static final int DB_VERSION = 16;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -34,6 +34,12 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String MED_DRUG_DISPENSATION_TABLE = "med_drug_dispensation";
 
     private static final String FACILITY_TABLE = "facility";
+
+    private static final String CLIENT_STATUS_TABLE = "client_status";
+
+    private static final String CLIENT_FEEDBACK_TABLE = "client_feedback";
+
+    private static final String EDOT_SURVEY = "edot_survey";
 
     // below variable is for our id column.
     private static final String UUID_COL = "uuid";
@@ -81,6 +87,7 @@ public class DBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(client_table_query);
 
         String dispensation_table_query = "CREATE TABLE "+MED_DRUG_DISPENSATION_TABLE + "("
+                +"dispensation_uuid TEXT,"
                 + "med_drug_uuid TEXT, "
                 + "patient_uuid TEXT, "
                 + "dispensation_date TEXT, "
@@ -101,12 +108,44 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "point TEXT, "
                 + "parent TEXT)";
         sqLiteDatabase.execSQL(facility_table_query);
+
+        String client_status_query = "CREATE TABLE "+ CLIENT_STATUS_TABLE +"("
+                + "client_status_uuid TEXT PRIMARY KEY, "
+                + "reporting_facility TEXT, "
+                + "client_uuid TEXT, "
+                + "status_date TEXT, "
+                + "client_died TEXT, "
+                + "client_died_date TEXT, "
+                + "cause_of_death TEXT, "
+                + "client_transferred_out TEXT, "
+                + "client_transferred_out_date TEXT, "
+                + "facility_transferred_to TEXT)";
+        sqLiteDatabase.execSQL(client_status_query);
+
+        String client_feedback_query = "CREATE TABLE "+ CLIENT_FEEDBACK_TABLE + "("
+                + "client_feedback_uuid TEXT PRIMARY KEY, "
+                + "client_feedback_date TEXT, "
+                + "client_uuid TEXT, "
+                + "client_adverse_reaction TEXT, "
+                + "client_concerns TEXT, "
+                + "advice_given_to_client TEXT)";
+        sqLiteDatabase.execSQL(client_feedback_query);
+
+        String edot_survey_query = "CREATE TABLE "+ EDOT_SURVEY + "("
+                + "edot_survey_uuid TEXT PRIMARY KEY, "
+                + "edot_survey_date TEXT, "
+                + "client_uuid TEXT, "
+                + "is_patient_satisfied_with_edot TEXT, "
+                + "reasons_satisfied_or_not TEXT, "
+                + "would_client_like_to_continue_with_edot TEXT, "
+                + "reasons_client_will_continue_with_edot_or_not TEXT)";
+        sqLiteDatabase.execSQL(edot_survey_query);
     }
 
-    public void saveDispensationToDatabase(String med_drug_uuid , String patient_uuid,String dispensationDate, String dose, String items_per_dose, String frequency, String refill_date, String video_path, String location)
+    public void saveDispensationToDatabase(String dispensation_uuid,String med_drug_uuid , String patient_uuid,String dispensationDate, String dose, String items_per_dose, String frequency, String refill_date, String video_path, String location)
     {
-        String INSERT_SQL  = "INSERT INTO med_drug_dispensation (med_drug_uuid,patient_uuid,dispensation_date,dose,items_per_dose,frequency,refill_date, video_path, location)" +
-                "VALUES ('"+med_drug_uuid+"','"+patient_uuid+"','"+dispensationDate+"','"+dose+"','"+items_per_dose+"','"+frequency+"','"+refill_date+"','"+video_path+"', '"+location+"')";
+        String INSERT_SQL  = "INSERT INTO med_drug_dispensation (dispensation_uuid,med_drug_uuid,patient_uuid,dispensation_date,dose,items_per_dose,frequency,refill_date, video_path, location)" +
+                "VALUES ('"+dispensation_uuid+"','"+med_drug_uuid+"','"+patient_uuid+"','"+dispensationDate+"','"+dose+"','"+items_per_dose+"','"+frequency+"','"+refill_date+"','"+video_path+"', '"+location+"')";
         db.execSQL(INSERT_SQL);
 
     }
@@ -178,11 +217,11 @@ public class DBHandler extends SQLiteOpenHelper {
         if (c.moveToFirst()){
             do {
 
-                String dispDateRaw = c.getString(2);
-                String refillDateRaw = c.getString(6);
+                String dispDateRaw = c.getString(3);
+                String refillDateRaw = c.getString(7);
                 dispensationDate = Date.valueOf(dispDateRaw);
                 refillDate = Date.valueOf(refillDateRaw);
-                ClientDispensation client = new ClientDispensation(c.getString(0), c.getString(1),dispensationDate, c.getString(3), c.getString(4), c.getString(5), refillDate, c.getString(7));
+                ClientDispensation client = new ClientDispensation(c.getString(0), c.getString(1), c.getString(2),dispensationDate, c.getString(4), c.getString(5), c.getString(6), refillDate, c.getString(8));
 
                 clientDispensations.add(client);
             } while(c.moveToNext());
@@ -200,9 +239,9 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 Date dispensationDate = null;
                 Date refillDate = null;
-                dispensationDate = Date.valueOf(c.getString(2));
-                refillDate = Date.valueOf(c.getString(6));
-                ClientDispensation client = new ClientDispensation(c.getString(0), c.getString(1),dispensationDate, c.getString(3), c.getString(4), c.getString(5), refillDate, c.getString(7));
+                dispensationDate = Date.valueOf(c.getString(3));
+                refillDate = Date.valueOf(c.getString(7));
+                ClientDispensation client = new ClientDispensation(c.getString(0),c.getString(1), c.getString(2),dispensationDate, c.getString(4), c.getString(5), c.getString(6), refillDate, c.getString(8));
 
                 clientDispensations.add(client);
             } while(c.moveToNext());

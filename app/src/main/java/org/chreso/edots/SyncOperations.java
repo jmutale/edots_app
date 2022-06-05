@@ -152,6 +152,7 @@ public class SyncOperations {
 
     private ClientDispensationEvent setValuesForClientDispensationEvent(ClientDispensation cd) {
         ClientDispensationEvent cde = new ClientDispensationEvent();
+        cde.setDispensation_uuid(cd.getDispensation_uuid());
         cde.setClient_uuid(cd.getClient_uuid());
         cde.setDispensation_date(cd.getDispensation_date());
         cde.setMed_drug_uuid(cd.getMed_drug_uuid());

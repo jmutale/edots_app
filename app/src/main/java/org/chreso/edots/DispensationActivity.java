@@ -120,7 +120,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
 
                 Calendar cal = Calendar.getInstance();
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-dd");
+                DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
                 LocalDate now = LocalDate.parse(getDispensationDate(),formatter);
 
                 cal.set(now.getYear(), now.getMonthValue()-1, now.getDayOfMonth());
@@ -211,7 +211,8 @@ public class DispensationActivity extends AppCompatActivity implements Validator
         dispensation_date = getDispensationDate();
         String refillDate = getRefillDateString();
         String location = getConfiguredLocation();
-        dbHandler.saveDispensationToDatabase(meddrug_uuid,client_uuid,dispensation_date,txtDose.getText().toString(),txtItemsPerDose.getText().toString(),spnFrequency.getSelectedItem().toString(), refillDate, String.valueOf(video_path), location);
+        String dispensation_uuid = Utils.getNewUuid();
+        dbHandler.saveDispensationToDatabase(dispensation_uuid,meddrug_uuid,client_uuid,dispensation_date,txtDose.getText().toString(),txtItemsPerDose.getText().toString(),spnFrequency.getSelectedItem().toString(), refillDate, String.valueOf(video_path), location);
     }
 
     private String getConfiguredLocation() {

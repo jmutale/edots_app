@@ -5,10 +5,19 @@ import android.content.Context;
 import java.sql.Date;
 
 public class ClientDispensation {
+    private String dispensation_uuid;
     private String med_drug_uuid;
     private DBHandler dbHandler;
+    private String client_uuid;
+    private Date dispensation_date;
+    private String dose;
+    private String items_per_dose;
+    private String frequency;
+    private Date refill_date;
+    private String video_path;
 
-    public ClientDispensation(String med_drug_uuid, String client_uuid, Date dispensation_date, String dose, String items_per_dose, String frequency, Date refill_date, String video_path) {
+    public ClientDispensation(String dispensation_uuid, String med_drug_uuid, String client_uuid, Date dispensation_date, String dose, String items_per_dose, String frequency, Date refill_date, String video_path) {
+        this.dispensation_uuid = dispensation_uuid;
         this.med_drug_uuid = med_drug_uuid;
         this.client_uuid = client_uuid;
         this.dispensation_date = dispensation_date;
@@ -19,14 +28,15 @@ public class ClientDispensation {
         this.video_path = video_path;
     }
 
-    private String client_uuid;
-    private Date dispensation_date;
-    private String dose;
-    private String items_per_dose;
-    private String frequency;
 
-    private Date refill_date;
-    private String video_path;
+    public String getDispensation_uuid() {
+        return dispensation_uuid;
+    }
+
+    public void setDispensation_uuid(String dispensation_uuid) {
+        this.dispensation_uuid = dispensation_uuid;
+    }
+
 
     public String getMed_drug_uuid() {
         return med_drug_uuid;

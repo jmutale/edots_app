@@ -4,6 +4,8 @@ import java.io.File;
 import java.sql.Date;
 
 public class ClientDispensationEvent {
+
+    private String dispensation_uuid;
     private String med_drug_uuid;
     private String client_uuid;
     private String dispensation_date;
@@ -12,6 +14,18 @@ public class ClientDispensationEvent {
     private String frequency;
     private String refill_date;
     private String video;
+
+    public String getDispensation_uuid() {
+        return dispensation_uuid;
+    }
+
+    public void setDispensation_uuid(String dispensation_uuid) {
+        this.dispensation_uuid = dispensation_uuid;
+    }
+
+    public void setDispensation_date(String dispensation_date) {
+        this.dispensation_date = dispensation_date;
+    }
 
     public String getMed_drug_uuid() {
         return med_drug_uuid;
