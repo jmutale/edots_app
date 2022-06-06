@@ -7,12 +7,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.text.Editable;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -24,7 +22,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 16;
+    private static final int DB_VERSION = 17;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -39,7 +37,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     private static final String CLIENT_FEEDBACK_TABLE = "client_feedback";
 
-    private static final String EDOT_SURVEY = "edot_survey";
+    private static final String EDOT_SURVEY_TABLE = "edot_survey";
 
     // below variable is for our id column.
     private static final String UUID_COL = "uuid";
@@ -131,7 +129,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "advice_given_to_client TEXT)";
         sqLiteDatabase.execSQL(client_feedback_query);
 
-        String edot_survey_query = "CREATE TABLE "+ EDOT_SURVEY + "("
+        String edot_survey_query = "CREATE TABLE "+ EDOT_SURVEY_TABLE + "("
                 + "edot_survey_uuid TEXT PRIMARY KEY, "
                 + "edot_survey_date TEXT, "
                 + "client_uuid TEXT, "
@@ -148,6 +146,18 @@ public class DBHandler extends SQLiteOpenHelper {
                 "VALUES ('"+dispensation_uuid+"','"+med_drug_uuid+"','"+patient_uuid+"','"+dispensationDate+"','"+dose+"','"+items_per_dose+"','"+frequency+"','"+refill_date+"','"+video_path+"', '"+location+"')";
         db.execSQL(INSERT_SQL);
 
+    }
+
+    public void saveClientStatusToDatabase(String client_status_uuid, String reporting_facility, String  client_uuid, String status_date, String client_died, String client_died_date, String cause_of_death, String client_transferred_out, String client_transferred_out_date, String facility_transferred_to){
+        String INSERT_SQL = "INSERT INTO client_status(client_status_uuid,reporting_facility,client_uuid,status_date,client_died,client_died_date,cause_of_death,client_transferred_out,client_transferred_out_date,facility_transferred_to)"+
+                "VALUES ('"+client_status_uuid+"','"+reporting_facility+"','"+client_uuid+"','"+status_date+"','"+client_died+"','"+client_died_date+"','"+cause_of_death+"','"+client_transferred_out+"','"+client_transferred_out_date+"','"+facility_transferred_to+"')";
+        db.execSQL(INSERT_SQL);
+    }
+
+    public void saveClientFeedbackToDatabase(String client_feedback_uuid, String client_feedback_date, String client_uuid, String client_adverse_reaction, String client_concerns, String advice_given_to_client){
+        String INSERT_SQL = "INSERT INTO client_feedback(client_feedback_uuid, client_feedback_date, client_uuid, client_adverse_reaction,client_concerns,advice_given_to_client)"+
+                "VALUES ('"+client_feedback_uuid+"','"+client_feedback_date+"', '"+client_uuid+"', '"+client_adverse_reaction+"','"+client_concerns+"','"+advice_given_to_client+"')";
+        db.execSQL(INSERT_SQL);
     }
 
     public void addNewMedDrug(String uuid, String genericName, String brandName, String formulation, String genericIngredients, String genericStrength){
@@ -251,23 +261,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
 
-    public List<String> getListOfClientFromDatabase(){
-        List<String> clients = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT first_name FROM client ", null);
-        if (c.moveToFirst()){
-            do {
-                // Passing values
-                String column1 = c.getString(0);
 
-
-                // Do something Here with values
-                clients.add(column1);
-            } while(c.moveToNext());
-        }
-        c.close();
-        return clients;
-    }
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         // this method is called to check if the table exists already.
@@ -275,6 +269,9 @@ public class DBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MED_DRUG_DISPENSATION_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FACILITY_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_FEEDBACK_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_STATUS_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + EDOT_SURVEY_TABLE);
         onCreate(sqLiteDatabase);
     }
 
