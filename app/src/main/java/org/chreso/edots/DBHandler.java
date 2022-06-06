@@ -160,6 +160,12 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(INSERT_SQL);
     }
 
+    public void saveEDOTSurveyToDatabase(String edot_survey_uuid, String edot_survey_date, String client_uuid, String is_patient_satisfied_with_edot, String reasons_satisfied_or_not, String would_client_like_to_continue_with_edot, String reasons_client_will_continue_with_edot_or_not){
+        String INSERT_SQL = "INSERT INTO edot_survey(edot_survey_uuid,edot_survey_date,client_uuid,is_patient_satisfied_with_edot,reasons_satisfied_or_not,would_client_like_to_continue_with_edot,reasons_client_will_continue_with_edot_or_not)"+
+                "VALUES ('"+edot_survey_uuid+"','"+edot_survey_date+"', '"+client_uuid+"', '"+is_patient_satisfied_with_edot+"', '"+reasons_satisfied_or_not+"', '"+would_client_like_to_continue_with_edot+"','"+reasons_client_will_continue_with_edot_or_not+"')";
+        db.execSQL(INSERT_SQL);
+    }
+
     public void addNewMedDrug(String uuid, String genericName, String brandName, String formulation, String genericIngredients, String genericStrength){
 
 
