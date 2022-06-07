@@ -266,6 +266,58 @@ public class DBHandler extends SQLiteOpenHelper {
         return clientDispensations;
     }
 
+    public ArrayList<ClientStatus> getListOfClientStatusFromDatabase(){
+        ArrayList<ClientStatus> clientStatuses= new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM client_status ", null);
+        if (c.moveToFirst()) {
+            do {
+                Date statusDate = null;
+                Date clientDiedDate = null;
+                Date clientTransOutDate = null;
+                statusDate = Date.valueOf(c.getString(3));
+                clientDiedDate = Date.valueOf(c.getString(5));
+                clientTransOutDate = Date.valueOf(c.getString(8));
+                ClientStatus cs = new ClientStatus(c.getString(0),c.getString(1),c.getString(2),statusDate,c.getString(4),clientDiedDate,c.getString(6),c.getString(7),clientTransOutDate,c.getString(9));
+                clientStatuses.add(cs);
+            } while(c.moveToNext());
+        }
+        c.close();
+        return clientStatuses;
+    }
+
+    public ArrayList<ClientFeedback> getListOfClientFeedbackEntriesFromDatabase(){
+        ArrayList<ClientFeedback> clientFeedbackEntries= new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM client_status ", null);
+        if (c.moveToFirst()) {
+            do {
+                Date clientFeedbackDate = null;
+                clientFeedbackDate = Date.valueOf(c.getString(1));
+                ClientFeedback cf = new ClientFeedback(c.getString(0),clientFeedbackDate,c.getString(2),c.getString(3),c.getString(4),c.getString(5));
+                clientFeedbackEntries.add(cf);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return clientFeedbackEntries;
+    }
+
+    public ArrayList<ClientEDOTSurvey> getListOfClientSurveyRecords(){
+        ArrayList<ClientEDOTSurvey> clientSurveyRecords= new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM client_status ", null);
+        if (c.moveToFirst()) {
+            do {
+                Date clientSurveyDate = null;
+                clientSurveyDate = Date.valueOf(c.getString(1));
+                ClientEDOTSurvey ces = new ClientEDOTSurvey(c.getString(0),clientSurveyDate,c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6));
+                clientSurveyRecords.add(ces);
+            }while (c.moveToNext());
+
+            }
+        c.close();
+        return clientSurveyRecords;
+    }
 
 
     @Override

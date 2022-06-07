@@ -44,6 +44,48 @@ public class SyncOperations {
             syncFacilityData();
             syncClientData();
             syncDrugDispensations();
+            syncClientStatusData();
+    }
+
+    private void syncClientStatusData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(PreferenceManager
+                        .getDefaultSharedPreferences(myContext).getString("server",null))
+                .build();
+
+        ApiInterface api = retrofit.create(ApiInterface.class);
+        ArrayList<ClientStatus> listOfClientStatuses = dbHandler.getListOfClientStatusFromDatabase();
+        for(ClientStatus cs: listOfClientStatuses){
+            ClientStatusEvent cse = setValuesForClientStatusEvent(cs);
+            Call<ClientStatusEvent> call = api.postClientStatus(cse, "Token "+getAuthToken());
+            call.enqueue(new Callback<ClientStatusEvent>() {
+                @Override
+                public void onResponse(Call<ClientStatusEvent> call, Response<ClientStatusEvent> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<ClientStatusEvent> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
+    private ClientStatusEvent setValuesForClientStatusEvent(ClientStatus cs) {
+        ClientStatusEvent cse = new ClientStatusEvent();
+        cse.setClient_status_uuid(cs.getClient_status_uuid());
+        cse.setReporting_facility(cs.getReporting_facility());
+        cse.setClient_uuid(cs.getClient_uuid());
+        cse.setStatus_date(cs.getStatus_date());
+        cse.setClient_died(cs.getClient_died());
+        cse.setClient_died_date(cs.getClient_died_date());
+        cse.setCause_of_death(cs.getCause_of_death());
+        cse.setClient_transferred_out(cs.getClient_transferred_out());
+        cse.setClient_transferred_out_date(cs.getClient_transferred_out_date());
+        cse.setFacility_transferred_to(cs.getFacility_transferred_to());
+        return cse;
 
     }
 

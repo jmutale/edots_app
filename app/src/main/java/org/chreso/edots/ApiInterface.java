@@ -23,6 +23,15 @@ public interface ApiInterface {
     @POST("/dispensations/")
     Call<ClientDispensationEvent> postDispensationData(@Body ClientDispensationEvent cd, @Header("Authorization") String authHeader);
 
+    @POST("/client-status/")
+    Call<ClientStatusEvent> postClientStatus(@Body ClientStatusEvent cse, @Header("Authorization") String authHeader);
+
+    @POST("/client-feedback/")
+    Call<ClientFeedbackEvent> postClientFeedbackEvent(@Body ClientFeedbackEvent cfe, @Header("Authorization") String authHeader);
+
+    @POST("/edot-survey/")
+    Call<ClientEDOTSurveyEvent> postClientEDOTSurveyEvent(@Body ClientEDOTSurveyEvent cese, @Header("Authorization") String authHeader );
+
     @GET("/locations/")
     Call<List<Location>> getLocations(@Header("Authorization") String authHeader);
 
