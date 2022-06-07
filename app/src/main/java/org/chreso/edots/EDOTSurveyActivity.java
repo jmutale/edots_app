@@ -3,8 +3,10 @@ package org.chreso.edots;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -33,6 +35,10 @@ public class EDOTSurveyActivity extends EdotActivity implements Validator.Valida
     @NotEmpty
     private EditText editTextReasonsClientWouldLikeToContinueWithEDOTOrNot;
 
+    private Button btnSubmitEDOTSurvey;
+
+    private Validator validator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +47,21 @@ public class EDOTSurveyActivity extends EdotActivity implements Validator.Valida
         Bundle bundle = getIntent().getExtras();
         client_uuid = bundle.getString("client_uuid");
 
+        validator = new Validator(this);
+        validator.setValidationListener(this);
+
         dteEDOTSurveyDate = findViewById(R.id.dteEDOTSurveyDate);
         rdgrpClientSatisfiedWithEDOT = findViewById(R.id.rdgrpClientSatisfiedWithEDOT);
         editTextReasonsClientSatisfiedOrNot = findViewById(R.id.editTextReasonsClientSatisfiedOrNot);
         rdgrpWouldClientLikeToContinueWithEDOT = findViewById(R.id.rdgrpWouldClientLikeToContinueWithEDOT);
         editTextReasonsClientWouldLikeToContinueWithEDOTOrNot = findViewById(R.id.editTextReasonsClientWouldLikeToContinueWithEDOTOrNot);
+        btnSubmitEDOTSurvey = findViewById(R.id.btnSubmitSurvey);
+        btnSubmitEDOTSurvey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                validator.validate();
+            }
+        });
 
         dbHandler = new DBHandler(this);
     }
@@ -64,6 +80,12 @@ public class EDOTSurveyActivity extends EdotActivity implements Validator.Valida
                 .setTitle("Success")
                 .setMessage("Survey successfully saved.")
                 .setCancelable(true)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        })
                 ;
         builder.create();
         builder.show();

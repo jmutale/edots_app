@@ -13,6 +13,7 @@ import androidx.preference.PreferenceManager;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -120,7 +121,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
 
                 Calendar cal = Calendar.getInstance();
 
-                DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
                 LocalDate now = LocalDate.parse(getDispensationDate(),formatter);
 
                 cal.set(now.getYear(), now.getMonthValue()-1, now.getDayOfMonth());
@@ -278,6 +279,12 @@ public class DispensationActivity extends AppCompatActivity implements Validator
                 .setTitle("Success")
                 .setMessage("Dispensation successfully saved.")
                 .setCancelable(true)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        })
                 ;
         builder.create();
         builder.show();

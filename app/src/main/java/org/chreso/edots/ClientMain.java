@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class ClientMain extends AppCompatActivity {
 
-    private Button btnDispenseDrugToClient, btnClientStatus, btnClientFeedback;
+    private Button btnDispenseDrugToClient, btnClientStatus, btnClientFeedback, btnEDOTSurvey;
     private TextView name ,dob, gender, mobile;
     private String uuid;
     private DBHandler dbHandler;
@@ -61,6 +61,14 @@ public class ClientMain extends AppCompatActivity {
             }
         });
 
+        btnEDOTSurvey = findViewById(R.id.btnEdotSurvey);
+        btnEDOTSurvey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openEDOTSurveyActivity();
+            }
+        });
+
         btnClientFeedback = findViewById(R.id.btnClientFeedback);
         btnClientFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +80,14 @@ public class ClientMain extends AppCompatActivity {
         list=(ListView)findViewById(R.id.dispensationList);
         dbHandler = new DBHandler(this);
         loadClientDispensationHistory(uuid);
+    }
+
+    private void openEDOTSurveyActivity() {
+        Bundle b = new Bundle();
+        b.putString("client_uuid", uuid);
+        Intent intent = new Intent(this, EDOTSurveyActivity.class);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     private void openClientFeedbackActivity() {

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -66,6 +67,12 @@ public class ClientFeedbackActivity extends EdotActivity implements Validator.Va
                 .setTitle("Success")
                 .setMessage("Feedback successfully saved.")
                 .setCancelable(true)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        })
                 ;
         builder.create();
         builder.show();

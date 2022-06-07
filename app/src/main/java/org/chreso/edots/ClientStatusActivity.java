@@ -3,6 +3,7 @@ package org.chreso.edots;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,9 +11,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Future;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.util.List;
 
@@ -54,31 +59,48 @@ public class ClientStatusActivity extends EdotActivity implements Validator.Vali
         btnSubmitStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validator.validate();
+                saveClientStatusToDatabase();
             }
         });
     }
 
     @Override
     public void onValidationSucceeded() {
-        String statusDate = getStatusDate();
-        String reportingFacility = "";
-        String clientDied =
-                ((RadioButton)findViewById(rgClientDied.getCheckedRadioButtonId()))
-                        .getText().toString();
-        String clientDiedDate = getClientDeathDate();
-        String causeOfDeath = ((RadioButton)findViewById(rgCauseOfDeath.getCheckedRadioButtonId()))
-                .getText().toString();
-        String transOut = ((RadioButton)findViewById(rgTransOut.getCheckedRadioButtonId()))
-                .getText().toString();
-        String clientTransOutDate = getClientTransOutDate();
-        String facilityTransferredTo = editTextFacilityTransferredTo.getText().toString();
-        dbHandler.saveClientStatusToDatabase(Utils.getNewUuid(),reportingFacility,client_uuid,statusDate,clientDied,clientDiedDate,causeOfDeath,transOut,clientTransOutDate,facilityTransferredTo);
+        saveClientStatusToDatabase();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle("Success")
                 .setMessage("Status successfully saved.")
                 .setCancelable(true)
+                ;
+        builder.create();
+        builder.show();
+    }
+
+    private void saveClientStatusToDatabase() {
+        String statusDate = getStatusDate();
+        String reportingFacility = "";
+        String clientDied =
+                ((RadioButton)findViewById(rgClientDied.getCheckedRadioButtonId())) == null?"":
+                        ((RadioButton)findViewById(rgClientDied.getCheckedRadioButtonId())).getText().toString();
+        String clientDiedDate = clientDied==""?"":getClientDeathDate();
+        String causeOfDeath = ((RadioButton)findViewById(rgCauseOfDeath.getCheckedRadioButtonId())) == null?"":
+                ((RadioButton)findViewById(rgCauseOfDeath.getCheckedRadioButtonId())).getText().toString();
+        String transOut = ((RadioButton)findViewById(rgTransOut.getCheckedRadioButtonId())) == null?"":
+                ((RadioButton)findViewById(rgTransOut.getCheckedRadioButtonId())).getText().toString();
+        String clientTransOutDate = transOut == ""?"":getClientTransOutDate();
+        String facilityTransferredTo = editTextFacilityTransferredTo.getText().toString();
+        dbHandler.saveClientStatusToDatabase(Utils.getNewUuid(),reportingFacility,client_uuid,statusDate,clientDied,clientDiedDate,causeOfDeath,transOut,clientTransOutDate,facilityTransferredTo);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("Success")
+                .setMessage("Status successfully saved.")
+                .setCancelable(true)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
                 ;
         builder.create();
         builder.show();
@@ -111,6 +133,8 @@ public class ClientStatusActivity extends EdotActivity implements Validator.Vali
             // Display error messages
             if (view instanceof EditText) {
                 ((EditText) view).setError(message);
+            }else if (view instanceof DatePicker) {
+                ((TextView) ((DatePicker) view).getParent()).setError(message);
             }
         }
     }
