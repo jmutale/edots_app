@@ -1,10 +1,8 @@
 package org.chreso.edots;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.preference.PreferenceManager;
@@ -14,14 +12,16 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,11 +40,100 @@ public class SyncOperations {
     }
 
     public void startDataSync(){
+        try {
             syncMedDrugs();
             syncFacilityData();
             syncClientData();
             syncDrugDispensations();
             syncClientStatusData();
+            syncClientFeedbackData();
+            syncClientEDOTSurvey();
+        }catch(Exception e){
+            Toast.makeText(myContext,e.getMessage(),Toast.LENGTH_LONG);
+        }
+    }
+
+    private void syncClientEDOTSurvey() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(PreferenceManager
+                        .getDefaultSharedPreferences(myContext).getString("server",null))
+                .build();
+
+        ApiInterface api = retrofit.create(ApiInterface.class);
+        ArrayList<ClientEDOTSurvey> listOfClientEDOTSurveyRecords = dbHandler.getListOfClientSurveyRecords();
+        for(ClientEDOTSurvey ces: listOfClientEDOTSurveyRecords){
+            ClientEDOTSurveyEvent cese = setValuesForClientEDOTSurveyEvent(ces);
+            Call<ClientEDOTSurveyEvent> call = api.postClientEDOTSurvey(cese, "Token "+getAuthToken());
+            call.enqueue(new Callback<ClientEDOTSurveyEvent>() {
+
+                @Override
+                public void onResponse(Call<ClientEDOTSurveyEvent> call, Response<ClientEDOTSurveyEvent> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<ClientEDOTSurveyEvent> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
+    private ClientEDOTSurveyEvent setValuesForClientEDOTSurveyEvent(ClientEDOTSurvey ces) {
+        ClientEDOTSurveyEvent cese = new ClientEDOTSurveyEvent();
+        cese.setEdot_survey_uuid(ces.getEdot_survey_uuid());
+        cese.setEdot_survey_date(ces.getEdot_survey_date());
+        cese.setClient_uuid(ces.getClient_uuid());
+        cese.setIs_patient_satisfied_with_edot(ces.getIs_patient_satisfied_with_edot().toLowerCase());
+        cese.setReasons_satisfied_or_not(ces.getReasons_satisfied_or_not());
+        cese.setWould_client_like_to_continue_with_edot(ces.getWould_client_like_to_continue_with_edot().toLowerCase());
+        cese.setReasons_client_will_continue_with_edot_or_not(ces.getReasons_client_will_continue_with_edot_or_not());
+        return cese;
+    }
+
+    private void syncClientFeedbackData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(PreferenceManager
+                        .getDefaultSharedPreferences(myContext).getString("server",null))
+                .build();
+
+        ApiInterface api = retrofit.create(ApiInterface.class);
+        ArrayList<ClientFeedback> listOfClientFeedbackEntries = null;
+        try {
+            listOfClientFeedbackEntries = dbHandler.getListOfClientFeedbackEntriesFromDatabase();
+        }catch(Exception e){
+            Toast.makeText(myContext,"CLIENT FEEDBACK SYNC: "+e.getMessage(),Toast.LENGTH_LONG).show();
+
+        }
+        for(ClientFeedback cf : listOfClientFeedbackEntries){
+            ClientFeedbackEvent cfe = setValuesForClientFeedbackEvent(cf);
+            Call<ClientFeedbackEvent> call = api.postClientFeedback(cfe, "Token "+getAuthToken());
+            call.enqueue(new Callback<ClientFeedbackEvent>() {
+
+                @Override
+                public void onResponse(Call<ClientFeedbackEvent> call, Response<ClientFeedbackEvent> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<ClientFeedbackEvent> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
+    private ClientFeedbackEvent setValuesForClientFeedbackEvent(ClientFeedback cf) {
+        ClientFeedbackEvent cfe = new ClientFeedbackEvent();
+        cfe.setClient_feedback_uuid(cf.getClient_feedback_uuid());
+        cfe.setClient_feedback_date(cf.getClient_feedback_date());
+        cfe.setClient_uuid(cf.getClient_uuid());
+        cfe.setClient_adverse_reaction(cf.getClient_adverse_reaction());
+        cfe.setClient_concerns(cf.getClient_concerns());
+        cfe.setAdvice_given_to_client(cf.getAdvice_given_to_client());
+        return cfe;
     }
 
     private void syncClientStatusData() {
@@ -55,19 +144,24 @@ public class SyncOperations {
                 .build();
 
         ApiInterface api = retrofit.create(ApiInterface.class);
-        ArrayList<ClientStatus> listOfClientStatuses = dbHandler.getListOfClientStatusFromDatabase();
+        ArrayList<ClientStatus> listOfClientStatuses = null;
+        try {
+            listOfClientStatuses = dbHandler.getListOfClientStatusFromDatabase();
+        }catch (Exception e){
+            Toast.makeText(myContext, "SYNC CLIENT STATUS DATA: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
         for(ClientStatus cs: listOfClientStatuses){
             ClientStatusEvent cse = setValuesForClientStatusEvent(cs);
             Call<ClientStatusEvent> call = api.postClientStatus(cse, "Token "+getAuthToken());
             call.enqueue(new Callback<ClientStatusEvent>() {
                 @Override
                 public void onResponse(Call<ClientStatusEvent> call, Response<ClientStatusEvent> response) {
-
+                    Toast.makeText(myContext, "Syncing client status: "+response.body().getClient_uuid(), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onFailure(Call<ClientStatusEvent> call, Throwable t) {
-
+                    Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -79,10 +173,12 @@ public class SyncOperations {
         cse.setReporting_facility(cs.getReporting_facility());
         cse.setClient_uuid(cs.getClient_uuid());
         cse.setStatus_date(cs.getStatus_date());
-        cse.setClient_died(cs.getClient_died());
+        cse.setClient_died(cs.getClient_died().toLowerCase());
         cse.setClient_died_date(cs.getClient_died_date());
         cse.setCause_of_death(cs.getCause_of_death());
-        cse.setClient_transferred_out(cs.getClient_transferred_out());
+        cse.setClient_refuses_to_continue_treatment(cs.getClient_refuses_to_continue_treatment().toLowerCase());
+        cse.setClient_is_lost_to_follow_up(cs.getClient_is_lost_to_follow_up().toLowerCase());
+        cse.setClient_transferred_out(cs.getClient_transferred_out().toLowerCase());
         cse.setClient_transferred_out_date(cs.getClient_transferred_out_date());
         cse.setFacility_transferred_to(cs.getFacility_transferred_to());
         return cse;
@@ -104,9 +200,13 @@ public class SyncOperations {
 
             @Override
             public void onResponse(Call<List<Location>> call, Response<List<Location>> response) {
-                for(Location l : response.body()) {
-                    dbHandler.addNewLocation(l.getUuid(),l.getName(), l.getCode(),l.getSupported(),l.getType(),l.getPoint(),l.getParent());
-                    Toast.makeText(myContext, "Syncing location: "+l.getName(), Toast.LENGTH_SHORT).show();
+                if(response.body()==null){
+                    Toast.makeText(myContext,"Facility or Location data has not been created on the server.", Toast.LENGTH_LONG).show();
+                }else {
+                    for (Location l : response.body()) {
+                        dbHandler.addNewLocation(l.getUuid(), l.getName(), l.getCode(), l.getSupported(), l.getType(), l.getPoint(), l.getParent());
+                        Toast.makeText(myContext, "Syncing location: " + l.getName(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -135,7 +235,7 @@ public class SyncOperations {
             call.enqueue(new Callback<ClientDispensationEvent>() {
                 @Override
                 public void onResponse(Call<ClientDispensationEvent> call, Response<ClientDispensationEvent> response) {
-                    Toast.makeText(myContext, "Syncing dispensations: "+cd.getMedDrugName(cd.getMed_drug_uuid(),myContext), Toast.LENGTH_LONG).show();
+                    Toast.makeText(myContext, "Syncing dispensations: "+cd.getMedDrugName(response.body().getMed_drug_uuid(),myContext), Toast.LENGTH_LONG).show();
 
                 }
 
@@ -154,7 +254,7 @@ public class SyncOperations {
                 try {
                     Uri uri = Uri.parse(cd.getVideo_path());
                     inStream = myContext.getContentResolver().openInputStream(uri);
-                    fileObject = new File(Environment.getExternalStorageDirectory().getPath()+"/"+cd.getMedDrugName(cd.getMed_drug_uuid(), myContext)+"_"+cd.getClient_uuid()+".mp4");
+                    fileObject = new File(Environment.getExternalStorageDirectory().getPath()+"/"+cd.getMedDrugName(cd.getMed_drug_uuid(), myContext)+"_"+cd.getCleanNrc(cd.getClient_uuid(),myContext)+".mp4");
                     copyInputStreamToFile(inStream,fileObject);
 
                 } catch (FileNotFoundException e) {
@@ -170,9 +270,11 @@ public class SyncOperations {
 
             MultipartBody.Part file = MultipartBody.Part.createFormData("file", fileObject.getName(), requestBody);
             RequestBody name = RequestBody.create(MediaType.parse("text/plain"), fileObject.getName());
+            RequestBody uuid = RequestBody.create(MediaType.parse("text/plain"), Utils.getNewUuid());
+            RequestBody dispensation_uuid = RequestBody.create(MediaType.parse("text/plain"), cd.getDispensation_uuid());
 
 
-            Call <ClientVideoUploadServerResponse> call2 = api.uploadVideo(file, name,"Token "+getAuthToken());
+            Call <ClientVideoUploadServerResponse> call2 = getApiInterface().uploadVideo(uuid,dispensation_uuid,file, name,"Token "+getAuthToken());
 
             call2.enqueue(new Callback<ClientVideoUploadServerResponse>() {
 
@@ -234,24 +336,32 @@ public class SyncOperations {
     }
 
     private void syncMedDrugs() {
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(1000, TimeUnit.SECONDS)
+                .connectTimeout(1000, TimeUnit.SECONDS)
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(PreferenceManager
                         .getDefaultSharedPreferences(myContext).getString("server",null))
+                .client(okHttpClient)
                 .build();
 
         ApiInterface api = retrofit.create(ApiInterface.class);
-        String token = getAuthToken();
-
         Call<List<MedDrug>> call = api.getMedDrugs("Token "+getAuthToken());
 
         call.enqueue(new Callback<List<MedDrug>>() {
             @Override
             public void onResponse(Call<List<MedDrug>> call, Response<List<MedDrug>> response) {
-                for (MedDrug drug: response.body()) {
+                if(response.body()==null){
+                    Toast.makeText(myContext, "Drug dictionary on server is empty.", Toast.LENGTH_LONG).show();
+                }else {
+                    for (MedDrug drug : response.body()) {
 
-                    dbHandler.addNewMedDrug(drug.getUuid(), drug.getGeneric_name(), drug.getBrand_name(), drug.getFormulation(), drug.getGeneric_ingredients(), drug.getGeneric_strength());
-                    Toast.makeText(myContext, "Syncing drug: "+drug.getGeneric_name(), Toast.LENGTH_SHORT).show();
+                        dbHandler.addNewMedDrug(drug.getUuid(), drug.getGeneric_name(), drug.getBrand_name(), drug.getFormulation(), drug.getGeneric_ingredients(), drug.getGeneric_strength());
+                        Toast.makeText(myContext, "Syncing drug: " + drug.getGeneric_name(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -286,5 +396,16 @@ public class SyncOperations {
             }
         }
 
+    }
+    
+    private ApiInterface getApiInterface(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(PreferenceManager
+                        .getDefaultSharedPreferences(myContext).getString("server",null))
+                .build();
+
+        ApiInterface api = retrofit.create(ApiInterface.class);
+        return api;
     }
 }

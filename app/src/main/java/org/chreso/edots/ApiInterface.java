@@ -27,12 +27,12 @@ public interface ApiInterface {
     Call<ClientStatusEvent> postClientStatus(@Body ClientStatusEvent cse, @Header("Authorization") String authHeader);
 
     @POST("/client-feedback/")
-    Call<ClientFeedbackEvent> postClientFeedbackEvent(@Body ClientFeedbackEvent cfe, @Header("Authorization") String authHeader);
+    Call<ClientFeedbackEvent> postClientFeedback(@Body ClientFeedbackEvent cfe, @Header("Authorization") String authHeader);
 
     @POST("/edot-survey/")
-    Call<ClientEDOTSurveyEvent> postClientEDOTSurveyEvent(@Body ClientEDOTSurveyEvent cese, @Header("Authorization") String authHeader );
+    Call<ClientEDOTSurveyEvent> postClientEDOTSurvey(@Body ClientEDOTSurveyEvent cese, @Header("Authorization") String authHeader );
 
-    @GET("/locations/")
+    @GET("/locations")
     Call<List<Location>> getLocations(@Header("Authorization") String authHeader);
 
     @POST("/api-token-auth/")
@@ -40,5 +40,5 @@ public interface ApiInterface {
 
     @Multipart
     @POST("/dispensation-videos/")
-    Call <ClientVideoUploadServerResponse> uploadVideo(@Part MultipartBody.Part file, @Part("file") RequestBody name, @Header("Authorization") String authHeader);
+    Call <ClientVideoUploadServerResponse> uploadVideo(@Part("uuid") RequestBody uuid, @Part("dispensation_uuid") RequestBody dispensation_uuid, @Part MultipartBody.Part file, @Part("file") RequestBody name, @Header("Authorization") String authHeader);
 }

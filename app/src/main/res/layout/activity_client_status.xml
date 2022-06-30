@@ -42,7 +42,7 @@
         android:layout_marginTop="10dp">
         <TextView
             android:id="@+id/txtClientDied"
-            android:layout_width="wrap_content"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Client died"
@@ -74,7 +74,7 @@
             android:layout_marginTop="10dp">
             <TextView
                 android:id="@+id/txtClientDiedDate"
-                android:layout_width="wrap_content"
+                android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Client died date"
@@ -97,7 +97,7 @@
             android:layout_marginTop="10dp">
             <TextView
                 android:id="@+id/txtCauseOfDeath"
-                android:layout_width="wrap_content"
+                android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Cause of death"
@@ -120,6 +120,67 @@
             </RadioGroup>
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:id="@+id/txtClientRefusesToContinueTreatment"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Client refuses to continue treatment"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+            <RadioGroup
+                android:id="@+id/rdgrpClientRefusesToContinueTreatment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/clientRefusesToContinueTreatmentYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"/>
+                <RadioButton
+                    android:id="@+id/clientRefusesToContinueTreatmentNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:id="@+id/txtClientIsLTFU"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Client is Lost to Follow Up"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+            <RadioGroup
+                android:id="@+id/rdgrpClientIsLTFU"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/clientIsLTFUYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"/>
+                <RadioButton
+                    android:id="@+id/clientIsLTFUNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"/>
+            </RadioGroup>
+        </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -129,7 +190,7 @@
         android:layout_marginTop="10dp">
         <TextView
             android:id="@+id/txtClientTransferredOut"
-            android:layout_width="wrap_content"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Client transferred"

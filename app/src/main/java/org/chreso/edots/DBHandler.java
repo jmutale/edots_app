@@ -5,9 +5,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.Editable;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.HashMap;
@@ -22,7 +24,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 17;
+    private static final int DB_VERSION = 18;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -115,6 +117,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "client_died TEXT, "
                 + "client_died_date TEXT, "
                 + "cause_of_death TEXT, "
+                + "client_refuses_to_continue_treatment TEXT,"
+                + "client_is_lost_to_follow_up TEXT,"
                 + "client_transferred_out TEXT, "
                 + "client_transferred_out_date TEXT, "
                 + "facility_transferred_to TEXT)";
@@ -148,9 +152,9 @@ public class DBHandler extends SQLiteOpenHelper {
 
     }
 
-    public void saveClientStatusToDatabase(String client_status_uuid, String reporting_facility, String  client_uuid, String status_date, String client_died, String client_died_date, String cause_of_death, String client_transferred_out, String client_transferred_out_date, String facility_transferred_to){
-        String INSERT_SQL = "INSERT INTO client_status(client_status_uuid,reporting_facility,client_uuid,status_date,client_died,client_died_date,cause_of_death,client_transferred_out,client_transferred_out_date,facility_transferred_to)"+
-                "VALUES ('"+client_status_uuid+"','"+reporting_facility+"','"+client_uuid+"','"+status_date+"','"+client_died+"','"+client_died_date+"','"+cause_of_death+"','"+client_transferred_out+"','"+client_transferred_out_date+"','"+facility_transferred_to+"')";
+    public void saveClientStatusToDatabase(String client_status_uuid, String reporting_facility, String  client_uuid, String status_date, String client_died, String client_died_date, String cause_of_death, String client_refuses_to_continue_treatment, String client_is_LTFU, String client_transferred_out, String client_transferred_out_date, String facility_transferred_to){
+        String INSERT_SQL = "INSERT INTO client_status(client_status_uuid,reporting_facility,client_uuid,status_date,client_died,client_died_date,cause_of_death,clientRefusesToContinueTreatment,clientIsLTFU,client_transferred_out,client_transferred_out_date,facility_transferred_to)"+
+                "VALUES ('"+client_status_uuid+"','"+reporting_facility+"','"+client_uuid+"','"+status_date+"','"+client_died+"','"+client_died_date+"','"+cause_of_death+"','"+client_refuses_to_continue_treatment+"','"+client_is_LTFU+"','"+client_transferred_out+"','"+client_transferred_out_date+"','"+facility_transferred_to+"')";
         db.execSQL(INSERT_SQL);
     }
 
@@ -272,12 +276,16 @@ public class DBHandler extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("SELECT * FROM client_status ", null);
         if (c.moveToFirst()) {
             do {
-                Date statusDate = null;
-                Date clientDiedDate = null;
-                Date clientTransOutDate = null;
-                statusDate = Date.valueOf(c.getString(3));
-                clientDiedDate = Date.valueOf(c.getString(5));
-                clientTransOutDate = Date.valueOf(c.getString(8));
+
+                    Date statusDate = null;
+                    Date clientDiedDate = null;
+                    Date clientTransOutDate = null;
+                    statusDate = (c.getString(3).equals("null")) ? null : Date.valueOf(c.getString(3));
+                    String tempClientDiedDate = c.getString(5);
+                    clientDiedDate = (c.getString(5).equals("null")) ? null : Date.valueOf(c.getString(5));
+                    String tempClientTransOutDate = c.getString(8);
+                    clientTransOutDate = (c.getString(8).equals("null")) ? null : Date.valueOf(c.getString(8));
+
                 ClientStatus cs = new ClientStatus(c.getString(0),c.getString(1),c.getString(2),statusDate,c.getString(4),clientDiedDate,c.getString(6),c.getString(7),clientTransOutDate,c.getString(9));
                 clientStatuses.add(cs);
             } while(c.moveToNext());
@@ -289,10 +297,11 @@ public class DBHandler extends SQLiteOpenHelper {
     public ArrayList<ClientFeedback> getListOfClientFeedbackEntriesFromDatabase(){
         ArrayList<ClientFeedback> clientFeedbackEntries= new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM client_status ", null);
+        Cursor c = db.rawQuery("SELECT * FROM client_feedback ", null);
         if (c.moveToFirst()) {
             do {
                 Date clientFeedbackDate = null;
+                String tempClientFeedbackDate = c.getString(1);
                 clientFeedbackDate = Date.valueOf(c.getString(1));
                 ClientFeedback cf = new ClientFeedback(c.getString(0),clientFeedbackDate,c.getString(2),c.getString(3),c.getString(4),c.getString(5));
                 clientFeedbackEntries.add(cf);
@@ -305,7 +314,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public ArrayList<ClientEDOTSurvey> getListOfClientSurveyRecords(){
         ArrayList<ClientEDOTSurvey> clientSurveyRecords= new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM client_status ", null);
+        Cursor c = db.rawQuery("SELECT * FROM edot_survey ", null);
         if (c.moveToFirst()) {
             do {
                 Date clientSurveyDate = null;

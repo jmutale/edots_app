@@ -50,6 +50,10 @@ public class ClientDispensation {
         return client_uuid;
     }
 
+    public String getCleanNrc(String client_uuid, Context context){
+        return getClientNrcFromUuid(client_uuid, context).replace('/','_');
+    }
+
     public void setClient_uuid(String client_uuid) {
         this.client_uuid = client_uuid;
     }
@@ -109,7 +113,7 @@ public class ClientDispensation {
         return drugName;
     }
 
-    public String getClientNrcFromUuid(String client_uuid, Context context){
+    private String getClientNrcFromUuid(String client_uuid, Context context){
         dbHandler = new DBHandler(context);
         String clientNrc = dbHandler.getNrcFromClientUuid(client_uuid);
         return clientNrc;

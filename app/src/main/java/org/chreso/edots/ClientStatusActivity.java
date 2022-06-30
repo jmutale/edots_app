@@ -32,6 +32,8 @@ public class ClientStatusActivity extends EdotActivity implements Validator.Vali
     private RadioGroup rgClientDied;
     private RadioGroup rgCauseOfDeath;
     private RadioGroup rgTransOut;
+    private RadioGroup rgClientRefusesToContinueTreatment;
+    private RadioGroup rgClientIsLTFU;
     private EditText editTextFacilityTransferredTo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,8 @@ public class ClientStatusActivity extends EdotActivity implements Validator.Vali
 
         rgClientDied = findViewById(R.id.rdgrpClientDied);
         rgCauseOfDeath = findViewById(R.id.rdgrpCauseOfDeath);
+        rgClientRefusesToContinueTreatment = findViewById(R.id.rdgrpClientRefusesToContinueTreatment);
+        rgClientIsLTFU = findViewById(R.id.rdgrpClientIsLTFU);
         rgTransOut = findViewById(R.id.rdgrpClientTransOut);
 
         editTextFacilityTransferredTo = findViewById(R.id.editTextFacilityTransferredTo);
@@ -83,14 +87,18 @@ public class ClientStatusActivity extends EdotActivity implements Validator.Vali
         String clientDied =
                 ((RadioButton)findViewById(rgClientDied.getCheckedRadioButtonId())) == null?"":
                         ((RadioButton)findViewById(rgClientDied.getCheckedRadioButtonId())).getText().toString();
-        String clientDiedDate = clientDied==""?"":getClientDeathDate();
+        String clientDiedDate = clientDied==""?null:getClientDeathDate();
         String causeOfDeath = ((RadioButton)findViewById(rgCauseOfDeath.getCheckedRadioButtonId())) == null?"":
                 ((RadioButton)findViewById(rgCauseOfDeath.getCheckedRadioButtonId())).getText().toString();
+        String clientRefusesTreatment = ((RadioButton)findViewById(rgClientRefusesToContinueTreatment.getCheckedRadioButtonId())) == null?"":
+                ((RadioButton)findViewById(rgClientRefusesToContinueTreatment.getCheckedRadioButtonId())).getText().toString();
+        String clientIsLTFU = ((RadioButton)findViewById(rgClientIsLTFU.getCheckedRadioButtonId())) == null?"":
+                ((RadioButton)findViewById(rgClientIsLTFU.getCheckedRadioButtonId())).getText().toString();
         String transOut = ((RadioButton)findViewById(rgTransOut.getCheckedRadioButtonId())) == null?"":
                 ((RadioButton)findViewById(rgTransOut.getCheckedRadioButtonId())).getText().toString();
-        String clientTransOutDate = transOut == ""?"":getClientTransOutDate();
+        String clientTransOutDate = transOut == ""?null:getClientTransOutDate();
         String facilityTransferredTo = editTextFacilityTransferredTo.getText().toString();
-        dbHandler.saveClientStatusToDatabase(Utils.getNewUuid(),reportingFacility,client_uuid,statusDate,clientDied,clientDiedDate,causeOfDeath,transOut,clientTransOutDate,facilityTransferredTo);
+        dbHandler.saveClientStatusToDatabase(Utils.getNewUuid(),reportingFacility,client_uuid,statusDate,clientDied,clientDiedDate,causeOfDeath,clientRefusesTreatment,clientIsLTFU,transOut,clientTransOutDate,facilityTransferredTo);
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle("Success")
                 .setMessage("Status successfully saved.")

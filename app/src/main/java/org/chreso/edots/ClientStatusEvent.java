@@ -10,9 +10,29 @@ public class ClientStatusEvent {
     private String client_died;
     private String client_died_date;
     private String cause_of_death;
+    private String client_refuses_to_continue_treatment;
+    private String client_is_lost_to_follow_up;
     private String client_transferred_out;
     private String client_transferred_out_date;
     private String facility_transferred_to;
+
+    public String getClient_refuses_to_continue_treatment() {
+        return client_refuses_to_continue_treatment;
+    }
+
+    public void setClient_refuses_to_continue_treatment(String client_refuses_to_continue_treatment) {
+        this.client_refuses_to_continue_treatment = client_refuses_to_continue_treatment;
+    }
+
+    public String getClient_is_lost_to_follow_up() {
+        return client_is_lost_to_follow_up;
+    }
+
+    public void setClient_is_lost_to_follow_up(String client_is_lost_to_follow_up) {
+        this.client_is_lost_to_follow_up = client_is_lost_to_follow_up;
+    }
+
+
 
     public String getClient_status_uuid() {
         return client_status_uuid;
