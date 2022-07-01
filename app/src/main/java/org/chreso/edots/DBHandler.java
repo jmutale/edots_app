@@ -152,9 +152,9 @@ public class DBHandler extends SQLiteOpenHelper {
 
     }
 
-    public void saveClientStatusToDatabase(String client_status_uuid, String reporting_facility, String  client_uuid, String status_date, String client_died, String client_died_date, String cause_of_death, String client_refuses_to_continue_treatment, String client_is_LTFU, String client_transferred_out, String client_transferred_out_date, String facility_transferred_to){
-        String INSERT_SQL = "INSERT INTO client_status(client_status_uuid,reporting_facility,client_uuid,status_date,client_died,client_died_date,cause_of_death,clientRefusesToContinueTreatment,clientIsLTFU,client_transferred_out,client_transferred_out_date,facility_transferred_to)"+
-                "VALUES ('"+client_status_uuid+"','"+reporting_facility+"','"+client_uuid+"','"+status_date+"','"+client_died+"','"+client_died_date+"','"+cause_of_death+"','"+client_refuses_to_continue_treatment+"','"+client_is_LTFU+"','"+client_transferred_out+"','"+client_transferred_out_date+"','"+facility_transferred_to+"')";
+    public void saveClientStatusToDatabase(String client_status_uuid, String reporting_facility, String  client_uuid, String status_date, String client_died, String client_died_date, String cause_of_death, String client_refuses_to_continue_treatment, String client_is_lost_to_follow_up, String client_transferred_out, String client_transferred_out_date, String facility_transferred_to){
+        String INSERT_SQL = "INSERT INTO client_status(client_status_uuid,reporting_facility,client_uuid,status_date,client_died,client_died_date,cause_of_death,client_refuses_to_continue_treatment,client_is_lost_to_follow_up,client_transferred_out,client_transferred_out_date,facility_transferred_to)"+
+                "VALUES ('"+client_status_uuid+"','"+reporting_facility+"','"+client_uuid+"','"+status_date+"','"+client_died+"','"+client_died_date+"','"+cause_of_death+"','"+client_refuses_to_continue_treatment+"','"+client_is_lost_to_follow_up+"','"+client_transferred_out+"','"+client_transferred_out_date+"','"+facility_transferred_to+"')";
         db.execSQL(INSERT_SQL);
     }
 
@@ -281,12 +281,10 @@ public class DBHandler extends SQLiteOpenHelper {
                     Date clientDiedDate = null;
                     Date clientTransOutDate = null;
                     statusDate = (c.getString(3).equals("null")) ? null : Date.valueOf(c.getString(3));
-                    String tempClientDiedDate = c.getString(5);
                     clientDiedDate = (c.getString(5).equals("null")) ? null : Date.valueOf(c.getString(5));
-                    String tempClientTransOutDate = c.getString(8);
-                    clientTransOutDate = (c.getString(8).equals("null")) ? null : Date.valueOf(c.getString(8));
+                    clientTransOutDate = (c.getString(10).equals("null")) ? null : Date.valueOf(c.getString(10));
 
-                ClientStatus cs = new ClientStatus(c.getString(0),c.getString(1),c.getString(2),statusDate,c.getString(4),clientDiedDate,c.getString(6),c.getString(7),clientTransOutDate,c.getString(9));
+                ClientStatus cs = new ClientStatus(c.getString(0),c.getString(1),c.getString(2),statusDate,c.getString(4),clientDiedDate,c.getString(6),c.getString(7),c.getString(9), clientTransOutDate,c.getString(11));
                 clientStatuses.add(cs);
             } while(c.moveToNext());
         }

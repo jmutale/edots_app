@@ -173,13 +173,13 @@ public class SyncOperations {
         cse.setReporting_facility(cs.getReporting_facility());
         cse.setClient_uuid(cs.getClient_uuid());
         cse.setStatus_date(cs.getStatus_date());
-        cse.setClient_died(cs.getClient_died().toLowerCase());
+        cse.setClient_died(cs.getClient_died().equals("")?"":cs.getClient_died().toLowerCase());
         cse.setClient_died_date(cs.getClient_died_date());
         cse.setCause_of_death(cs.getCause_of_death());
-        cse.setClient_refuses_to_continue_treatment(cs.getClient_refuses_to_continue_treatment().toLowerCase());
-        cse.setClient_is_lost_to_follow_up(cs.getClient_is_lost_to_follow_up().toLowerCase());
-        cse.setClient_transferred_out(cs.getClient_transferred_out().toLowerCase());
-        cse.setClient_transferred_out_date(cs.getClient_transferred_out_date());
+        cse.setClient_refuses_to_continue_treatment(cs.getClient_refuses_to_continue_treatment().equals("")?"":cs.getClient_refuses_to_continue_treatment().toLowerCase());
+        cse.setClient_is_lost_to_follow_up(cs.getClient_is_lost_to_follow_up().equals("")?"":cs.getClient_is_lost_to_follow_up().toLowerCase());
+        cse.setClient_transferred_out(cs.getClient_transferred_out()==null?"":cs.getClient_transferred_out().toLowerCase());
+        cse.setClient_transferred_out_date(cs.getClient_transferred_out_date()==null?null:cs.getClient_transferred_out_date());
         cse.setFacility_transferred_to(cs.getFacility_transferred_to());
         return cse;
 

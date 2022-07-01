@@ -34,7 +34,7 @@ public class ClientStatus {
 
 
 
-    public ClientStatus(String client_status_uuid, String reporting_facility, String client_uuid, Date status_date, String client_died, Date client_died_date, String cause_of_death, String client_transferred_out, Date client_transferred_out_date, String facility_transferred_to) {
+    public ClientStatus(String client_status_uuid, String reporting_facility, String client_uuid, Date status_date, String client_died, Date client_died_date, String cause_of_death, String client_refuses_to_continue_treatment, String client_is_lost_to_follow_up, Date client_transferred_out_date, String facility_transferred_to) {
         this.client_status_uuid = client_status_uuid;
         this.reporting_facility = reporting_facility;
         this.client_uuid = client_uuid;
@@ -45,6 +45,8 @@ public class ClientStatus {
         this.client_transferred_out = client_transferred_out;
         this.client_transferred_out_date = client_transferred_out_date;
         this.facility_transferred_to = facility_transferred_to;
+        this.client_refuses_to_continue_treatment = client_refuses_to_continue_treatment;
+        this.client_is_lost_to_follow_up = client_is_lost_to_follow_up;
     }
 
     public String getClient_status_uuid() {
