@@ -2,6 +2,7 @@ package org.chreso.edots;
 
 import java.io.File;
 import java.sql.Date;
+import java.sql.Time;
 
 public class ClientDispensationEvent {
 
@@ -14,6 +15,18 @@ public class ClientDispensationEvent {
     private String frequency;
     private String refill_date;
     private String video;
+    private String next_clinic_appointment_date;
+    private String refill_date_time;
+
+    public String getRefill_date_time() {
+        return refill_date_time;
+    }
+
+    public void setRefill_date_time(Time refill_date_time) {
+        this.refill_date_time = Utils.getFormattedTime(refill_date_time);
+    }
+
+
 
     public String getDispensation_uuid() {
         return dispensation_uuid;
@@ -49,6 +62,14 @@ public class ClientDispensationEvent {
 
     public void setDispensation_date(Date dispensation_date) {
         this.dispensation_date =  Utils.getFormattedDate(dispensation_date);
+    }
+
+    public String getNext_clinic_appointment_date(){
+        return next_clinic_appointment_date;
+    }
+
+    public void setNext_clinic_appointment_date(Date next_clinic_appointment_date){
+        this.next_clinic_appointment_date = Utils.getFormattedDate(next_clinic_appointment_date);
     }
 
     public String getDose() {

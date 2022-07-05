@@ -17,6 +17,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -28,6 +29,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -67,6 +69,8 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     @NotEmpty
     private TextView txtVideoUri;
     private DatePicker dteDispensationDate;
+    private DatePicker dteNextClinicAppointmentDate;
+    private TimePicker refillTimePicker;
 
     ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -86,11 +90,11 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dispensation);
-        ActionBar actionBar = getSupportActionBar();
+        /**ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(R.string.pharmacy_title_text);
-        }
+        }**/
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
@@ -105,7 +109,10 @@ public class DispensationActivity extends AppCompatActivity implements Validator
 
         dteDispensationDate = findViewById(R.id.dteDispensationDate);
         dteRefillDate = findViewById(R.id.editRefillDate);
+        refillTimePicker = findViewById(R.id.timePickerRefill);
+        dteNextClinicAppointmentDate = findViewById(R.id.editNextClinicAppointmentDate);
         setRefillDateToCurrentDate();
+        
 
         Bundle bundle = getIntent().getExtras();
         client_uuid = bundle.getString("client_uuid");
@@ -122,7 +129,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
                 Calendar cal = Calendar.getInstance();
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
-                LocalDate now = LocalDate.parse(getDispensationDate(),formatter);
+                LocalDate now = LocalDate.parse(Utils.getDateFromDatePicker(dteDispensationDate),formatter);
 
                 cal.set(now.getYear(), now.getMonthValue()-1, now.getDayOfMonth());
                 String dose = txtDose.getText().toString();
@@ -209,12 +216,26 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     private void saveDispensationToDatabase() {
         genericName = spnDrugsFromDatabase.getSelectedItem().toString();
         meddrug_uuid = getUuidFromGenericName(genericName);
-        dispensation_date = getDispensationDate();
-        String refillDate = getRefillDateString();
+        dispensation_date = Utils.getDateFromDatePicker(dteDispensationDate);
+        String refillDate = Utils.getDateFromDatePicker(dteRefillDate);
+        String refillTime = getRefillTime();
         String location = getConfiguredLocation();
         String dispensation_uuid = Utils.getNewUuid();
-        dbHandler.saveDispensationToDatabase(dispensation_uuid,meddrug_uuid,client_uuid,dispensation_date,txtDose.getText().toString(),txtItemsPerDose.getText().toString(),spnFrequency.getSelectedItem().toString(), refillDate, String.valueOf(video_path), location);
+        String nextClinicAppointmentDate = Utils.getDateFromDatePicker(dteNextClinicAppointmentDate);
+        dbHandler.saveDispensationToDatabase(dispensation_uuid,meddrug_uuid,client_uuid,dispensation_date,txtDose.getText().toString(),txtItemsPerDose.getText().toString(),spnFrequency.getSelectedItem().toString(), refillDate, String.valueOf(video_path), location, nextClinicAppointmentDate, refillTime);
     }
+
+    private String getRefillTime() {
+        int hour, minute;
+
+        hour = refillTimePicker.getHour();
+        minute = refillTimePicker.getMinute();
+
+
+
+        return hour +":"+ minute+":00";
+    }
+
 
     private String getConfiguredLocation() {
         String location= PreferenceManager
@@ -222,25 +243,8 @@ public class DispensationActivity extends AppCompatActivity implements Validator
         return location;
     }
 
-    @NonNull
-    private String getRefillDateString() {
-        int day  = dteRefillDate.getDayOfMonth();
-        int month = dteRefillDate.getMonth()+1;
-        int year = dteRefillDate.getYear();
 
-        String refillDate = year + "-"+ month + "-" +day;
-        return refillDate;
-    }
-    @NonNull
-    private String getDispensationDate()
-    {
-        int day  = dteDispensationDate.getDayOfMonth();
-        int month = dteDispensationDate.getMonth()+1;
-        int year = dteDispensationDate.getYear();
 
-        String dispesationDate = year + "-"+ month + "-" +day;
-        return dispesationDate;
-    }
 
     private String getUuidFromGenericName(String genericName) {
         String toReturn = "";

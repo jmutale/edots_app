@@ -2,9 +2,13 @@ package org.chreso.edots;
 
 
 import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +29,7 @@ public class MainActivity extends EdotActivity {
     ClientAdapter clientAdapter;
 
     private DBHandler dbHandler;
+    private final int EXTERNAL_STORAGE_PERMISSION_CODE = 23;
 
 
     @Override
@@ -75,7 +80,15 @@ public class MainActivity extends EdotActivity {
         }
     );
 
+       // getExternalStoragePermission();
+
 }
+
+    private void getExternalStoragePermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, EXTERNAL_STORAGE_PERMISSION_CODE);
+        }
+    }
 
 
     @Override

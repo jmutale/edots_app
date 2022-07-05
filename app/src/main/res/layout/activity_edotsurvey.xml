@@ -137,7 +137,7 @@
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Why do you want to continue with EDOT or not"
+                android:text="Reasons to continue with EDOT or not"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <EditText

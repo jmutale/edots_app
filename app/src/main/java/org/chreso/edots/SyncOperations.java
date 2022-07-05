@@ -49,7 +49,7 @@ public class SyncOperations {
             syncClientFeedbackData();
             syncClientEDOTSurvey();
         }catch(Exception e){
-            Toast.makeText(myContext,e.getMessage(),Toast.LENGTH_LONG);
+            Toast.makeText(myContext,"Sync Error: "+e.getMessage(),Toast.LENGTH_LONG);
         }
     }
 
@@ -218,19 +218,11 @@ public class SyncOperations {
     }
 
     private void syncDrugDispensations() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(PreferenceManager
-                        .getDefaultSharedPreferences(myContext).getString("server",null))
-                .build();
-
-        ApiInterface api = retrofit.create(ApiInterface.class);
-
         ArrayList<ClientDispensation> listOfClientDispensationsFromDatabase = dbHandler.getListOfClientDispensationsFromDatabase();
         for(ClientDispensation cd : listOfClientDispensationsFromDatabase){
 
             ClientDispensationEvent cde = setValuesForClientDispensationEvent(cd);
-            Call<ClientDispensationEvent> call = api.postDispensationData(cde, "Token "+getAuthToken());
+            Call<ClientDispensationEvent> call = getApiInterface().postDispensationData(cde, "Token "+getAuthToken());
 
             call.enqueue(new Callback<ClientDispensationEvent>() {
                 @Override
@@ -304,6 +296,8 @@ public class SyncOperations {
         cde.setDose(cd.getDose());
         cde.setItems_per_dose(cd.getItems_per_dose());
         //cde.setFile(cd.getVideo_path());
+        cde.setNext_clinic_appointment_date(cd.getNext_clinic_appointment_date());
+        cde.setRefill_date_time(cd.getRefill_date_time());
         return cde;
     }
 
@@ -399,10 +393,15 @@ public class SyncOperations {
     }
     
     private ApiInterface getApiInterface(){
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(900000, TimeUnit.SECONDS)
+                .connectTimeout(900000, TimeUnit.SECONDS)
+                .build();
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(PreferenceManager
                         .getDefaultSharedPreferences(myContext).getString("server",null))
+                .client(okHttpClient)
                 .build();
 
         ApiInterface api = retrofit.create(ApiInterface.class);

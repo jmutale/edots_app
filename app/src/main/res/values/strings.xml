@@ -23,7 +23,10 @@
     <string name="refill_date">Refill date</string>
     <string name="refill_time">Refill time</string>
     <string name="pharmacy_title_text">Pharmacy</string>
-
+    <string-array name="client_tb_lab_result">
+        <item>Positive</item>
+        <item>Negative</item>
+    </string-array>
     <string-array name="items_per_dose">
         <item>tab(s)</item>
         <item>inj</item>

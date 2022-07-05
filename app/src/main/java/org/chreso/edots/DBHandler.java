@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.text.Editable;
 import android.widget.Toast;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -24,7 +25,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 18;
+    private static final int DB_VERSION = 22;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -40,6 +41,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CLIENT_FEEDBACK_TABLE = "client_feedback";
 
     private static final String EDOT_SURVEY_TABLE = "edot_survey";
+
+    private static final String CLIENT_TB_LAB_TABLE = "client_tb_lab";
 
     // below variable is for our id column.
     private static final String UUID_COL = "uuid";
@@ -96,7 +99,9 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "frequency TEXT, "
                 + "refill_date TEXT, "
                 + "video_path TEXT,"
-                +  "location TEXT)";
+                +  "location TEXT,"
+                + "next_clinic_appointment_date TEXT,"
+                +  "refill_time TEXT)";
         sqLiteDatabase.execSQL(dispensation_table_query);
 
         String facility_table_query = "CREATE TABLE "+ FACILITY_TABLE + "("
@@ -142,12 +147,20 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "would_client_like_to_continue_with_edot TEXT, "
                 + "reasons_client_will_continue_with_edot_or_not TEXT)";
         sqLiteDatabase.execSQL(edot_survey_query);
+
+        String client_tb_lab_query = "CREATE TABLE "+CLIENT_TB_LAB_TABLE +"("
+                + "client_tb_lab_uuid TEXT PRIMARY KEY, "
+                + "client_tb_lab_date TEXT, "
+                + "client_uuid TEXT, "
+                + "sputum_smear_or_sputum_culture_result TEXT, "
+                + "treatment_failure TEXT)";
+        sqLiteDatabase.execSQL(client_tb_lab_query);
     }
 
-    public void saveDispensationToDatabase(String dispensation_uuid,String med_drug_uuid , String patient_uuid,String dispensationDate, String dose, String items_per_dose, String frequency, String refill_date, String video_path, String location)
+    public void saveDispensationToDatabase(String dispensation_uuid,String med_drug_uuid , String patient_uuid,String dispensationDate, String dose, String items_per_dose, String frequency, String refill_date, String video_path, String location, String nextClinicAppointmentDate, String refillTime)
     {
-        String INSERT_SQL  = "INSERT INTO med_drug_dispensation (dispensation_uuid,med_drug_uuid,patient_uuid,dispensation_date,dose,items_per_dose,frequency,refill_date, video_path, location)" +
-                "VALUES ('"+dispensation_uuid+"','"+med_drug_uuid+"','"+patient_uuid+"','"+dispensationDate+"','"+dose+"','"+items_per_dose+"','"+frequency+"','"+refill_date+"','"+video_path+"', '"+location+"')";
+        String INSERT_SQL  = "INSERT INTO med_drug_dispensation (dispensation_uuid,med_drug_uuid,patient_uuid,dispensation_date,dose,items_per_dose,frequency,refill_date, video_path, location, next_clinic_appointment_date, refill_time)" +
+                "VALUES ('"+dispensation_uuid+"','"+med_drug_uuid+"','"+patient_uuid+"','"+dispensationDate+"','"+dose+"','"+items_per_dose+"','"+frequency+"','"+refill_date+"','"+video_path+"', '"+location+"', '"+nextClinicAppointmentDate+"', '"+refillTime+"')";
         db.execSQL(INSERT_SQL);
 
     }
@@ -239,9 +252,13 @@ public class DBHandler extends SQLiteOpenHelper {
 
                 String dispDateRaw = c.getString(3);
                 String refillDateRaw = c.getString(7);
+                Date nextClinicAppointmentdate = null;
+                Time refillTime = null;
                 dispensationDate = Date.valueOf(dispDateRaw);
                 refillDate = Date.valueOf(refillDateRaw);
-                ClientDispensation client = new ClientDispensation(c.getString(0), c.getString(1), c.getString(2),dispensationDate, c.getString(4), c.getString(5), c.getString(6), refillDate, c.getString(8));
+                nextClinicAppointmentdate = Date.valueOf(c.getString(10));
+                refillTime = Time.valueOf(c.getString(11));
+                ClientDispensation client = new ClientDispensation(c.getString(0), c.getString(1), c.getString(2),dispensationDate, c.getString(4), c.getString(5), c.getString(6), refillDate, c.getString(8), nextClinicAppointmentdate, refillTime);
 
                 clientDispensations.add(client);
             } while(c.moveToNext());
@@ -259,9 +276,13 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 Date dispensationDate = null;
                 Date refillDate = null;
+                Date nextClinicAppointmentDate = null;
+                Time refillTime = null;
                 dispensationDate = Date.valueOf(c.getString(3));
                 refillDate = Date.valueOf(c.getString(7));
-                ClientDispensation client = new ClientDispensation(c.getString(0),c.getString(1), c.getString(2),dispensationDate, c.getString(4), c.getString(5), c.getString(6), refillDate, c.getString(8));
+                nextClinicAppointmentDate = Date.valueOf(c.getString(10));
+                refillTime = Time.valueOf(c.getString(11));
+                ClientDispensation client = new ClientDispensation(c.getString(0),c.getString(1), c.getString(2),dispensationDate, c.getString(4), c.getString(5), c.getString(6), refillDate, c.getString(8), nextClinicAppointmentDate, refillTime);
 
                 clientDispensations.add(client);
             } while(c.moveToNext());
@@ -337,6 +358,7 @@ public class DBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_FEEDBACK_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_STATUS_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + EDOT_SURVEY_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_TB_LAB_TABLE);
         onCreate(sqLiteDatabase);
     }
 
@@ -415,5 +437,11 @@ public class DBHandler extends SQLiteOpenHelper {
         c.close();
         //db.close();
         return map;
+    }
+
+    public void addNewClientTBLabResult(String client_tb_lab_uuid, String client_tb_lab_date, String client_uuid, String labResult, String treatmentFailure) {
+        String UPSERT_SQL = "INSERT OR REPLACE INTO client_tb_lab(client_tb_lab_uuid, client_tb_lab_date,client_uuid, sputum_smear_or_sputum_culture_result, treatment_failure)"+
+                "VALUES ('"+client_tb_lab_uuid+"', '"+client_tb_lab_date+"', '"+client_uuid+"', '"+labResult+"','"+treatmentFailure+"')";
+        db.execSQL(UPSERT_SQL);
     }
 }
