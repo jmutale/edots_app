@@ -25,25 +25,17 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 22;
+    private static final int DB_VERSION = 25;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
-
     private static final String CLIENT_TABLE_NAME = "client";
-
     private static final String MED_DRUG_DISPENSATION_TABLE = "med_drug_dispensation";
-
     private static final String FACILITY_TABLE = "facility";
-
     private static final String CLIENT_STATUS_TABLE = "client_status";
-
     private static final String CLIENT_FEEDBACK_TABLE = "client_feedback";
-
     private static final String EDOT_SURVEY_TABLE = "edot_survey";
-
     private static final String CLIENT_TB_LAB_TABLE = "client_tb_lab";
-
     // below variable is for our id column.
     private static final String UUID_COL = "uuid";
     private static final String GENERIC_NAME_COL = "generic_name";
@@ -86,7 +78,9 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "last_name TEXT, "
                 + "date_of_birth TEXT, "
                 + "sex TEXT, "
-                + "mobile_phone_number TEXT)";
+                + "mobile_phone_number TEXT,"
+                + "facility_id TEXT,"
+                + "is_client_on_server TEXT)";
         sqLiteDatabase.execSQL(client_table_query);
 
         String dispensation_table_query = "CREATE TABLE "+MED_DRUG_DISPENSATION_TABLE + "("
@@ -101,14 +95,14 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "video_path TEXT,"
                 +  "location TEXT,"
                 + "next_clinic_appointment_date TEXT,"
-                +  "refill_time TEXT)";
+                +  "refill_time TEXT,"
+                +  "video_uploaded_to_server TEXT DEFAULT \"false\")";
         sqLiteDatabase.execSQL(dispensation_table_query);
 
         String facility_table_query = "CREATE TABLE "+ FACILITY_TABLE + "("
                 + "facility_uuid TEXT PRIMARY KEY, "
                 + "name TEXT, "
                 + "code TEXT, "
-                + "supported TEXT, "
                 + "type TEXT, "
                 + "point TEXT, "
                 + "parent TEXT)";
@@ -192,19 +186,19 @@ public class DBHandler extends SQLiteOpenHelper {
         //db.close();
     }
 
-    public void addNewClient(String uuid, String nrcNumber, String chresoId, String artNumber, String firstName, String lastName, String dateOfBirth, String sex, String mobilePhoneNumber){
+    public void addNewClient(String uuid, String nrcNumber, String chresoId, String artNumber, String firstName, String lastName, String dateOfBirth, String sex, String mobilePhoneNumber, String facilityClientBelongsTo, Boolean is_client_on_server){
 
 
-            String UPSERT_SQL = "INSERT OR REPLACE INTO client (uuid, nrc_number, chreso_id, art_number,first_name,last_name,date_of_birth,sex,mobile_phone_number)" +
-                    "VALUES ('"+uuid+"','"+nrcNumber+"', '"+chresoId+"', '"+artNumber+"','"+firstName+"','"+lastName+"','"+dateOfBirth+"','"+sex+"','"+mobilePhoneNumber+"')";
+            String UPSERT_SQL = "INSERT OR REPLACE INTO client (uuid, nrc_number, chreso_id, art_number,first_name,last_name,date_of_birth,sex,mobile_phone_number, facility_id, is_client_on_server)" +
+                    "VALUES ('"+uuid+"','"+nrcNumber+"', '"+chresoId+"', '"+artNumber+"','"+firstName+"','"+lastName+"','"+dateOfBirth+"','"+sex+"','"+mobilePhoneNumber+"', '"+facilityClientBelongsTo+"', '"+is_client_on_server+"')";
             db.execSQL(UPSERT_SQL);
 
     }
 
-    public void addNewLocation(String uuid, String name, String code, String supported, String type, String point, String parent)
+    public void addNewLocation(String uuid, String name, String code, String type, String parent)
     {
-        String UPSERT_SQL = "INSERT OR REPLACE INTO facility(facility_uuid, name,code, supported, type, point, parent)"+
-                "VALUES ('"+uuid+"', '"+name+"', '"+code+"', '"+supported+"','"+type+"', '"+point+"','"+parent+"')";
+        String UPSERT_SQL = "INSERT OR REPLACE INTO facility(facility_uuid, name,code, type, parent)"+
+                "VALUES ('"+uuid+"', '"+name+"', '"+code+"', '"+type+"','"+parent+"')";
         db.execSQL(UPSERT_SQL);
     }
 
@@ -233,7 +227,9 @@ public class DBHandler extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("SELECT * FROM client ", null);
         if (c.moveToFirst()){
             do {
-                Client client = new Client(c.getString(0), c.getString(1),c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6),c.getString(7), c.getString(8));
+                Boolean is_client_on_server = null;
+                        is_client_on_server = Boolean.valueOf(c.getString(10));
+                Client client = new Client(c.getString(0), c.getString(1),c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6),c.getString(7), c.getString(8), c.getString(9));
 
                 clients.add(client);
             } while(c.moveToNext());
@@ -424,6 +420,25 @@ public class DBHandler extends SQLiteOpenHelper {
         Map<String, String> map =
                 new HashMap<String, String>();
         SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT facility_uuid,name FROM facility WHERE type = 'health_facility'", null);
+        if (c.moveToFirst()){
+            do {
+                // Passing values
+                String code = c.getString(0);
+                String name = c.getString(1);
+
+                map.put(code,name);
+            } while(c.moveToNext());
+        }
+        c.close();
+        //db.close();
+        return map;
+    }
+
+    public Map<String, String> getListOfHealthFacilityUuidsFromDatabase() {
+        Map<String, String> map =
+                new HashMap<String, String>();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT code,name FROM facility WHERE type = 'health_facility'", null);
         if (c.moveToFirst()){
             do {
@@ -443,5 +458,68 @@ public class DBHandler extends SQLiteOpenHelper {
         String UPSERT_SQL = "INSERT OR REPLACE INTO client_tb_lab(client_tb_lab_uuid, client_tb_lab_date,client_uuid, sputum_smear_or_sputum_culture_result, treatment_failure)"+
                 "VALUES ('"+client_tb_lab_uuid+"', '"+client_tb_lab_date+"', '"+client_uuid+"', '"+labResult+"','"+treatmentFailure+"')";
         db.execSQL(UPSERT_SQL);
+    }
+
+    public ArrayList<ClientTBLab> getListOfClientTBLabsFromDatabase() {
+        ArrayList<ClientTBLab> clientTBLabRecords= new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM client_tb_lab ", null);
+        if (c.moveToFirst()) {
+            do {
+                Date clientLabDate = null;
+                clientLabDate = Date.valueOf(c.getString(1));
+                ClientTBLab ces = new ClientTBLab(c.getString(0),clientLabDate,c.getString(2),c.getString(3));
+                clientTBLabRecords.add(ces);
+            }while (c.moveToNext());
+
+        }
+        c.close();
+        return clientTBLabRecords;
+
+    }
+
+
+    public ArrayList<ClientEvent> getListOfClientsFromDatabase() {
+        ArrayList<ClientEvent> clientRecords= new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM client where is_client_on_server='false'", null);
+        if (c.moveToFirst()) {
+            do {
+                Date dateOfBirth = null;
+
+                dateOfBirth = Date.valueOf(c.getString(6));
+                ClientEvent client = new ClientEvent(c.getString(0),c.getString(1),c.getString(2),
+                        c.getString(3),c.getString(4),c.getString(5),Utils.getFormattedDate(dateOfBirth),c.getString(7),c.getString(8),c.getString(9));
+                clientRecords.add(client);
+            }while (c.moveToNext());
+
+        }
+        c.close();
+        return clientRecords;
+    }
+
+    public void updateClientStatusAfterSync(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.execSQL("UPDATE client set is_client_on_server='true' where is_client_on_server='false'");
+
+    }
+
+    public void updateClientVideoAfterSync(String dispensation_uuid) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.execSQL("UPDATE med_drug_dispensation set video_uploaded_to_server='true' " +
+                "where video_uploaded_to_server='false' and uuid = '"+dispensation_uuid+"'");
+    }
+
+    public String getVideoUploadStatus(String dispensation_uuid) {
+        String video_uploaded_to_server = "";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT video_uploaded_to_server FROM med_drug_dispensation WHERE uuid = '"+dispensation_uuid+"'", null);
+        if (c.moveToFirst()){
+            do {
+                video_uploaded_to_server = c.getString(0);
+            } while(c.moveToNext());
+        }
+        c.close();
+        return video_uploaded_to_server;
     }
 }

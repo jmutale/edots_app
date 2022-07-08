@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -47,6 +48,8 @@ public class ClientAdapter extends ArrayAdapter<Client> {
                         suggestions.add(item);
                     }else if(item.getMobile_phone_number().toLowerCase().contains(filterPattern)){
                         suggestions.add(item);
+                    }else if(item.getNrc_number().toLowerCase().contains(filterPattern)){
+                        suggestions.add(item);
                     }
                 }
             }
@@ -77,6 +80,7 @@ public class ClientAdapter extends ArrayAdapter<Client> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.search_result_layout, parent, false);
         }
         // Lookup view for data population
+        TextView nrcNumber = convertView.findViewById(R.id.nrcNumberSr);
         TextView fName =  convertView.findViewById(R.id.fName);
         TextView lName =  convertView.findViewById(R.id.lName);
         TextView dob =  convertView.findViewById(R.id.sDob);
@@ -84,11 +88,12 @@ public class ClientAdapter extends ArrayAdapter<Client> {
         TextView m_phone =  convertView.findViewById(R.id.mPhone);
         // Populate the data into the template view using the data object
         if(client!=null) {
+            nrcNumber.setText(client.getNrc_number());
             fName.setText(client.getFirst_name());
             lName.setText(client.getLast_name());
             dob.setText(client.getDate_of_birth());
-            sex.setText(client.getSex());
-            m_phone.setText(client.getMobile_phone_number());
+            sex.setText(StringUtils.capitalize(client.getSex()));
+            m_phone.setText(client.getMobile_phone_number().replace("+26",""));
         }
 
 

@@ -1,6 +1,6 @@
 package org.chreso.edots;
 
-public class Client {
+public class ClientEvent {
 
 
     private String uuid;
@@ -13,23 +13,9 @@ public class Client {
     private String sex;
     private String mobile_phone_number;
     private String facility;
-    private Boolean is_client_on_server;
 
-    public Client(String uuid, String nrc_number,String chreso_id, String art_number, String first_name, String last_name, String date_of_birth,String sex, String mobile_phone_number, String facility_id, Boolean is_client_on_server) {
-        this.uuid = uuid;
-        this.chreso_id = chreso_id;
-        this.nrc_number = nrc_number;
-        this.art_number = art_number;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.date_of_birth = date_of_birth;
-        this.sex = sex;
-        this.mobile_phone_number = mobile_phone_number;
-        this.facility = facility_id;
-        this.is_client_on_server = is_client_on_server;
-    }
 
-    public Client(String uuid, String nrc_number,String chreso_id, String art_number, String first_name, String last_name, String date_of_birth,String sex, String mobile_phone_number, String facility_id) {
+    public ClientEvent(String uuid, String nrc_number, String chreso_id, String art_number, String first_name, String last_name, String date_of_birth, String sex, String mobile_phone_number, String facility_id) {
         this.uuid = uuid;
         this.chreso_id = chreso_id;
         this.nrc_number = nrc_number;
@@ -42,16 +28,6 @@ public class Client {
         this.facility = facility_id;
 
     }
-
-
-    public Boolean getIs_client_on_server() {
-        return is_client_on_server;
-    }
-
-    public void setIs_client_on_server(Boolean is_client_on_server) {
-        this.is_client_on_server = is_client_on_server;
-    }
-
 
 
     public String getChreso_id(){return  chreso_id;}

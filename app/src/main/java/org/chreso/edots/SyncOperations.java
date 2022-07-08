@@ -14,14 +14,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
-import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,23 +46,47 @@ public class SyncOperations {
             syncClientStatusData();
             syncClientFeedbackData();
             syncClientEDOTSurvey();
+            syncClientTBLabData();
         }catch(Exception e){
-            Toast.makeText(myContext,"Sync Error: "+e.getMessage(),Toast.LENGTH_LONG);
+            Toast.makeText(myContext,"Sync Error: "+e.getMessage(),Toast.LENGTH_LONG).show();
         }
     }
 
-    private void syncClientEDOTSurvey() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(PreferenceManager
-                        .getDefaultSharedPreferences(myContext).getString("server",null))
-                .build();
+    private void syncClientTBLabData() {
+        ArrayList<ClientTBLab> listOfClientTBLabsFromDatabase = dbHandler.getListOfClientTBLabsFromDatabase();
+        for(ClientTBLab ctl : listOfClientTBLabsFromDatabase) {
+            ClientTBLabEvent ctle = setClientTBLabEvent(ctl);
+            Call<ClientTBLabEvent> call = getApiInterface().postClientTBLab(ctle, "Token "+getAuthToken());
+            call.enqueue(new Callback<ClientTBLabEvent>() {
 
-        ApiInterface api = retrofit.create(ApiInterface.class);
+                @Override
+                public void onResponse(Call<ClientTBLabEvent> call, Response<ClientTBLabEvent> response) {
+                    Toast.makeText(myContext, "Syncing client tb labs. ",Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onFailure(Call<ClientTBLabEvent> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
+    private ClientTBLabEvent setClientTBLabEvent(ClientTBLab ctl) {
+        ClientTBLabEvent ctle = new ClientTBLabEvent();
+        ctle.setClient_tb_lab_uuid(ctl.getClient_tb_lab_uuid());
+        ctle.setClient_tb_lab_date(ctl.getClient_tb_lab_date());
+        ctle.setClient_uuid(ctl.getClient_uuid());
+        ctle.setSputum_smear_or_sputum_culture_result(ctl.getSputum_smear_or_sputum_culture_result().toLowerCase());
+        return ctle;
+    }
+
+    private void syncClientEDOTSurvey() {
+
         ArrayList<ClientEDOTSurvey> listOfClientEDOTSurveyRecords = dbHandler.getListOfClientSurveyRecords();
         for(ClientEDOTSurvey ces: listOfClientEDOTSurveyRecords){
             ClientEDOTSurveyEvent cese = setValuesForClientEDOTSurveyEvent(ces);
-            Call<ClientEDOTSurveyEvent> call = api.postClientEDOTSurvey(cese, "Token "+getAuthToken());
+            Call<ClientEDOTSurveyEvent> call = getApiInterface().postClientEDOTSurvey(cese, "Token "+getAuthToken());
             call.enqueue(new Callback<ClientEDOTSurveyEvent>() {
 
                 @Override
@@ -93,23 +115,16 @@ public class SyncOperations {
     }
 
     private void syncClientFeedbackData() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(PreferenceManager
-                        .getDefaultSharedPreferences(myContext).getString("server",null))
-                .build();
-
-        ApiInterface api = retrofit.create(ApiInterface.class);
         ArrayList<ClientFeedback> listOfClientFeedbackEntries = null;
         try {
             listOfClientFeedbackEntries = dbHandler.getListOfClientFeedbackEntriesFromDatabase();
         }catch(Exception e){
-            Toast.makeText(myContext,"CLIENT FEEDBACK SYNC: "+e.getMessage(),Toast.LENGTH_LONG).show();
+            Toast.makeText(myContext,"Syncing Client Feedback. "+e.getMessage(),Toast.LENGTH_LONG).show();
 
         }
         for(ClientFeedback cf : listOfClientFeedbackEntries){
             ClientFeedbackEvent cfe = setValuesForClientFeedbackEvent(cf);
-            Call<ClientFeedbackEvent> call = api.postClientFeedback(cfe, "Token "+getAuthToken());
+            Call<ClientFeedbackEvent> call = getApiInterface().postClientFeedback(cfe, "Token "+getAuthToken());
             call.enqueue(new Callback<ClientFeedbackEvent>() {
 
                 @Override
@@ -137,13 +152,7 @@ public class SyncOperations {
     }
 
     private void syncClientStatusData() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(PreferenceManager
-                        .getDefaultSharedPreferences(myContext).getString("server",null))
-                .build();
 
-        ApiInterface api = retrofit.create(ApiInterface.class);
         ArrayList<ClientStatus> listOfClientStatuses = null;
         try {
             listOfClientStatuses = dbHandler.getListOfClientStatusFromDatabase();
@@ -152,7 +161,7 @@ public class SyncOperations {
         }
         for(ClientStatus cs: listOfClientStatuses){
             ClientStatusEvent cse = setValuesForClientStatusEvent(cs);
-            Call<ClientStatusEvent> call = api.postClientStatus(cse, "Token "+getAuthToken());
+            Call<ClientStatusEvent> call = getApiInterface().postClientStatus(cse, "Token "+getAuthToken());
             call.enqueue(new Callback<ClientStatusEvent>() {
                 @Override
                 public void onResponse(Call<ClientStatusEvent> call, Response<ClientStatusEvent> response) {
@@ -204,7 +213,7 @@ public class SyncOperations {
                     Toast.makeText(myContext,"Facility or Location data has not been created on the server.", Toast.LENGTH_LONG).show();
                 }else {
                     for (Location l : response.body()) {
-                        dbHandler.addNewLocation(l.getUuid(), l.getName(), l.getCode(), l.getSupported(), l.getType(), l.getPoint(), l.getParent());
+                        dbHandler.addNewLocation(l.getUuid(), l.getName(), l.getCode(), l.getType(), l.getParent());
                         Toast.makeText(myContext, "Syncing location: " + l.getName(), Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -219,15 +228,15 @@ public class SyncOperations {
 
     private void syncDrugDispensations() {
         ArrayList<ClientDispensation> listOfClientDispensationsFromDatabase = dbHandler.getListOfClientDispensationsFromDatabase();
-        for(ClientDispensation cd : listOfClientDispensationsFromDatabase){
+        for(ClientDispensation cd : listOfClientDispensationsFromDatabase) {
 
             ClientDispensationEvent cde = setValuesForClientDispensationEvent(cd);
-            Call<ClientDispensationEvent> call = getApiInterface().postDispensationData(cde, "Token "+getAuthToken());
+            Call<ClientDispensationEvent> call = getApiInterface().postDispensationData(cde, "Token " + getAuthToken());
 
             call.enqueue(new Callback<ClientDispensationEvent>() {
                 @Override
                 public void onResponse(Call<ClientDispensationEvent> call, Response<ClientDispensationEvent> response) {
-                    Toast.makeText(myContext, "Syncing dispensations: "+cd.getMedDrugName(response.body().getMed_drug_uuid(),myContext), Toast.LENGTH_LONG).show();
+                    Toast.makeText(myContext, "Syncing dispensations: " + cd.getMedDrugName(response.body().getMed_drug_uuid(), myContext), Toast.LENGTH_LONG).show();
 
                 }
 
@@ -238,50 +247,51 @@ public class SyncOperations {
 
 
             });
-            //We upload the client dispensation video here.
-            File fileObject = null;
-            InputStream inStream=null;
-            try {
-
+            //We upload the client dispensation video here. First we check if video was already uploaded
+            if (cd.getVideoUploadStatus(cd.getDispensation_uuid()) == "false") {
+                File fileObject = null;
+                InputStream inStream = null;
                 try {
-                    Uri uri = Uri.parse(cd.getVideo_path());
-                    inStream = myContext.getContentResolver().openInputStream(uri);
-                    fileObject = new File(Environment.getExternalStorageDirectory().getPath()+"/"+cd.getMedDrugName(cd.getMed_drug_uuid(), myContext)+"_"+cd.getCleanNrc(cd.getClient_uuid(),myContext)+".mp4");
-                    copyInputStreamToFile(inStream,fileObject);
 
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    try {
+                        Uri uri = Uri.parse(cd.getVideo_path());
+                        inStream = myContext.getContentResolver().openInputStream(uri);
+                        fileObject = new File(Environment.getExternalStorageDirectory().getPath() + "/" + cd.getMedDrugName(cd.getMed_drug_uuid(), myContext) + "_" + cd.getCleanNrc(cd.getClient_uuid(), myContext) + ".mp4");
+                        copyInputStreamToFile(inStream, fileObject);
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    //fileObject = new File(Utils.getFileName(Uri.parse(filePath), myContext));
+
+                } catch (Exception e) {
+                    Toast.makeText(myContext, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-                //fileObject = new File(Utils.getFileName(Uri.parse(filePath), myContext));
+                RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), fileObject);
 
-            }catch (Exception e)
-            {
-                Toast.makeText(myContext, e.getMessage(), Toast.LENGTH_LONG).show();
+                MultipartBody.Part file = MultipartBody.Part.createFormData("file", fileObject.getName(), requestBody);
+                RequestBody name = RequestBody.create(MediaType.parse("text/plain"), fileObject.getName());
+                RequestBody uuid = RequestBody.create(MediaType.parse("text/plain"), Utils.getNewUuid());
+                RequestBody dispensation_uuid = RequestBody.create(MediaType.parse("text/plain"), cd.getDispensation_uuid());
+
+
+                Call<ClientVideoUploadServerResponse> call2 = getApiInterface().uploadVideo(uuid, dispensation_uuid, file, name, "Token " + getAuthToken());
+
+                call2.enqueue(new Callback<ClientVideoUploadServerResponse>() {
+
+                    @Override
+                    public void onResponse(Call<ClientVideoUploadServerResponse> call, Response<ClientVideoUploadServerResponse> response) {
+                        Toast.makeText(myContext, "Syncing dispensation videos. ", Toast.LENGTH_LONG).show();
+                        dbHandler.updateClientVideoAfterSync(cd.getDispensation_uuid());
+                    }
+
+                    @Override
+                    public void onFailure(Call<ClientVideoUploadServerResponse> call, Throwable t) {
+                        Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
             }
-            RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), fileObject);
-
-            MultipartBody.Part file = MultipartBody.Part.createFormData("file", fileObject.getName(), requestBody);
-            RequestBody name = RequestBody.create(MediaType.parse("text/plain"), fileObject.getName());
-            RequestBody uuid = RequestBody.create(MediaType.parse("text/plain"), Utils.getNewUuid());
-            RequestBody dispensation_uuid = RequestBody.create(MediaType.parse("text/plain"), cd.getDispensation_uuid());
-
-
-            Call <ClientVideoUploadServerResponse> call2 = getApiInterface().uploadVideo(uuid,dispensation_uuid,file, name,"Token "+getAuthToken());
-
-            call2.enqueue(new Callback<ClientVideoUploadServerResponse>() {
-
-                @Override
-                public void onResponse(Call<ClientVideoUploadServerResponse> call, Response<ClientVideoUploadServerResponse> response) {
-                    Toast.makeText(myContext, "Syncing dispensation videos: ", Toast.LENGTH_LONG).show();
-
-                }
-
-                @Override
-                public void onFailure(Call<ClientVideoUploadServerResponse> call, Throwable t) {
-                    Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
-
         }
 
     }
@@ -302,23 +312,16 @@ public class SyncOperations {
     }
 
     private void syncClientData() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(PreferenceManager
-                        .getDefaultSharedPreferences(myContext).getString("server",null))
-                .build();
 
-        ApiInterface api = retrofit.create(ApiInterface.class);
-
-        Call<List<Client>> call = api.getClients("Token "+getAuthToken());
+        Call<List<Client>> call = getApiInterface().getClients("Token "+getAuthToken());
 
         call.enqueue(new Callback<List<Client>>() {
             @Override
             public void onResponse(Call<List<Client>> call, Response<List<Client>> response) {
                 for (Client client: response.body()) {
 
-                    dbHandler.addNewClient(client.getUuid(),client.getNrc_number(),client.getChreso_id(), client.getArt_number(), client.getFirst_name(), client.getLast_name(), client.getDate_of_birth(), client.getSex(), client.getMobile_phone_number());
-                    Toast.makeText(myContext, "Syncing client: "+client.getNrc_number(), Toast.LENGTH_SHORT).show();
+                    dbHandler.addNewClient(client.getUuid(),client.getNrc_number(),client.getChreso_id(), client.getArt_number(), client.getFirst_name(), client.getLast_name(), client.getDate_of_birth(), client.getSex(), client.getMobile_phone_number(), client.getFacility(), client.getIs_client_on_server());
+                    Toast.makeText(myContext, "Syncing client from server: "+client.getNrc_number(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -327,6 +330,28 @@ public class SyncOperations {
                 Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
+        //Upload new client records to server
+        ArrayList<ClientEvent> listOfClientsFromDatabase = dbHandler.getListOfClientsFromDatabase();
+        for(ClientEvent c : listOfClientsFromDatabase) {
+            c.setSex(c.getSex().toLowerCase());
+            c.setArt_number(c.getArt_number()==""?null:c.getArt_number());
+            Call<ClientEvent> call2 = getApiInterface().postClient(c,"Token " + getAuthToken());
+            call2.enqueue(new Callback<ClientEvent>() {
+
+
+                @Override
+                public void onResponse(Call<ClientEvent> call, Response<ClientEvent> response) {
+                    Toast.makeText(myContext, "Syncing client to server: "+response.body().getNrc_number(), Toast.LENGTH_SHORT).show();
+                    dbHandler.updateClientStatusAfterSync();
+                }
+
+                @Override
+                public void onFailure(Call<ClientEvent> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     private void syncMedDrugs() {

@@ -20,11 +20,17 @@ public interface ApiInterface {
     @GET("/clients")
     Call<List<Client>> getClients(@Header("Authorization") String authHeader);
 
+    @POST("/clients/")
+    Call<ClientEvent> postClient(@Body ClientEvent client, @Header("Authorization") String authHeader);
+
     @POST("/dispensations/")
     Call<ClientDispensationEvent> postDispensationData(@Body ClientDispensationEvent cd, @Header("Authorization") String authHeader);
 
     @POST("/client-status/")
     Call<ClientStatusEvent> postClientStatus(@Body ClientStatusEvent cse, @Header("Authorization") String authHeader);
+
+    @POST("/client-labs/")
+    Call<ClientTBLabEvent> postClientTBLab(@Body ClientTBLabEvent ctl, @Header("Authorization") String authHeader);
 
     @POST("/client-feedback/")
     Call<ClientFeedbackEvent> postClientFeedback(@Body ClientFeedbackEvent cfe, @Header("Authorization") String authHeader);

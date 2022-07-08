@@ -55,6 +55,9 @@ public class EdotActivity extends AppCompatActivity {
             case R.id.settings_item:
                 openSettingsForm();
                 return true;
+            case R.id.register_client_item:
+                openClientRegistrationForm();
+                return true;
                 
             case R.id.logout_item:
                 logout();
@@ -65,6 +68,11 @@ public class EdotActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void openClientRegistrationForm() {
+        Intent intent = new Intent(this, RegisterClientActivity.class);
+        startActivity(intent);
     }
 
     private void logout() {
