@@ -99,6 +99,7 @@ public class ClientAdapter extends ArrayAdapter<Client> {
 
 
         convertView.setBackgroundColor(position % 2 == 0 ? Color.WHITE : Color.LTGRAY);
+        convertView.getBackground().setAlpha(190);
         // Return the completed view to render on screen
         return convertView;
 

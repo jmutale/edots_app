@@ -126,11 +126,12 @@ public class ClientDispensation {
         return video_path;
     }
 
-    public String getVideoUploadStatus(String dispensation_uuid) {
-        if(dbHandler.getVideoUploadStatus(dispensation_uuid)=="false"){
-            return "false";
+    public Boolean getVideoUploadStatus(String dispensation_uuid, Context context) {
+        dbHandler = new DBHandler(context);
+        if(dbHandler.getVideoUploadStatus(dispensation_uuid).equals("false")){
+            return false;
         }
-        return video_path;
+        return true;
     }
 
     public void setVideo_path(String video_path) {

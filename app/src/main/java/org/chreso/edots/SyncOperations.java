@@ -248,7 +248,7 @@ public class SyncOperations {
 
             });
             //We upload the client dispensation video here. First we check if video was already uploaded
-            if (cd.getVideoUploadStatus(cd.getDispensation_uuid()) == "false") {
+            if (!cd.getVideoUploadStatus(cd.getDispensation_uuid(), myContext)) {
                 File fileObject = null;
                 InputStream inStream = null;
                 try {
@@ -343,7 +343,7 @@ public class SyncOperations {
                 @Override
                 public void onResponse(Call<ClientEvent> call, Response<ClientEvent> response) {
                     Toast.makeText(myContext, "Syncing client to server: "+response.body().getNrc_number(), Toast.LENGTH_SHORT).show();
-                    dbHandler.updateClientStatusAfterSync();
+                    dbHandler.updateClientStatusAfterSync(response.body().getUuid());
                 }
 
                 @Override

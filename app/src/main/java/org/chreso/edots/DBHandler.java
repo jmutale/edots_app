@@ -25,7 +25,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 25;
+    private static final int DB_VERSION = 26;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -498,22 +498,22 @@ public class DBHandler extends SQLiteOpenHelper {
         return clientRecords;
     }
 
-    public void updateClientStatusAfterSync(){
+    public void updateClientStatusAfterSync(String uuid){
         SQLiteDatabase db = this.getReadableDatabase();
-        db.execSQL("UPDATE client set is_client_on_server='true' where is_client_on_server='false'");
+        db.execSQL("UPDATE client set is_client_on_server='true' where is_client_on_server='false' and uuid = '"+uuid+"'");
 
     }
 
     public void updateClientVideoAfterSync(String dispensation_uuid) {
         SQLiteDatabase db = this.getReadableDatabase();
         db.execSQL("UPDATE med_drug_dispensation set video_uploaded_to_server='true' " +
-                "where video_uploaded_to_server='false' and uuid = '"+dispensation_uuid+"'");
+                "where video_uploaded_to_server='false' and dispensation_uuid = '"+dispensation_uuid+"'");
     }
 
     public String getVideoUploadStatus(String dispensation_uuid) {
         String video_uploaded_to_server = "";
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT video_uploaded_to_server FROM med_drug_dispensation WHERE uuid = '"+dispensation_uuid+"'", null);
+        Cursor c = db.rawQuery("SELECT video_uploaded_to_server FROM med_drug_dispensation WHERE dispensation_uuid = '"+dispensation_uuid+"'", null);
         if (c.moveToFirst()){
             do {
                 video_uploaded_to_server = c.getString(0);
