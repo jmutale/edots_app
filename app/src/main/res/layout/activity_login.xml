@@ -68,11 +68,11 @@
         android:text="Login" />
 
     <TextView
+        android:id="@+id/forgetPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/forgetPass"
         android:layout_below="@id/btnLogin"
-        android:text="Forgot password?"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"/>
+        android:layout_margin="20dp"
+        android:text="Forgot password?" />
 </RelativeLayout>

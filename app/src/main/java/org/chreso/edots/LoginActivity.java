@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,13 +39,13 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-
+    private TextView txtForgotPass;
     private Validator validator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        checkIfLoggedIn();
         validator = new Validator(this);
         validator.setValidationListener(this);
 
@@ -54,7 +55,7 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
         btnLogin = findViewById(R.id.btnLogin);
         username = findViewById(R.id.editTextUsername);
         password = findViewById(R.id.editTextTextPassword);
-
+        txtForgotPass = findViewById(R.id.forgetPass);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,8 +64,15 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
                 validator.validate();
             }
         });
+        txtForgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Open reset password web page
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Utils.getServerUrl(getApplicationContext())+"/accounts/password_reset/"));
+                startActivity(browserIntent);
+            }
+        });
 
-        checkIfLoggedIn();
     }
 
     private void checkIfLoggedIn(){

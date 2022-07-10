@@ -2,11 +2,15 @@ package org.chreso.edots;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.view.GestureDetector;
 import android.widget.DatePicker;
+
+import androidx.preference.PreferenceManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -60,14 +64,25 @@ public class Utils {
         return date;
     }
 
-    public static boolean isInternetAvailable() {
-        try {
-            InetAddress address = InetAddress.getByName("www.google.com");
-            return !address.equals("");
-        } catch (UnknownHostException e) {
-            // Log error
+    public static boolean isInternetAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+        if(connectivityManager!=null){
+            NetworkInfo [] networkInfo = connectivityManager.getAllNetworkInfo();
+            if(networkInfo!=null){
+                for(int i=0;i<networkInfo.length;i++){
+                    if(networkInfo[i].getState()==NetworkInfo.State.CONNECTED){
+                        return true;
+                    }
+                }
+            }
         }
         return false;
+    }
+
+    public static String getServerUrl(Context context){
+        String server = PreferenceManager
+                .getDefaultSharedPreferences(context).getString("server",null);
+        return server;
     }
 
 

@@ -31,12 +31,11 @@ public class EdotActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.sync_item:
-                String server = PreferenceManager
-                        .getDefaultSharedPreferences(this).getString("server",null);
+                String server = Utils.getServerUrl(this);
                 String token = PreferenceManager
                         .getDefaultSharedPreferences(this).getString("token",null);
                 if(server!=null&&token!=null) {
-                    if(Utils.isInternetAvailable()) {
+                    if(Utils.isInternetAvailable(getApplicationContext())) {
                         new SyncOperations(getApplicationContext()).startDataSync();
                     }else{
                         AlertDialog.Builder builder = new AlertDialog.Builder(this)
