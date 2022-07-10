@@ -36,8 +36,18 @@ public class EdotActivity extends AppCompatActivity {
                 String token = PreferenceManager
                         .getDefaultSharedPreferences(this).getString("token",null);
                 if(server!=null&&token!=null) {
+                    if(Utils.isInternetAvailable()) {
+                        new SyncOperations(getApplicationContext()).startDataSync();
+                    }else{
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                                .setTitle("Network Error")
+                                .setMessage("Please connect to the internet before you can sync data.")
+                                .setCancelable(true)
 
-                    new SyncOperations(getApplicationContext()).startDataSync();
+                                ;
+                        builder.create();
+                        builder.show();
+                    }
 
 
                 }else

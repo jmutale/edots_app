@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -56,6 +58,16 @@ public class Utils {
 
         String date = year + "-"+ month + "-" +day;
         return date;
+    }
+
+    public static boolean isInternetAvailable() {
+        try {
+            InetAddress address = InetAddress.getByName("www.google.com");
+            return !address.equals("");
+        } catch (UnknownHostException e) {
+            // Log error
+        }
+        return false;
     }
 
 
