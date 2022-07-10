@@ -4,6 +4,7 @@ import androidx.preference.PreferenceManager;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -68,11 +69,30 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
             @Override
             public void onClick(View view) {
                 //Open reset password web page
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Utils.getServerUrl(getApplicationContext())+"/accounts/password_reset/"));
-                startActivity(browserIntent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this)
+                        .setTitle("Confirm exit")
+                        .setMessage("You are about to leave the eDOT app to open the password reset page on the server." +
+                                "Click Yes to continue.")
+                        .setCancelable(true)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                openResetPasswordWebPageOnServer();
+                            }
+                        })
+                        ;
+
+                builder.create();
+                builder.show();
+
             }
         });
 
+    }
+
+    private void openResetPasswordWebPageOnServer() {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Utils.getServerUrl(getApplicationContext())+"/accounts/password_reset/"));
+        startActivity(browserIntent);
     }
 
     private void checkIfLoggedIn(){
