@@ -187,8 +187,6 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public void addNewClient(String uuid, String nrcNumber, String chresoId, String artNumber, String firstName, String lastName, String dateOfBirth, String sex, String mobilePhoneNumber, String facilityClientBelongsTo, Boolean is_client_on_server){
-
-
             String UPSERT_SQL = "INSERT OR REPLACE INTO client (uuid, nrc_number, chreso_id, art_number,first_name,last_name,date_of_birth,sex,mobile_phone_number, facility_id, is_client_on_server)" +
                     "VALUES ('"+uuid+"','"+nrcNumber+"', '"+chresoId+"', '"+artNumber+"','"+firstName+"','"+lastName+"','"+dateOfBirth+"','"+sex+"','"+mobilePhoneNumber+"', '"+facilityClientBelongsTo+"', '"+is_client_on_server+"')";
             db.execSQL(UPSERT_SQL);

@@ -91,7 +91,7 @@ public class SyncOperations {
 
                 @Override
                 public void onResponse(Call<ClientEDOTSurveyEvent> call, Response<ClientEDOTSurveyEvent> response) {
-
+                    Toast.makeText(myContext,"Syncing client survey. ",Toast.LENGTH_LONG).show();
                 }
 
                 @Override
@@ -129,7 +129,7 @@ public class SyncOperations {
 
                 @Override
                 public void onResponse(Call<ClientFeedbackEvent> call, Response<ClientFeedbackEvent> response) {
-
+                    Toast.makeText(myContext,"Syncing client feedback. ",Toast.LENGTH_LONG).show();
                 }
 
                 @Override
@@ -165,7 +165,7 @@ public class SyncOperations {
             call.enqueue(new Callback<ClientStatusEvent>() {
                 @Override
                 public void onResponse(Call<ClientStatusEvent> call, Response<ClientStatusEvent> response) {
-                    Toast.makeText(myContext, "Syncing client status: "+response.body().getClient_uuid(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(myContext, "Syncing client status: ", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -343,7 +343,7 @@ public class SyncOperations {
                 @Override
                 public void onResponse(Call<ClientEvent> call, Response<ClientEvent> response) {
                     Toast.makeText(myContext, "Syncing client to server: "+response.body().getNrc_number(), Toast.LENGTH_SHORT).show();
-                    dbHandler.updateClientStatusAfterSync(response.body().getUuid());
+                    dbHandler.updateClientStatusAfterSync(c.getUuid());
                 }
 
                 @Override
