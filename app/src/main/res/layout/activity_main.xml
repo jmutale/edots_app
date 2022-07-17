@@ -4,9 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity"
-    android:orientation="vertical"
-
-    android:background="@drawable/background_main">
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_bar"

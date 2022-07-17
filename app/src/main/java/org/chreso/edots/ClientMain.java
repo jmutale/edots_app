@@ -27,11 +27,10 @@ public class ClientMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_main);
 
-        /**ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-
-        }**/
+        }
 
         name = findViewById(R.id.name);
         dob = findViewById(R.id.dob);

@@ -57,6 +57,36 @@ public class ClientStatusActivity extends EdotActivity implements Validator.Vali
         rgClientIsLTFU = findViewById(R.id.rdgrpClientIsLTFU);
         rgTransOut = findViewById(R.id.rdgrpClientTransOut);
 
+        rgClientDied.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if(i==R.id.clientDiedYes) {
+                    disableOrEnableRGButton(rgClientRefusesToContinueTreatment, false);
+                    disableOrEnableRGButton(rgClientIsLTFU, false);
+                    disableOrEnableRGButton(rgTransOut, false);
+                    dteClientTransOutDate.setEnabled(false);
+                    editTextFacilityTransferredTo.setEnabled(false);
+                }
+                if(i==R.id.clientDiedNo){
+                    disableOrEnableRGButton(rgClientRefusesToContinueTreatment, true);
+                    disableOrEnableRGButton(rgClientIsLTFU, true);
+                    disableOrEnableRGButton(rgTransOut, true);
+                    dteClientTransOutDate.setEnabled(true);
+                    editTextFacilityTransferredTo.setEnabled(true);
+                }
+            }
+        });
+        rgTransOut.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if(i==R.id.clientTransOutYes){
+                    dteClientTransOutDate.setEnabled(true);
+                }
+                if(i==R.id.clientTransOutNo){
+                    dteClientTransOutDate.setEnabled(false);
+                }
+            }
+        });
         editTextFacilityTransferredTo = findViewById(R.id.editTextFacilityTransferredTo);
 
         btnSubmitStatus = findViewById(R.id.btnSubmitStatus);
@@ -82,12 +112,12 @@ public class ClientStatusActivity extends EdotActivity implements Validator.Vali
     }
 
     private void saveClientStatusToDatabase() {
-        String statusDate = getStatusDate();
+        String statusDate = Utils.getDateFromDatePicker(dteStatusDate);
         String reportingFacility = "";
         String clientDied =
                 ((RadioButton)findViewById(rgClientDied.getCheckedRadioButtonId())) == null?"":
                         ((RadioButton)findViewById(rgClientDied.getCheckedRadioButtonId())).getText().toString();
-        String clientDiedDate = clientDied==""?null:getClientDeathDate();
+        String clientDiedDate = clientDied==""?null:Utils.getDateFromDatePicker(dteClientDiedDate);
         String causeOfDeath = ((RadioButton)findViewById(rgCauseOfDeath.getCheckedRadioButtonId())) == null?"":
                 ((RadioButton)findViewById(rgCauseOfDeath.getCheckedRadioButtonId())).getText().toString();
         String clientRefusesTreatment = ((RadioButton)findViewById(rgClientRefusesToContinueTreatment.getCheckedRadioButtonId())) == null?"":
@@ -96,7 +126,7 @@ public class ClientStatusActivity extends EdotActivity implements Validator.Vali
                 ((RadioButton)findViewById(rgClientIsLTFU.getCheckedRadioButtonId())).getText().toString();
         String transOut = ((RadioButton)findViewById(rgTransOut.getCheckedRadioButtonId())) == null?"":
                 ((RadioButton)findViewById(rgTransOut.getCheckedRadioButtonId())).getText().toString();
-        String clientTransOutDate = transOut == ""?null:getClientTransOutDate();
+        String clientTransOutDate = transOut == ""?null:Utils.getDateFromDatePicker(dteClientTransOutDate);
         String facilityTransferredTo = editTextFacilityTransferredTo.getText().toString();
         dbHandler.saveClientStatusToDatabase(Utils.getNewUuid(),reportingFacility,client_uuid,statusDate,clientDied,clientDiedDate,causeOfDeath,clientRefusesTreatment,clientIsLTFU,transOut,clientTransOutDate,facilityTransferredTo);
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
@@ -114,23 +144,8 @@ public class ClientStatusActivity extends EdotActivity implements Validator.Vali
         builder.show();
     }
 
-    private String getClientTransOutDate() {
-        int day  = dteClientTransOutDate.getDayOfMonth();
-        int month = dteClientTransOutDate.getMonth()+1;
-        int year = dteClientTransOutDate.getYear();
 
-        String transOutDate = year + "-"+ month + "-" +day;
-        return transOutDate;
-    }
 
-    private String getClientDeathDate() {
-        int day  = dteClientDiedDate.getDayOfMonth();
-        int month = dteClientDiedDate.getMonth()+1;
-        int year = dteClientDiedDate.getYear();
-
-        String deathDate = year + "-"+ month + "-" +day;
-        return deathDate;
-    }
 
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
@@ -147,13 +162,11 @@ public class ClientStatusActivity extends EdotActivity implements Validator.Vali
         }
     }
 
-    private String getStatusDate()
-    {
-        int day  = dteStatusDate.getDayOfMonth();
-        int month = dteStatusDate.getMonth()+1;
-        int year = dteStatusDate.getYear();
+    private void disableOrEnableRGButton(RadioGroup radioGroup,boolean enable_or_disable){
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            ((RadioButton) radioGroup.getChildAt(i)).setEnabled(enable_or_disable);
+            ((RadioButton) radioGroup.getChildAt(i)).setChecked(false);
+        }
 
-        String statusDate = year + "-"+ month + "-" +day;
-        return statusDate;
     }
 }
