@@ -1,6 +1,7 @@
 package org.chreso.edots;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -37,6 +38,11 @@ public class ClientFeedbackActivity extends EdotActivity implements Validator.Va
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_feedback);
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         Bundle bundle = getIntent().getExtras();
         client_uuid = bundle.getString("client_uuid");
 
@@ -60,7 +66,7 @@ public class ClientFeedbackActivity extends EdotActivity implements Validator.Va
 
     @Override
     public void onValidationSucceeded() {
-        String feedbackDate = getFeedbackDate();
+        String feedbackDate = Utils.getDateFromDatePicker(dteClientFeedbackDate);
         dbHandler.saveClientFeedbackToDatabase(Utils.getNewUuid(),feedbackDate,client_uuid,editTextAdverseReaction.getText().toString(),editTextClientConcerns.getText().toString(),editTextAdviceGivenToClients.getText().toString());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
@@ -91,14 +97,9 @@ public class ClientFeedbackActivity extends EdotActivity implements Validator.Va
         }
     }
 
-    @NonNull
-    private String getFeedbackDate()
-    {
-        int day  = dteClientFeedbackDate.getDayOfMonth();
-        int month = dteClientFeedbackDate.getMonth()+1;
-        int year = dteClientFeedbackDate.getYear();
-
-        String dispesationDate = year + "-"+ month + "-" +day;
-        return dispesationDate;
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

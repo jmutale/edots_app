@@ -142,5 +142,9 @@ public class ClientMain extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }

@@ -1,5 +1,6 @@
 package org.chreso.edots;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -21,7 +22,7 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.util.List;
 
-public class EDOTSurveyActivity extends EdotActivity implements Validator.ValidationListener {
+public class EDOTSurveyActivity extends AppCompatActivity implements Validator.ValidationListener {
 
     private String client_uuid;
     private DBHandler dbHandler;
@@ -43,6 +44,11 @@ public class EDOTSurveyActivity extends EdotActivity implements Validator.Valida
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edotsurvey);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         Bundle bundle = getIntent().getExtras();
         client_uuid = bundle.getString("client_uuid");
@@ -115,5 +121,11 @@ public class EDOTSurveyActivity extends EdotActivity implements Validator.Valida
                 ((TextView)((RadioGroup) view).getFocusedChild()).setError(message);
             }
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

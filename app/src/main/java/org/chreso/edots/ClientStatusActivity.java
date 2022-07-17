@@ -1,5 +1,6 @@
 package org.chreso.edots;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -21,7 +22,7 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.util.List;
 
-public class ClientStatusActivity extends EdotActivity implements Validator.ValidationListener {
+public class ClientStatusActivity extends AppCompatActivity implements Validator.ValidationListener {
     private Button btnSubmitStatus;
     private Validator validator;
     private String client_uuid;
@@ -39,6 +40,11 @@ public class ClientStatusActivity extends EdotActivity implements Validator.Vali
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_status);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         Bundle bundle = getIntent().getExtras();
         client_uuid = bundle.getString("client_uuid");
@@ -167,6 +173,11 @@ public class ClientStatusActivity extends EdotActivity implements Validator.Vali
             ((RadioButton) radioGroup.getChildAt(i)).setEnabled(enable_or_disable);
             ((RadioButton) radioGroup.getChildAt(i)).setChecked(false);
         }
+    }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

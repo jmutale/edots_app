@@ -1,5 +1,6 @@
 package org.chreso.edots;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -33,6 +34,12 @@ public class ClientTBLabsActivity extends AppCompatActivity implements Validator
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_tblabs);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         Bundle bundle = getIntent().getExtras();
         client_uuid = bundle.getString("client_uuid");
         dbHandler = new DBHandler(getApplicationContext());
@@ -92,5 +99,11 @@ public class ClientTBLabsActivity extends AppCompatActivity implements Validator
                 ((TextView)view).setError(message);
             }
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

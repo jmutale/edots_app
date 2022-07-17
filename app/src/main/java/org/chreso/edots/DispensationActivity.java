@@ -90,11 +90,11 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dispensation);
-        /**ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(R.string.pharmacy_title_text);
-        }**/
+
+        }
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
@@ -310,5 +310,11 @@ public class DispensationActivity extends AppCompatActivity implements Validator
                 ((TextView)view).setError(message);
             }
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
