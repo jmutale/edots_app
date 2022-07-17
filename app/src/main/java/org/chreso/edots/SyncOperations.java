@@ -170,7 +170,7 @@ public class SyncOperations {
 
                 @Override
                 public void onFailure(Call<ClientStatusEvent> call, Throwable t) {
-                    Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -242,7 +242,7 @@ public class SyncOperations {
 
                 @Override
                 public void onFailure(Call<ClientDispensationEvent> call, Throwable t) {
-                    Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
                 }
 
 
