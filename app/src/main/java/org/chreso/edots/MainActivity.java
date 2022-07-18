@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -79,6 +80,7 @@ public class MainActivity extends EdotActivity {
         }
     );
 
+        showWelcomeScreen();
        // getExternalStoragePermission();
 
 }
@@ -113,7 +115,16 @@ public class MainActivity extends EdotActivity {
         startActivity(intent);
     }
 
+    private void showWelcomeScreen() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("eDOT Application")
+                .setMessage("Welcome to the eDOT App. Search for or click on a client record to start.")
+                .setCancelable(true)
 
+                ;
+        builder.create();
+        builder.show();
+    }
 
 
 

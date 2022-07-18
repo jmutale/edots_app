@@ -134,9 +134,10 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
                     if (loginResponse != null) {
                         if (loginResponse.getToken() != null) {
                             setAuthToken(loginResponse.getToken());
+
                             goToMainActivity();
                         }else{
-                            Toast.makeText(getContext(),"Something wrong with the Body",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(),"Something wrong's.",Toast.LENGTH_LONG).show();
                         }
                     } else {
                         Toast.makeText(getContext(),"The username or password is incorrect",Toast.LENGTH_LONG).show();
@@ -153,6 +154,8 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
             }
         });
     }
+
+
 
     private Context getContext(){
         return getApplicationContext();

@@ -169,6 +169,7 @@
                 android:layout_marginEnd="11dp"
                 android:layout_marginBottom="4dp"
                 android:orientation="vertical"
+                android:background="@drawable/round_button"
                 android:text="Client Status"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/btnClientFeedback"
@@ -182,6 +183,7 @@
                 android:layout_marginEnd="11dp"
                 android:layout_marginBottom="4dp"
                 android:orientation="vertical"
+                android:background="@drawable/round_button"
                 android:text="Adverse Reactions"
                 app:layout_constraintBottom_toTopOf="@id/btnDispenseDrugToClient"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -196,6 +198,7 @@
                 android:layout_marginBottom="4dp"
                 android:orientation="vertical"
                 android:text="Dispense drug"
+                android:background="@drawable/round_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/btnEdotSurvey"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -210,6 +213,7 @@
                 android:layout_marginBottom="4dp"
                 android:orientation="vertical"
                 android:text="Client Feedback"
+                android:background="@drawable/round_button"
                 app:layout_constraintBottom_toTopOf="@id/btnClientTBLabs"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -223,6 +227,7 @@
                 android:layout_marginBottom="4dp"
                 android:orientation="vertical"
                 android:text="TB Lab Results"
+                android:background="@drawable/round_button"
                 app:layout_constraintBottom_toBottomOf="@id/btnEdotSurvey"
                 app:layout_constraintEnd_toEndOf="parent" />
 

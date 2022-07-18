@@ -256,7 +256,7 @@ public class SyncOperations {
                     try {
                         Uri uri = Uri.parse(cd.getVideo_path());
                         inStream = myContext.getContentResolver().openInputStream(uri);
-                        fileObject = new File(Environment.getExternalStorageDirectory().getPath() + "/" + cd.getMedDrugName(cd.getMed_drug_uuid(), myContext) + "_" + cd.getCleanNrc(cd.getClient_uuid(), myContext) + ".mp4");
+                        fileObject = new File(Environment.getExternalStorageDirectory().getPath() + "/" + cd.getMedDrugName(cd.getMed_drug_uuid(), myContext) + "_" + cd.getCleanNrc(cd.getClient_uuid(), myContext) +"_"+ System.currentTimeMillis() + ".mp4");
                         copyInputStreamToFile(inStream, fileObject);
 
                     } catch (FileNotFoundException e) {
