@@ -20,7 +20,7 @@ import java.util.List;
 
 import okhttp3.internal.Util;
 
-public class ClientFeedbackActivity extends EdotActivity implements Validator.ValidationListener {
+public class ClientFeedbackActivity extends AppCompatActivity implements Validator.ValidationListener {
     @NotEmpty
     private EditText editTextClientConcerns;
     @NotEmpty

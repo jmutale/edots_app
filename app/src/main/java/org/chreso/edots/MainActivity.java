@@ -1,6 +1,7 @@
 package org.chreso.edots;
 
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -9,33 +10,42 @@ import androidx.preference.PreferenceManager;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 
-public class MainActivity extends EdotActivity {
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "Main";
     private ExecutorService myExecutor;
     private SearchView searchView;
     private ListView list;
     ClientAdapter clientAdapter;
-
     private DBHandler dbHandler;
     private final int EXTERNAL_STORAGE_PERMISSION_CODE = 23;
-
+    private ProgressBar progressBar;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        progressBar = findViewById(R.id.progressBar);
+
 
         dbHandler = new DBHandler(this);
 
@@ -80,10 +90,16 @@ public class MainActivity extends EdotActivity {
         }
     );
 
-        showWelcomeScreen();
+
        // getExternalStoragePermission();
 
 }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //showWelcomeScreen();
+    }
 
     private void getExternalStoragePermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
@@ -128,5 +144,150 @@ public class MainActivity extends EdotActivity {
 
 
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+
+            case R.id.sync_item:
+
+                String server = Utils.getServerUrl(this);
+                String token = PreferenceManager
+                        .getDefaultSharedPreferences(this).getString("token",null);
+                if(server!=null&&token!=null) {
+                    if(Utils.isInternetAvailable(getApplicationContext())) {
+                        //new SyncOperations(getApplicationContext()).startDataSync();
+                        new SyncAsyncTask().execute();
+                    }else{
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                                .setTitle("Network Error")
+                                .setMessage("Please connect to the internet before you can sync data.")
+                                .setCancelable(true)
+
+                                ;
+                        builder.create();
+                        builder.show();
+                    }
+
+
+                }else
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                            .setTitle("Server Error")
+                            .setMessage("Please assign a server URL value and log in before you can sync data.")
+                            .setCancelable(true)
+
+                            ;
+                    builder.create();
+                    builder.show();
+                }
+                return true;
+            case R.id.settings_item:
+                openSettingsForm();
+                return true;
+            case R.id.register_client_item:
+                openClientRegistrationForm();
+                return true;
+
+            case R.id.logout_item:
+                logout();
+                return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void openClientRegistrationForm() {
+        Intent intent = new Intent(this, RegisterClientActivity.class);
+        startActivity(intent);
+    }
+
+    private void logout() {
+        getPrefs().edit().remove("token").commit();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    private void openSettingsForm() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    public SharedPreferences getPrefs() {
+        return prefs;
+    }
+
+    public void setPrefs(SharedPreferences prefs) {
+        this.prefs = prefs;
+    }
+
+
+    private class SyncAsyncTask extends AsyncTask<Void, Integer, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            SyncOperations syncOperations = new SyncOperations(getApplicationContext());
+            try {
+                syncOperations.syncMedDrugs();
+                publishProgress(13);
+                Thread.sleep(1000);
+                syncOperations.syncFacilityData();
+                publishProgress(26);
+                Thread.sleep(1000);
+                syncOperations.syncClientData();
+                publishProgress(39);
+                Thread.sleep(1000);
+                syncOperations.syncDrugDispensations();
+                publishProgress(42);
+                Thread.sleep(1000);
+                syncOperations.syncClientStatusData();
+                publishProgress(73);
+                Thread.sleep(1000);
+                syncOperations.syncClientFeedbackData();
+                publishProgress(86);
+                Thread.sleep(1000);
+                syncOperations.syncClientEDOTSurvey();
+                publishProgress(95);
+                Thread.sleep(1000);
+                syncOperations.syncClientTBLabData();
+                publishProgress(100);
+            }catch(InterruptedException e){
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            progressBar.setProgress(values[0]);
+
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            progressBar.setProgress(0);
+            progressBar.setVisibility(View.GONE);
+            ArrayList<Client> arrayOfClients = dbHandler.getLisOfClientDetailsFromDatabase();
+            clientAdapter = new ClientAdapter(MainActivity.this,arrayOfClients);
+            list.setAdapter(clientAdapter);
+        }
+    }
 
 }

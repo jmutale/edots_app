@@ -3,6 +3,8 @@ package org.chreso.edots;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.preference.PreferenceManager;
@@ -30,6 +32,7 @@ public class SyncOperations {
     private DBHandler dbHandler;
     private Context myContext;
     public static final int DEFAULT_BUFFER_SIZE = 8192;
+    private ProgressBar progressBar;
 
     public SyncOperations(Context context) {
 
@@ -38,7 +41,9 @@ public class SyncOperations {
     }
 
     public void startDataSync(){
+
         try {
+
             syncMedDrugs();
             syncFacilityData();
             syncClientData();
@@ -52,7 +57,7 @@ public class SyncOperations {
         }
     }
 
-    private void syncClientTBLabData() {
+    void syncClientTBLabData() {
         ArrayList<ClientTBLab> listOfClientTBLabsFromDatabase = dbHandler.getListOfClientTBLabsFromDatabase();
         for(ClientTBLab ctl : listOfClientTBLabsFromDatabase) {
             ClientTBLabEvent ctle = setClientTBLabEvent(ctl);
@@ -70,6 +75,7 @@ public class SyncOperations {
                 }
             });
         }
+
     }
 
     private ClientTBLabEvent setClientTBLabEvent(ClientTBLab ctl) {
@@ -81,7 +87,7 @@ public class SyncOperations {
         return ctle;
     }
 
-    private void syncClientEDOTSurvey() {
+    void syncClientEDOTSurvey() {
 
         ArrayList<ClientEDOTSurvey> listOfClientEDOTSurveyRecords = dbHandler.getListOfClientSurveyRecords();
         for(ClientEDOTSurvey ces: listOfClientEDOTSurveyRecords){
@@ -114,7 +120,7 @@ public class SyncOperations {
         return cese;
     }
 
-    private void syncClientFeedbackData() {
+    void syncClientFeedbackData() {
         ArrayList<ClientFeedback> listOfClientFeedbackEntries = null;
         try {
             listOfClientFeedbackEntries = dbHandler.getListOfClientFeedbackEntriesFromDatabase();
@@ -151,7 +157,7 @@ public class SyncOperations {
         return cfe;
     }
 
-    private void syncClientStatusData() {
+    void syncClientStatusData() {
 
         ArrayList<ClientStatus> listOfClientStatuses = null;
         try {
@@ -194,7 +200,7 @@ public class SyncOperations {
 
     }
 
-    private void syncFacilityData() {
+    void syncFacilityData() {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(PreferenceManager
@@ -226,7 +232,7 @@ public class SyncOperations {
         });
     }
 
-    private void syncDrugDispensations() {
+    void syncDrugDispensations() {
         ArrayList<ClientDispensation> listOfClientDispensationsFromDatabase = dbHandler.getListOfClientDispensationsFromDatabase();
         for(ClientDispensation cd : listOfClientDispensationsFromDatabase) {
 
@@ -311,7 +317,7 @@ public class SyncOperations {
         return cde;
     }
 
-    private void syncClientData() {
+    void syncClientData() {
 
         Call<List<Client>> call = getApiInterface().getClients("Token "+getAuthToken());
 
@@ -354,7 +360,7 @@ public class SyncOperations {
         }
     }
 
-    private void syncMedDrugs() {
+    void syncMedDrugs() {
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(1000, TimeUnit.SECONDS)
                 .connectTimeout(1000, TimeUnit.SECONDS)

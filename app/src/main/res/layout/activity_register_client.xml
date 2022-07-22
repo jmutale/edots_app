@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:inputType="text"
-            android:digits="0123456789/">
+            android:digits="01234567890/">
         </EditText>
     </LinearLayout>
         <!--First Name-->
@@ -175,7 +175,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="phone">
+                android:inputType="number">
             </EditText>
         </LinearLayout>
         <!--Submit client record-->
