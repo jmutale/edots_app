@@ -44,6 +44,9 @@ public interface ApiInterface {
     @POST("/api-token-auth/")
     Call <AuthToken> login(@Body LoginBody loginBody);
 
+    @GET("/logged-in-user-details/")
+    Call <LoggedInUser> getLoggedInUser(@Header("Authorization") String authHeader);
+
     @Multipart
     @POST("/dispensation-videos/")
     Call <ClientVideoUploadServerResponse> uploadVideo(@Part("uuid") RequestBody uuid, @Part("dispensation_uuid") RequestBody dispensation_uuid, @Part MultipartBody.Part file, @Part("file") RequestBody name, @Header("Authorization") String authHeader);

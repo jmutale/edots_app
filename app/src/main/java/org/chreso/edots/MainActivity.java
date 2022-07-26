@@ -9,6 +9,7 @@ import androidx.preference.PreferenceManager;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -22,9 +23,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.concurrent.ExecutorService;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
     private final int EXTERNAL_STORAGE_PERMISSION_CODE = 23;
     private ProgressBar progressBar;
     private SharedPreferences prefs;
+    private TextView txtSyncMessage;
+    private TextView txtFirstNameWelcome;
+    private TextView currentDate;
+    private Calendar calendar;
+    private String date;
+    private SimpleDateFormat simpleDateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +56,15 @@ public class MainActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
 
-
         dbHandler = new DBHandler(this);
 
         searchView = findViewById(R.id.search_bar);
+
+        currentDate = findViewById(R.id.txtCurrentDate);
+        calendar = Calendar.getInstance();
+        simpleDateFormat = new SimpleDateFormat("d MMMM, yyyy");
+        date = simpleDateFormat.format(calendar.getTime());
+        currentDate.setText(date);
 
         list=findViewById(R.id.list);
 
@@ -60,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
         clientAdapter = new ClientAdapter(this,arrayOfClients);
         list.setAdapter(clientAdapter);
+        txtFirstNameWelcome = findViewById(R.id.txtFirstNameWelcome);
+        txtSyncMessage = findViewById(R.id.txtSyncMessage);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -89,7 +106,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     );
-
+        Bundle bundle = getIntent().getExtras();
+        if(bundle.getString("first_name")!=null) {
+            txtFirstNameWelcome.setText("Welcome, " + bundle.getString("first_name"));
+        }else {
+                txtFirstNameWelcome.setText("Welcome");
+        }
 
        // getExternalStoragePermission();
 
@@ -98,7 +120,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //showWelcomeScreen();
+        boolean previouslyStarted = getPrefs().getBoolean(getString(R.string.pref_previously_started), false);
+        if(!previouslyStarted) {
+            SharedPreferences.Editor edit = getPrefs().edit();
+            edit.putBoolean(getString(R.string.pref_previously_started), Boolean.TRUE);
+            edit.commit();
+            showWelcomeScreen();
+        }
+
     }
 
     private void getExternalStoragePermission() {
@@ -137,6 +166,22 @@ public class MainActivity extends AppCompatActivity {
                 .setMessage("Welcome to the eDOT App. Search for or click on a client record to start.")
                 .setCancelable(true)
 
+                ;
+        builder.create();
+        builder.show();
+    }
+
+    private void loadingUserName(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("eDOT Application")
+                .setMessage("Loading...")
+                .setCancelable(true)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
                 ;
         builder.create();
         builder.show();
@@ -237,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressBar.setVisibility(View.VISIBLE);
+            txtSyncMessage.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -266,6 +312,7 @@ public class MainActivity extends AppCompatActivity {
                 Thread.sleep(1000);
                 syncOperations.syncClientTBLabData();
                 publishProgress(100);
+                Thread.sleep(500);
             }catch(InterruptedException e){
 
             }
@@ -284,6 +331,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(unused);
             progressBar.setProgress(0);
             progressBar.setVisibility(View.GONE);
+            txtSyncMessage.setVisibility(View.GONE);
             ArrayList<Client> arrayOfClients = dbHandler.getLisOfClientDetailsFromDatabase();
             clientAdapter = new ClientAdapter(MainActivity.this,arrayOfClients);
             list.setAdapter(clientAdapter);

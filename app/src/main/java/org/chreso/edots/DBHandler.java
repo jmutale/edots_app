@@ -520,4 +520,17 @@ public class DBHandler extends SQLiteOpenHelper {
         c.close();
         return video_uploaded_to_server;
     }
+
+    public boolean isClientDead(String client_uuid) {
+        boolean clientDead = false;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT client_died FROM client_status WHERE client_uuid = '"+client_uuid+"' LIMIT 1",null);
+        if(c.moveToFirst()){
+            do{
+              clientDead = c.getString(0).equals("yes")?true:false;
+            }while(c.moveToNext());
+        }
+        c.close();
+        return  clientDead;
+    }
 }

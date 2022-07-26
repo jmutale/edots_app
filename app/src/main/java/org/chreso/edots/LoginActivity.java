@@ -8,11 +8,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +24,9 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,11 +46,14 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
 
     private TextView txtForgotPass;
     private Validator validator;
+    private ProgressBar progressBarLogin;
+    private String first_name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         checkIfLoggedIn();
+        progressBarLogin = findViewById(R.id.progressBarLogin);
         validator = new Validator(this);
         validator.setValidationListener(this);
 
@@ -109,7 +116,10 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
     }
 
     private void goToMainActivity(){
+        Bundle b = new Bundle();
+        b.putString("first_name", first_name);
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtras(b);
         startActivity(intent);
     }
 
@@ -134,8 +144,7 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
                     if (loginResponse != null) {
                         if (loginResponse.getToken() != null) {
                             setAuthToken(loginResponse.getToken());
-
-                            goToMainActivity();
+                            setFirstName();
                         }else{
                             Toast.makeText(getContext(),"Something wrong's.",Toast.LENGTH_LONG).show();
                         }
@@ -153,8 +162,43 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
 
             }
         });
+
+
     }
 
+    private void setFirstName() {
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(1000, TimeUnit.SECONDS)
+                .connectTimeout(1000, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(PreferenceManager
+                        .getDefaultSharedPreferences(getContext()).getString("server",null))
+                .client(okHttpClient)
+                .build();
+
+        ApiInterface api = retrofit.create(ApiInterface.class);
+        Call<LoggedInUser> call = api.getLoggedInUser("Token "+Utils.getAuthToken(getContext()));
+
+        call.enqueue(new Callback<LoggedInUser>() {
+            @Override
+            public void onResponse(Call<LoggedInUser> call, Response<LoggedInUser> response) {
+                if (response.isSuccessful()) {
+                    LoggedInUser loggedInUser = (LoggedInUser) response.body();
+                    if(loggedInUser!=null){
+                        first_name = loggedInUser.getFirst_name();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoggedInUser> call, Throwable t) {
+
+            }
+        });
+    }
 
 
     private Context getContext(){
@@ -170,7 +214,7 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
     public void onValidationSucceeded() {
         if(PreferenceManager
                 .getDefaultSharedPreferences(this).getString("server",null)!=null) {
-            doLogin(username.getText().toString(), password.getText().toString());
+             new LoginAsyncTask().execute();
         }else
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this)
@@ -197,6 +241,28 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
             } else if (view instanceof Spinner) {
                 ((TextView) ((Spinner) view).getSelectedView()).setError(message);
             }
+        }
+    }
+
+    private class LoginAsyncTask extends AsyncTask<Void, Integer, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBarLogin.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            doLogin(username.getText().toString(), password.getText().toString());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            progressBarLogin.setVisibility(View.GONE);
+            goToMainActivity();
         }
     }
 }

@@ -214,25 +214,27 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     }
 
     private void saveDispensationToDatabase() {
-        genericName = spnDrugsFromDatabase.getSelectedItem().toString();
-        meddrug_uuid = getUuidFromGenericName(genericName);
-        dispensation_date = Utils.getDateFromDatePicker(dteDispensationDate);
-        String refillDate = Utils.getDateFromDatePicker(dteRefillDate);
-        String refillTime = getRefillTime();
-        String location = getConfiguredLocation();
-        String dispensation_uuid = Utils.getNewUuid();
-        String nextClinicAppointmentDate = Utils.getDateFromDatePicker(dteNextClinicAppointmentDate);
-        dbHandler.saveDispensationToDatabase(dispensation_uuid,meddrug_uuid,client_uuid,dispensation_date,txtDose.getText().toString(),txtItemsPerDose.getText().toString(),spnFrequency.getSelectedItem().toString(), refillDate, String.valueOf(video_path), location, nextClinicAppointmentDate, refillTime);
+
+            genericName = spnDrugsFromDatabase.getSelectedItem().toString();
+            meddrug_uuid = getUuidFromGenericName(genericName);
+            dispensation_date = Utils.getDateFromDatePicker(dteDispensationDate);
+            String refillDate = Utils.getDateFromDatePicker(dteRefillDate);
+            String refillTime = getRefillTime();
+            String location = getConfiguredLocation();
+            String dispensation_uuid = Utils.getNewUuid();
+            String nextClinicAppointmentDate = Utils.getDateFromDatePicker(dteNextClinicAppointmentDate);
+            dbHandler.saveDispensationToDatabase(dispensation_uuid, meddrug_uuid, client_uuid, dispensation_date, txtDose.getText().toString(), txtItemsPerDose.getText().toString(), spnFrequency.getSelectedItem().toString(), refillDate, String.valueOf(video_path), location, nextClinicAppointmentDate, refillTime);
+
+    }
+
+    private boolean clientStatusPermits() {
+        return !dbHandler.isClientDead(client_uuid);
     }
 
     private String getRefillTime() {
         int hour, minute;
-
         hour = refillTimePicker.getHour();
         minute = refillTimePicker.getMinute();
-
-
-
         return hour +":"+ minute+":00";
     }
 

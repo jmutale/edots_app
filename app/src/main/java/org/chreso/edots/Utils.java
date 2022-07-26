@@ -86,4 +86,13 @@ public class Utils {
     }
 
 
+    public static String getAuthToken(Context context) {
+        String toReturn = "";
+        if(PreferenceManager
+                .getDefaultSharedPreferences(context).getString("token",null)!=null){
+            toReturn = PreferenceManager
+                    .getDefaultSharedPreferences(context).getString("token",null);
+        }
+        return toReturn;
+    }
 }

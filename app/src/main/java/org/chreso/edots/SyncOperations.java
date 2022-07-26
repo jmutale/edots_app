@@ -66,7 +66,7 @@ public class SyncOperations {
 
                 @Override
                 public void onResponse(Call<ClientTBLabEvent> call, Response<ClientTBLabEvent> response) {
-                    Toast.makeText(myContext, "Syncing client tb labs. ",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(myContext, "Syncing client tb labs. ",Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -97,7 +97,7 @@ public class SyncOperations {
 
                 @Override
                 public void onResponse(Call<ClientEDOTSurveyEvent> call, Response<ClientEDOTSurveyEvent> response) {
-                    Toast.makeText(myContext,"Syncing client survey. ",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(myContext,"Syncing client survey. ",Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -135,7 +135,7 @@ public class SyncOperations {
 
                 @Override
                 public void onResponse(Call<ClientFeedbackEvent> call, Response<ClientFeedbackEvent> response) {
-                    Toast.makeText(myContext,"Syncing client feedback. ",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(myContext,"Syncing client feedback. ",Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -220,7 +220,7 @@ public class SyncOperations {
                 }else {
                     for (Location l : response.body()) {
                         dbHandler.addNewLocation(l.getUuid(), l.getName(), l.getCode(), l.getType(), l.getParent());
-                        Toast.makeText(myContext, "Syncing location: " + l.getName(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(myContext, "Syncing location: " + l.getName(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -242,13 +242,13 @@ public class SyncOperations {
             call.enqueue(new Callback<ClientDispensationEvent>() {
                 @Override
                 public void onResponse(Call<ClientDispensationEvent> call, Response<ClientDispensationEvent> response) {
-                    Toast.makeText(myContext, "Syncing dispensations: " + cd.getMedDrugName(response.body().getMed_drug_uuid(), myContext), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(myContext, "Syncing dispensations: " + cd.getMedDrugName(response.body().getMed_drug_uuid(), myContext), Toast.LENGTH_LONG).show();
 
                 }
 
                 @Override
                 public void onFailure(Call<ClientDispensationEvent> call, Throwable t) {
-                    //Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -287,7 +287,7 @@ public class SyncOperations {
 
                     @Override
                     public void onResponse(Call<ClientVideoUploadServerResponse> call, Response<ClientVideoUploadServerResponse> response) {
-                        Toast.makeText(myContext, "Syncing dispensation videos. ", Toast.LENGTH_LONG).show();
+                       // Toast.makeText(myContext, "Syncing dispensation videos. ", Toast.LENGTH_SHORT).show();
                         dbHandler.updateClientVideoAfterSync(cd.getDispensation_uuid());
                     }
 
@@ -327,7 +327,7 @@ public class SyncOperations {
                 for (Client client: response.body()) {
 
                     dbHandler.addNewClient(client.getUuid(),client.getNrc_number(),client.getChreso_id(), client.getArt_number(), client.getFirst_name(), client.getLast_name(), client.getDate_of_birth(), client.getSex(), client.getMobile_phone_number(), client.getFacility(), client.getIs_client_on_server());
-                    Toast.makeText(myContext, "Syncing client from server: "+client.getNrc_number(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(myContext, "Syncing client from server: "+client.getNrc_number(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -348,7 +348,7 @@ public class SyncOperations {
 
                 @Override
                 public void onResponse(Call<ClientEvent> call, Response<ClientEvent> response) {
-                    Toast.makeText(myContext, "Syncing client to server: "+response.body().getNrc_number(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(myContext, "Syncing client to server: "+response.body().getNrc_number(), Toast.LENGTH_SHORT).show();
                     dbHandler.updateClientStatusAfterSync(c.getUuid());
                 }
 
@@ -385,7 +385,7 @@ public class SyncOperations {
                     for (MedDrug drug : response.body()) {
 
                         dbHandler.addNewMedDrug(drug.getUuid(), drug.getGeneric_name(), drug.getBrand_name(), drug.getFormulation(), drug.getGeneric_ingredients(), drug.getGeneric_strength());
-                        Toast.makeText(myContext, "Syncing drug: " + drug.getGeneric_name(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(myContext, "Syncing drug: " + drug.getGeneric_name(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
