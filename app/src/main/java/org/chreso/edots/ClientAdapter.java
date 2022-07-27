@@ -42,13 +42,16 @@ public class ClientAdapter extends ArrayAdapter<Client> {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
 
                 for(Client item : clientListFull){
-                    if(item.getFirst_name().toLowerCase().contains(filterPattern)){
+                    String fullName = item.getFirst_name().toLowerCase() +" "+item.getLast_name().toLowerCase();
+                    if(item.getFirst_name().toLowerCase().contains(filterPattern)||item.getFirst_name().toLowerCase().equals(filterPattern)){
                         suggestions.add(item);
-                    }else if(item.getLast_name().toLowerCase().contains(filterPattern)){
+                    }else if(item.getLast_name().toLowerCase().contains(filterPattern)||item.getLast_name().toLowerCase().equals(filterPattern)){
                         suggestions.add(item);
-                    }else if(item.getMobile_phone_number().toLowerCase().contains(filterPattern)){
+                    }else if(item.getMobile_phone_number().toLowerCase().contains(filterPattern)||item.getMobile_phone_number().toLowerCase().equals(filterPattern)){
                         suggestions.add(item);
-                    }else if(item.getNrc_number().toLowerCase().contains(filterPattern)){
+                    }else if(item.getNrc_number().toLowerCase().contains(filterPattern)||item.getNrc_number().toLowerCase().equals(filterPattern)){
+                        suggestions.add(item);
+                    }else if(fullName.contains(filterPattern)){
                         suggestions.add(item);
                     }
                 }
