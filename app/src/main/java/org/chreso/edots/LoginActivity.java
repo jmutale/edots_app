@@ -145,6 +145,7 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
                         if (loginResponse.getToken() != null) {
                             setAuthToken(loginResponse.getToken());
                             setFirstName();
+                            goToMainActivity();
                         }else{
                             Toast.makeText(getContext(),"Something wrong's.",Toast.LENGTH_LONG).show();
                         }
@@ -262,7 +263,7 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             progressBarLogin.setVisibility(View.GONE);
-            goToMainActivity();
+
         }
     }
 }
