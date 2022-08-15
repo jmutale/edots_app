@@ -2,4 +2,5 @@
 <resources>
     <item name="button_dispense" type="id" />
     <item name="btnSubmitFeedback" type="id" />
+    <item name="txtClientAdverseReaction" type="id" />
 </resources>

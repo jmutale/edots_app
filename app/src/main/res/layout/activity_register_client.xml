@@ -130,6 +130,90 @@
                 android:inputType="date"
                 android:calendarViewShown="false" />
         </LinearLayout>
+        <!--How many individuals are in the same household-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:id="@+id/txtNumberOfIndividualsInHousehold"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Number of individuals in household"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            />
+        <EditText
+            android:id="@+id/editNumberOfIndividualsInHousehold"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="number">
+        </EditText>
+    </LinearLayout>
+        <!--Are individuals on IPT-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:id="@+id/txtAreIndividualsOnIPT"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Are individuals in household on IPT?"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+            <RadioGroup
+                android:id="@+id/rdgrpHouseholdOnIPT"
+                android:layout_weight="1"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/householdOnIPTYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"/>
+                <RadioButton
+                    android:id="@+id/householdOnIPTNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"/>
+            </RadioGroup>
+
+        </LinearLayout>
+        <!--Reasons not on IPT-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:id="@+id/txtReasonsNotOnIPT"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Why are individuals not on ipt"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        <EditText
+            android:id="@+id/editTextReasonsNotOnIPT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:background="@drawable/border"
+            android:layout_weight="1"
+            android:lines="8"
+            android:maxLines="10"
+            android:minLines="4"
+            android:scrollbars="vertical"
+            android:enabled="false"/>
+
+    </LinearLayout>
         <!--Sex-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -142,7 +226,7 @@
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Sex"
+                android:text="Gender"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <Spinner

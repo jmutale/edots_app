@@ -9,8 +9,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -22,7 +24,7 @@ import okhttp3.internal.Util;
 
 public class ClientFeedbackActivity extends AppCompatActivity implements Validator.ValidationListener {
     @NotEmpty
-    private EditText editTextClientConcerns;
+    private LinearLayout layoutClientConcerns;
     @NotEmpty
     private EditText editTextAdviceGivenToClients;
     @NotEmpty
@@ -51,9 +53,9 @@ public class ClientFeedbackActivity extends AppCompatActivity implements Validat
         validator = new Validator(this);
         validator.setValidationListener(this);
         dteClientFeedbackDate = findViewById(R.id.dteFeedbackDate);
-        editTextClientConcerns = findViewById(R.id.editTextClientConcerns);
-        editTextAdverseReaction = findViewById(R.id.editTextAdverseReactions);
-        editTextAdviceGivenToClients = findViewById(R.id.editTextAdviceGiveToClient);
+        layoutClientConcerns = findViewById(R.id.clientConcernsCheckBoxGroup);
+        //editTextAdverseReaction = findViewById(R.id.editTextAdverseReactions);
+        //editTextAdviceGivenToClients = findViewById(R.id.editTextAdviceGiveToClient);
 
         btnSubmitFeedback = findViewById(R.id.btnSubmitFeedback);
         btnSubmitFeedback.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +69,7 @@ public class ClientFeedbackActivity extends AppCompatActivity implements Validat
     @Override
     public void onValidationSucceeded() {
         String feedbackDate = Utils.getDateFromDatePicker(dteClientFeedbackDate);
-        dbHandler.saveClientFeedbackToDatabase(Utils.getNewUuid(),feedbackDate,client_uuid,editTextAdverseReaction.getText().toString(),editTextClientConcerns.getText().toString(),editTextAdviceGivenToClients.getText().toString());
+        dbHandler.saveClientFeedbackToDatabase(Utils.getNewUuid(),feedbackDate,client_uuid,editTextAdverseReaction.getText().toString(),getClientConcernsFromCheckboxGroup(layoutClientConcerns).toString(),editTextAdviceGivenToClients.getText().toString());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle("Success")
@@ -82,6 +84,18 @@ public class ClientFeedbackActivity extends AppCompatActivity implements Validat
                 ;
         builder.create();
         builder.show();
+    }
+
+    private Object getClientConcernsFromCheckboxGroup(LinearLayout layout) {
+        StringBuilder builder = new StringBuilder();
+        for(int i=0;i<layout.getChildCount();i++)
+        {
+            View v = layout.getChildAt(i);
+            if(v instanceof CheckBox){
+                builder.append(((CheckBox)v).getText()).append(",");
+            }
+        }
+        return builder.toString();
     }
 
     @Override

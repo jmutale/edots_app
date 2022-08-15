@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -32,7 +34,11 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
     private Validator validator;
     @NotEmpty
     private EditText clientNrcNumber;
+    @NotEmpty
+    EditText editNumberOfIndividualsInHousehold;
     private EditText phone;
+    private EditText editReasonsNotOnIPT;
+
     @NotEmpty
     private EditText clientFirstName;
     @NotEmpty
@@ -41,6 +47,8 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
     private DatePicker dteDateOfBirth;
     private Spinner spnFacilityClientBelongsTo;
     private Spinner clientSex;
+    private RadioGroup rgClientHouseholdOnIPT;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +58,7 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
         validator.setValidationListener(this);
 
         dbHandler = new DBHandler(getApplicationContext());
-
+        editNumberOfIndividualsInHousehold = findViewById(R.id.editNumberOfIndividualsInHousehold);
 
         spnFacilityClientBelongsTo = findViewById(R.id.spnFacilitiesFromDatabase);
         clientNrcNumber = findViewById(R.id.txtNRCNumber);
@@ -78,18 +86,37 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner sItems = findViewById(R.id.spnFacilitiesFromDatabase);
         sItems.setAdapter(adapter);
+        editReasonsNotOnIPT = findViewById(R.id.editTextReasonsNotOnIPT);
+        rgClientHouseholdOnIPT = findViewById(R.id.rdgrpHouseholdOnIPT);
+        rgClientHouseholdOnIPT.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId==R.id.householdOnIPTYes) {
+                    editReasonsNotOnIPT.setEnabled(false);
+                    editReasonsNotOnIPT.setText("");
+                }
+                if(checkedId==R.id.householdOnIPTNo){
+                    editReasonsNotOnIPT.setEnabled(true);
+                }
+            }
+        });
     }
 
     private void saveClientRecord() {
         String client_uuid = Utils.getNewUuid();
         String dateOfBirth = Utils.getDateFromDatePicker(dteDateOfBirth);
+        String numberOfIndividualsInHousehold = editNumberOfIndividualsInHousehold.getText().toString();
+        String householdOnIPT =
+                ((RadioButton)findViewById(rgClientHouseholdOnIPT.getCheckedRadioButtonId())) == null?"":
+                        ((RadioButton)findViewById(rgClientHouseholdOnIPT.getCheckedRadioButtonId())).getText().toString();
+        String reasonsNotOnIPT = editReasonsNotOnIPT.getText().toString();
         String nrcNumber = clientNrcNumber.getText().toString();
         String fname = clientFirstName.getText().toString();
         String lname = clientLastName.getText().toString();
         String phoneNumber = phone.getText().toString();
         String sex = clientSex.getSelectedItem().toString();
         String facilityUuid = getUuidFromFacilityName(spnFacilityClientBelongsTo.getSelectedItem().toString());
-        dbHandler.addNewClient(client_uuid, nrcNumber, "","",fname,lname,dateOfBirth,sex,phoneNumber, facilityUuid, false);
+        dbHandler.addNewClient(client_uuid, nrcNumber, "","",fname,lname,dateOfBirth,numberOfIndividualsInHousehold,householdOnIPT,reasonsNotOnIPT,sex,phoneNumber, facilityUuid, false);
     }
 
     private String getUuidFromFacilityName(String facilityName) {

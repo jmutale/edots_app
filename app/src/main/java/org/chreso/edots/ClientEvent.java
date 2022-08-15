@@ -10,12 +10,15 @@ public class ClientEvent {
     private String first_name;
     private String last_name;
     private String date_of_birth;
+    private String how_many_individuals_are_in_the_same_household;
+    private String are_individuals_in_household_on_ipt;
+    private String why_are_individuals_not_on_ipt;
     private String sex;
     private String mobile_phone_number;
     private String facility;
 
 
-    public ClientEvent(String uuid, String nrc_number, String chreso_id, String art_number, String first_name, String last_name, String date_of_birth, String sex, String mobile_phone_number, String facility_id) {
+    public ClientEvent(String uuid, String nrc_number, String chreso_id, String art_number, String first_name, String last_name, String date_of_birth, String how_many_individuals_are_in_the_same_household, String are_individuals_in_household_on_ipt, String why_are_individuals_not_on_ipt, String sex, String mobile_phone_number, String facility_id) {
         this.uuid = uuid;
         this.chreso_id = chreso_id;
         this.nrc_number = nrc_number;
@@ -23,12 +26,40 @@ public class ClientEvent {
         this.first_name = first_name;
         this.last_name = last_name;
         this.date_of_birth = date_of_birth;
+        this.how_many_individuals_are_in_the_same_household = how_many_individuals_are_in_the_same_household;
+        this.are_individuals_in_household_on_ipt = are_individuals_in_household_on_ipt;
+        this.why_are_individuals_not_on_ipt = why_are_individuals_not_on_ipt;
         this.sex = sex;
         this.mobile_phone_number = mobile_phone_number;
         this.facility = facility_id;
 
     }
 
+
+
+    public String getHow_many_individuals_are_in_the_same_household() {
+        return how_many_individuals_are_in_the_same_household;
+    }
+
+    public void setHow_many_individuals_are_in_the_same_household(String how_many_individuals_are_in_the_same_household) {
+        this.how_many_individuals_are_in_the_same_household = how_many_individuals_are_in_the_same_household;
+    }
+
+    public String getAre_individuals_in_household_on_ipt() {
+        return are_individuals_in_household_on_ipt;
+    }
+
+    public void setAre_individuals_in_household_on_ipt(String are_individuals_in_household_on_ipt) {
+        this.are_individuals_in_household_on_ipt = are_individuals_in_household_on_ipt;
+    }
+
+    public String getWhy_are_individuals_not_on_ipt() {
+        return why_are_individuals_not_on_ipt;
+    }
+
+    public void setWhy_are_individuals_not_on_ipt(String why_are_individuals_not_on_ipt) {
+        this.why_are_individuals_not_on_ipt = why_are_individuals_not_on_ipt;
+    }
 
     public String getChreso_id(){return  chreso_id;}
 

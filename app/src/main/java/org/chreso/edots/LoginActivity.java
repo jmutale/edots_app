@@ -145,6 +145,7 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
                         if (loginResponse.getToken() != null) {
                             setAuthToken(loginResponse.getToken());
                             setFirstName();
+                            setOfflineLoginDetails(username, password);
                             goToMainActivity();
                         }else{
                             Toast.makeText(getContext(),"Something wrong's.",Toast.LENGTH_LONG).show();
@@ -165,6 +166,12 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
         });
 
 
+    }
+
+    private void setOfflineLoginDetails(String username, String password) {
+        editor.putString("username",username);
+        editor.putString("password", password);
+        editor.commit();
     }
 
     private void setFirstName() {

@@ -3,18 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:orientation="vertical">
+        android:paddingRight="16dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_marginTop="10dp">
+            android:weightSum="2">
+
             <TextView
                 android:id="@+id/txtClientFeedbackDate"
                 android:layout_width="180dp"
@@ -25,47 +28,138 @@
 
             <DatePicker
                 android:id="@+id/dteFeedbackDate"
-                android:layout_weight="1"
                 android:layout_width="335dp"
                 android:layout_height="wrap_content"
-                android:datePickerMode="spinner"
+                android:layout_weight="1"
                 android:calendarViewShown="false"
-                />
+                android:datePickerMode="spinner" />
         </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_marginTop="10dp">
-        <TextView
-            android:id="@+id/txtClientAdverseReaction"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Any adverse reaction"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <EditText
-            android:id="@+id/editTextAdverseReactions"
-            android:layout_width="335dp"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:background="@drawable/border"
-            android:layout_weight="1"
-            android:lines="8"
-            android:maxLines="10"
-            android:minLines="4"
-            android:scrollbars="vertical" />
-    </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_marginTop="10dp">
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/txtClientAdverseReaction"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Any adverse reaction"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <!--Adverse reactions-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:id="@+id/adverseReactionCheckBoxGroup">
+
+                <CheckBox
+                    android:id="@+id/body_rash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Body rash" />
+
+                <CheckBox
+                    android:id="@+id/body_weakness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Body weakness" />
+
+                <CheckBox
+                    android:id="@+id/feet_numbness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Feet numbness" />
+
+
+                <CheckBox
+                    android:id="@+id/hand_numbness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hand numbness" />
+
+                <CheckBox
+                    android:id="@+id/burning_sensation_in_the_feet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Burning sensation in the feet" />
+
+                <CheckBox
+                    android:id="@+id/dizziness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dizziness" />
+
+                <CheckBox
+                    android:id="@+id/nausea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="nausea" />
+
+
+                <CheckBox
+                    android:id="@+id/vomiting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vomiting" />
+
+
+                <CheckBox
+                    android:id="@+id/loss_of_appetite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loss of appetite" />
+
+                <CheckBox
+                    android:id="@+id/joint_pains"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Joint pains" />
+
+                <CheckBox
+                    android:id="@+id/skin_discolouration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Skin discolouration" />
+
+                <CheckBox
+                    android:id="@+id/jaundice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jaundice" />
+
+                <CheckBox
+                    android:id="@+id/body_itchiness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Body itchiness" />
+
+                <CheckBox
+                    android:id="@+id/urine_discolouration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Urine discolouration" />
+
+                <CheckBox
+                    android:id="@+id/visual_impairment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Visual impairment" />
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
             <TextView
                 android:id="@+id/txtClientConcerns"
                 android:layout_width="180dp"
@@ -74,25 +168,78 @@
                 android:text="Client concerns"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <EditText
-                android:id="@+id/editTextClientConcerns"
-                android:layout_width="335dp"
+            <!--Client concerns-->
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:background="@drawable/border"
                 android:layout_weight="1"
-                android:lines="8"
-                android:maxLines="10"
-                android:minLines="4"
-                android:scrollbars="vertical" />
+                android:orientation="vertical"
+                android:id="@+id/clientConcernsCheckBoxGroup">
+
+                <CheckBox
+                    android:id="@+id/insufficient_food"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Insufficient food" />
+
+                <CheckBox
+                    android:id="@+id/transport_challenges_to_the_facility"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Transport challenges to the facility" />
+
+                <CheckBox
+                    android:id="@+id/long_distance_to_the_facility"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Long distance to the facility" />
+
+                <CheckBox
+                    android:id="@+id/insomnia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Insomnia" />
+
+                <CheckBox
+                    android:id="@+id/loss_of_strength"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loss of strength" />
+
+                <CheckBox
+                    android:id="@+id/stigma"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Stigma" />
+
+                <CheckBox
+                    android:id="@+id/discrimination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Discrimination" />
+
+
+                <CheckBox
+                    android:id="@+id/isolation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Isolation" />
+
+                <CheckBox
+                    android:id="@+id/pill_burden"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pill burden" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_marginTop="10dp">
+            android:weightSum="2">
+
             <TextView
                 android:id="@+id/txtAdviceGiveToClient"
                 android:layout_width="180dp"
@@ -101,30 +248,73 @@
                 android:text="Advice given to client"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <EditText
-                android:id="@+id/editTextAdviceGiveToClient"
-                android:layout_width="335dp"
+            <!--Advice given to client-->
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:background="@drawable/border"
                 android:layout_weight="1"
-                android:lines="8"
-                android:maxLines="10"
-                android:minLines="4"
-                android:scrollbars="vertical" />
+                android:orientation="vertical"
+                android:id="@+id/adviceGivenToClientCheckBoxGroup">
+
+                <CheckBox
+                    android:id="@+id/adherence_to_counseling"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Adherence to counseling" />
+
+                <CheckBox
+                    android:id="@+id/counselled_on_eating_habits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Counselled on eating habits" />
+
+                <CheckBox
+                    android:id="@+id/client_to_take_drugs_in_the_morning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Client to take drugs in the morning" />
+
+                <CheckBox
+                    android:id="@+id/client_to_take_drugs_according_to_the_allocated_timing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Client to take drugs according to the allocated timing" />
+
+                <CheckBox
+                    android:id="@+id/if_with_severe_adverse_reactions_to_go_to_the_nearest_clinic_immediately"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="If with severe adverse reactions to go to the nearest clinic immediately" />
+
+                <CheckBox
+                    android:id="@+id/to_be_involved_in_doing_light_exercises"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="To be involved in doing light exercises" />
+
+                <CheckBox
+                    android:id="@+id/report_any_severe_side_effects_to_the_nearest_clinic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Report any severe side effects to the nearest clinic" />
+
+            </LinearLayout>
         </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        android:layout_marginTop="10dp">
-        <Button
-            android:id="@+id/btnSubmitFeedback"
-            android:layout_width="100dp"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="Submit" />
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/btnSubmitFeedback"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Submit" />
+        </LinearLayout>
     </LinearLayout>
     </LinearLayout>
 </ScrollView>
