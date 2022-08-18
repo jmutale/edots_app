@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
-
+        <!--Client feedback date-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner" />
         </LinearLayout>
-
+        <!--Adverse reactions-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,17 +42,30 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
-            <TextView
-                android:id="@+id/txtClientAdverseReaction"
-                android:layout_width="180dp"
+            <LinearLayout
+                android:layout_width="190dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Any adverse reaction"
+                android:orientation="vertical"
+                android:id="@+id/adverseReactionClientText">
+
+            <TextView
+                android:id="@+id/txtClientAdverseReaction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Any adverse reaction."
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <!--Adverse reactions-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:maxLines="4"
+                    android:text="Please contact your healthcare provider if you experience any of these symptoms."/>
+            </LinearLayout>
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="190dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
@@ -152,7 +165,7 @@
                     android:text="Visual impairment" />
 
             </LinearLayout>
-
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -178,7 +191,7 @@
 
                 <CheckBox
                     android:id="@+id/insufficient_food"
-                    android:layout_width="wrap_content"
+                    android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:text="Insufficient food" />
 
@@ -242,7 +255,7 @@
 
             <TextView
                 android:id="@+id/txtAdviceGiveToClient"
-                android:layout_width="180dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Advice given to client"
@@ -316,5 +329,5 @@
                 android:text="Submit" />
         </LinearLayout>
     </LinearLayout>
-    </LinearLayout>
+
 </ScrollView>

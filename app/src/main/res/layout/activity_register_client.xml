@@ -50,13 +50,39 @@
 
         <EditText
             android:id="@+id/txtNRCNumber"
-            android:layout_width="120dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:inputType="text"
             android:digits="01234567890/">
         </EditText>
     </LinearLayout>
+        <!--TB id number-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/lblTBIdNumber"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TB ID Number"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <EditText
+                android:id="@+id/txtTBIdNumber"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="text"
+                android:hint="Orig.DxCentre ID/Serial No./YR"
+                android:digits="01234567890/">
+            </EditText>
+        </LinearLayout>
         <!--First Name-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,7 +101,7 @@
 
             <EditText
                 android:id="@+id/txtFirstName"
-                android:layout_width="120dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="text">
@@ -99,7 +125,7 @@
 
             <EditText
                 android:id="@+id/txtLastName"
-                android:layout_width="120dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="text">

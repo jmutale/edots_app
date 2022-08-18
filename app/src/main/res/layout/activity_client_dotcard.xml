@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/txtTypeOfTuberculosis"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Type of tuberculosis"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <!--Type of tuberculosis-->
+            <LinearLayout
+                android:id="@+id/typeOfTuberculosisCheckBoxGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/ptb_bacteriologically_confirmed"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="PTB Bacteriologically confirmed" />
+
+                <CheckBox
+                    android:id="@+id/ptb_clinically_confirmed"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="PTB Clinically confirmed" />
+
+                <CheckBox
+                    android:id="@+id/eptb"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="EPTB" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/txtTreatmentOutcome"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Treatment Outcome"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <!--Treatment outcome-->
+            <LinearLayout
+                android:id="@+id/treatmentOutcomeCheckBoxGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/tx_outcome_cured"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="Cured" />
+
+                <CheckBox
+                    android:id="@+id/tx_outcome_died"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="Died" />
+
+                <CheckBox
+                    android:id="@+id/tx_outcome_completed"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="Completed" />
+
+                <CheckBox
+                    android:id="@+id/tx_outcome_not_evaluated"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="Not evaluated" />
+
+                <CheckBox
+                    android:id="@+id/tx_outcome_rx_failed"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="Rx failed" />
+
+                <CheckBox
+                    android:id="@+id/tx_outcome_ltfu"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="Lost to follow up" />
+
+                <TextView
+                    android:id="@+id/txtDateOfDecision"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date of decision"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <DatePicker
+                    android:id="@+id/dteTxOutcomeDateOfDecision"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:calendarViewShown="false"
+                    android:datePickerMode="spinner" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/txtTypeOfRegimen"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Type of regimen"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <!--Type of regimen-->
+            <LinearLayout
+                android:id="@+id/typeOfRegimenCheckBoxGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtTxRegimenInitial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Initial"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+                <CheckBox
+                    android:id="@+id/two_rhze"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="2RHZE" />
+
+                <TextView
+                    android:id="@+id/txtTxRegimenContinuation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Continuation phase"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+                <CheckBox
+                    android:id="@+id/four_rh"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="4 RH" />
+
+                <CheckBox
+                    android:id="@+id/ten_rh"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="10RH" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/txtDiseaseSite"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Disease site"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <!--Type of regimen-->
+            <LinearLayout
+                android:id="@+id/diseaseSiteCheckBoxGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/disease_site_pulmonary"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="Pulmonary" />
+
+                <CheckBox
+                    android:id="@+id/disease_site_extra_pulmonary"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:text="Extra pulmonary" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -6,13 +6,36 @@ public class ClientTBLab {
     private String client_tb_lab_uuid;
     private Date client_tb_lab_date;
     private String client_uuid;
-    private String sputum_smear_or_sputum_culture_result;
+    private String level_of_treatment_for_lab_examination;
+    private String lab_test_type;
+    private String lab_result;
 
-    public ClientTBLab(String client_tb_lab_uuid, Date client_tb_lab_date, String client_uuid, String sputum_smear_or_sputum_culture_result) {
+    public String getLevel_of_treatment_for_lab_examination() {
+        return level_of_treatment_for_lab_examination;
+    }
+
+    public void setLevel_of_treatment_for_lab_examination(String level_of_treatment_for_lab_examination) {
+        this.level_of_treatment_for_lab_examination = level_of_treatment_for_lab_examination;
+    }
+
+    public String getLab_test_type() {
+        return lab_test_type;
+    }
+
+    public void setLab_test_type(String lab_test_type) {
+        this.lab_test_type = lab_test_type;
+    }
+
+
+
+
+    public ClientTBLab(String client_tb_lab_uuid, Date client_tb_lab_date, String client_uuid, String level_of_treatment_for_lab_examination, String lab_test_type, String lab_result) {
         this.client_tb_lab_uuid = client_tb_lab_uuid;
         this.client_tb_lab_date = client_tb_lab_date;
         this.client_uuid = client_uuid;
-        this.sputum_smear_or_sputum_culture_result = sputum_smear_or_sputum_culture_result;
+        this.level_of_treatment_for_lab_examination = level_of_treatment_for_lab_examination;
+        this.lab_test_type = lab_test_type;
+        this.lab_result = lab_result;
     }
 
     public String getClient_tb_lab_uuid() {
@@ -39,12 +62,12 @@ public class ClientTBLab {
         this.client_uuid = client_uuid;
     }
 
-    public String getSputum_smear_or_sputum_culture_result() {
-        return sputum_smear_or_sputum_culture_result;
+    public String getLab_result() {
+        return lab_result;
     }
 
-    public void setSputum_smear_or_sputum_culture_result(String sputum_smear_or_sputum_culture_result) {
-        this.sputum_smear_or_sputum_culture_result = sputum_smear_or_sputum_culture_result;
+    public void setLab_result(String lab_result) {
+        this.lab_result = lab_result;
     }
 
 

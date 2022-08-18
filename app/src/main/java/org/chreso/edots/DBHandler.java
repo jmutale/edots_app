@@ -25,7 +25,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 26;
+    private static final int DB_VERSION = 28;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -73,6 +73,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "uuid TEXT PRIMARY KEY, "
                 + "nrc_number TEXT, "
                 + "chreso_id TEXT, "
+                + "tb_id_number TEXT,"
                 + "art_number TEXT,"
                 + "first_name TEXT, "
                 + "last_name TEXT, "
@@ -149,7 +150,9 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "client_tb_lab_uuid TEXT PRIMARY KEY, "
                 + "client_tb_lab_date TEXT, "
                 + "client_uuid TEXT, "
-                + "sputum_smear_or_sputum_culture_result TEXT, "
+                + "level_of_treatment_for_lab_examination TEXT,"
+                + "lab_test_type TEXT,"
+                + "lab_result TEXT, "
                 + "treatment_failure TEXT)";
         sqLiteDatabase.execSQL(client_tb_lab_query);
     }
@@ -189,9 +192,9 @@ public class DBHandler extends SQLiteOpenHelper {
         //db.close();
     }
 
-    public void addNewClient(String uuid, String nrcNumber, String chresoId, String artNumber, String firstName, String lastName, String dateOfBirth, String howManyIndividualsAreInSameHousehold, String areIndividualsInHouseholdOnIPT, String whyAreIndividualsNotOnIPT, String sex, String mobilePhoneNumber, String facilityClientBelongsTo, Boolean is_client_on_server){
-            String UPSERT_SQL = "INSERT OR REPLACE INTO client (uuid, nrc_number, chreso_id, art_number,first_name,last_name,date_of_birth,how_many_individuals_are_in_the_same_household,are_individuals_in_household_on_ipt,why_are_individuals_not_on_ipt,sex,mobile_phone_number, facility_id, is_client_on_server)" +
-                    "VALUES ('"+uuid+"','"+nrcNumber+"', '"+chresoId+"', '"+artNumber+"','"+firstName+"','"+lastName+"','"+dateOfBirth+"','"+howManyIndividualsAreInSameHousehold+"','"+areIndividualsInHouseholdOnIPT+"','"+whyAreIndividualsNotOnIPT+"','"+sex+"','"+mobilePhoneNumber+"', '"+facilityClientBelongsTo+"', '"+is_client_on_server+"')";
+    public void addNewClient(String uuid, String nrcNumber, String chresoId, String tbIdNumber, String artNumber, String firstName, String lastName, String dateOfBirth, String howManyIndividualsAreInSameHousehold, String areIndividualsInHouseholdOnIPT, String whyAreIndividualsNotOnIPT, String sex, String mobilePhoneNumber, String facilityClientBelongsTo, Boolean is_client_on_server){
+            String UPSERT_SQL = "INSERT OR REPLACE INTO client (uuid, nrc_number, chreso_id, tb_id_number, art_number,first_name,last_name,date_of_birth,how_many_individuals_are_in_the_same_household,are_individuals_in_household_on_ipt,why_are_individuals_not_on_ipt,sex,mobile_phone_number, facility_id, is_client_on_server)" +
+                    "VALUES ('"+uuid+"','"+nrcNumber+"', '"+chresoId+"','"+tbIdNumber+"', '"+artNumber+"','"+firstName+"','"+lastName+"','"+dateOfBirth+"','"+howManyIndividualsAreInSameHousehold+"','"+areIndividualsInHouseholdOnIPT+"','"+whyAreIndividualsNotOnIPT+"','"+sex+"','"+mobilePhoneNumber+"', '"+facilityClientBelongsTo+"', '"+is_client_on_server+"')";
             db.execSQL(UPSERT_SQL);
     }
 
@@ -229,7 +232,7 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 Boolean is_client_on_server = null;
                         is_client_on_server = Boolean.valueOf(c.getString(10));
-                Client client = new Client(c.getString(0), c.getString(1),c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6),c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12));
+                Client client = new Client(c.getString(0), c.getString(1),c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6),c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13));
 
                 clients.add(client);
             } while(c.moveToNext());
@@ -468,7 +471,7 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 Date clientLabDate = null;
                 clientLabDate = Date.valueOf(c.getString(1));
-                ClientTBLab ces = new ClientTBLab(c.getString(0),clientLabDate,c.getString(2),c.getString(3));
+                ClientTBLab ces = new ClientTBLab(c.getString(0),clientLabDate,c.getString(2),c.getString(3), c.getString(4),c.getString(5));
                 clientTBLabRecords.add(ces);
             }while (c.moveToNext());
 
@@ -534,5 +537,31 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         c.close();
         return  clientDead;
+    }
+
+    public String getNextDrugPickupDate(String client_uuid) {
+        String nextDrugPickupDate = "";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT refill_date FROM med_drug_dispensation WHERE patient_uuid = '"+client_uuid+"' ORDER BY dispensation_date DESC LIMIT 1",null);
+        if(c.moveToFirst()){
+            do{
+                nextDrugPickupDate = c.getString(0);
+            }while(c.moveToNext());
+        }
+        c.close();
+        return  nextDrugPickupDate;
+    }
+
+    public String getNextDrugPickupTime(String client_uuid) {
+        String nextDrugPickupTime = "";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT refill_time FROM med_drug_dispensation WHERE patient_uuid = '"+client_uuid+"' ORDER BY dispensation_date DESC LIMIT 1",null);
+        if(c.moveToFirst()){
+            do{
+                nextDrugPickupTime = c.getString(0);
+            }while(c.moveToNext());
+        }
+        c.close();
+        return  nextDrugPickupTime;
     }
 }

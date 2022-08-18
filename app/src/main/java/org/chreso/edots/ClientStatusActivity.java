@@ -70,15 +70,19 @@ public class ClientStatusActivity extends AppCompatActivity implements Validator
                     disableOrEnableRGButton(rgClientRefusesToContinueTreatment, false);
                     disableOrEnableRGButton(rgClientIsLTFU, false);
                     disableOrEnableRGButton(rgTransOut, false);
+                    disableOrEnableRGButton(rgCauseOfDeath, true);
                     dteClientTransOutDate.setEnabled(false);
                     editTextFacilityTransferredTo.setEnabled(false);
+                    dteClientDiedDate.setEnabled(true);
                 }
                 if(i==R.id.clientDiedNo){
                     disableOrEnableRGButton(rgClientRefusesToContinueTreatment, true);
                     disableOrEnableRGButton(rgClientIsLTFU, true);
                     disableOrEnableRGButton(rgTransOut, true);
+                    disableOrEnableRGButton(rgCauseOfDeath, false);
                     dteClientTransOutDate.setEnabled(true);
                     editTextFacilityTransferredTo.setEnabled(true);
+                    dteClientDiedDate.setEnabled(false);
                 }
             }
         });
@@ -87,9 +91,12 @@ public class ClientStatusActivity extends AppCompatActivity implements Validator
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if(i==R.id.clientTransOutYes){
                     dteClientTransOutDate.setEnabled(true);
+                    editTextFacilityTransferredTo.setEnabled(true);
                 }
                 if(i==R.id.clientTransOutNo){
                     dteClientTransOutDate.setEnabled(false);
+                    editTextFacilityTransferredTo.setEnabled(false);
+                    editTextFacilityTransferredTo.setText("");
                 }
             }
         });

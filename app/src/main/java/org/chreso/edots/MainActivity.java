@@ -259,6 +259,7 @@ public class MainActivity extends AppCompatActivity {
     private void logout() {
         getPrefs().edit().remove("token").commit();
         Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 

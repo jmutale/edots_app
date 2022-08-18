@@ -36,6 +36,21 @@
         <item>Positive</item>
         <item>Negative</item>
     </string-array>
+    <string-array name="client_tb_lab_test_type">
+        <item></item>
+        <item>Lam test</item>
+        <item>GeneXpert</item>
+        <item>Sputum smear</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="level_of_treatment">
+        <item></item>
+        <item>initial</item>>
+        <item>2 months conversion</item>
+        <item>3 months conversion</item>
+        <item>5 months treatment monitoring</item>>
+        <item>6 months discharge</item>>
+    </string-array>
     <string-array name="frequency">
         <item></item>
         <item>od</item>

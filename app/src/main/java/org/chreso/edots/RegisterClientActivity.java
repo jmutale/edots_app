@@ -1,5 +1,6 @@
 package org.chreso.edots;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -38,7 +39,7 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
     EditText editNumberOfIndividualsInHousehold;
     private EditText phone;
     private EditText editReasonsNotOnIPT;
-
+    private EditText tbIdNumber;
     @NotEmpty
     private EditText clientFirstName;
     @NotEmpty
@@ -54,6 +55,11 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_client);
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         validator = new Validator(this);
         validator.setValidationListener(this);
 
@@ -62,6 +68,7 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
 
         spnFacilityClientBelongsTo = findViewById(R.id.spnFacilitiesFromDatabase);
         clientNrcNumber = findViewById(R.id.txtNRCNumber);
+        tbIdNumber = findViewById(R.id.txtTBIdNumber);
         clientFirstName = findViewById(R.id.txtFirstName);
         clientLastName = findViewById(R.id.txtLastName);
         phone = findViewById(R.id.txtPhoneNumber);
@@ -111,12 +118,14 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
                         ((RadioButton)findViewById(rgClientHouseholdOnIPT.getCheckedRadioButtonId())).getText().toString();
         String reasonsNotOnIPT = editReasonsNotOnIPT.getText().toString();
         String nrcNumber = clientNrcNumber.getText().toString();
+        String tbId = tbIdNumber.getText().toString();
+        String artNumber = "";
         String fname = clientFirstName.getText().toString();
         String lname = clientLastName.getText().toString();
         String phoneNumber = phone.getText().toString();
         String sex = clientSex.getSelectedItem().toString();
         String facilityUuid = getUuidFromFacilityName(spnFacilityClientBelongsTo.getSelectedItem().toString());
-        dbHandler.addNewClient(client_uuid, nrcNumber, "","",fname,lname,dateOfBirth,numberOfIndividualsInHousehold,householdOnIPT,reasonsNotOnIPT,sex,phoneNumber, facilityUuid, false);
+        dbHandler.addNewClient(client_uuid, nrcNumber, "",tbId,artNumber,fname,lname,dateOfBirth,numberOfIndividualsInHousehold,householdOnIPT,reasonsNotOnIPT,sex,phoneNumber, facilityUuid, false);
     }
 
     private String getUuidFromFacilityName(String facilityName) {
@@ -148,5 +157,11 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

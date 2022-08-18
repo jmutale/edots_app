@@ -3,7 +3,6 @@ package org.chreso.edots;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -83,7 +82,9 @@ public class SyncOperations {
         ctle.setClient_tb_lab_uuid(ctl.getClient_tb_lab_uuid());
         ctle.setClient_tb_lab_date(ctl.getClient_tb_lab_date());
         ctle.setClient_uuid(ctl.getClient_uuid());
-        ctle.setSputum_smear_or_sputum_culture_result(ctl.getSputum_smear_or_sputum_culture_result().toLowerCase());
+        ctle.setLevel_of_treatment_for_lab_examination(ctl.getLevel_of_treatment_for_lab_examination());
+        ctle.setLab_test_type(ctl.getLab_test_type());
+        ctle.setLab_result(ctl.getLab_result().toLowerCase());
         return ctle;
     }
 
@@ -326,7 +327,7 @@ public class SyncOperations {
             public void onResponse(Call<List<Client>> call, Response<List<Client>> response) {
                 for (Client client: response.body()) {
 
-                    dbHandler.addNewClient(client.getUuid(),client.getNrc_number(),client.getChreso_id(), client.getArt_number(), client.getFirst_name(), client.getLast_name(), client.getDate_of_birth(), client.getHow_many_individuals_are_in_the_same_household(), client.getAre_individuals_in_household_on_ipt(), client.getWhy_are_individuals_not_on_ipt(), client.getSex(), client.getMobile_phone_number(), client.getFacility(), client.getIs_client_on_server());
+                    dbHandler.addNewClient(client.getUuid(),client.getNrc_number(),client.getChreso_id(), client.getTb_id_number(),client.getArt_number(), client.getFirst_name(), client.getLast_name(), client.getDate_of_birth(), client.getHow_many_individuals_are_in_the_same_household(), client.getAre_individuals_in_household_on_ipt(), client.getWhy_are_individuals_not_on_ipt(), client.getSex(), client.getMobile_phone_number(), client.getFacility(), client.getIs_client_on_server());
                    // Toast.makeText(myContext, "Syncing client from server: "+client.getNrc_number(), Toast.LENGTH_SHORT).show();
                 }
             }

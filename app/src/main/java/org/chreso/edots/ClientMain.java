@@ -14,12 +14,13 @@ import java.util.ArrayList;
 
 public class ClientMain extends AppCompatActivity {
 
-    private Button btnDispenseDrugToClient, btnClientStatus, btnClientFeedback, btnEDOTSurvey, btnTBLabResults;
+    private Button btnDispenseDrugToClient, btnClientStatus, btnClientFeedback, btnEDOTSurvey, btnTBLabResults, btnClientDOTCard;
     private TextView name ,dob, gender, mobile;
     private String uuid;
     private DBHandler dbHandler;
     private ClientDispensationAdapter clientDispensationAdapter;
-
+    private TextView txtNextDrugPickupDate;
+    private TextView txtNextDrugPickupTime;
     private ListView list;
 
     @Override
@@ -32,6 +33,8 @@ public class ClientMain extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        dbHandler = new DBHandler(this);
+
         name = findViewById(R.id.name);
         dob = findViewById(R.id.dob);
         gender = findViewById(R.id.gender);
@@ -43,7 +46,18 @@ public class ClientMain extends AppCompatActivity {
         dob.setText(bundle.getString("dob"));
         gender.setText(bundle.getString("sex"));
         mobile.setText(bundle.getString("mobile"));
+        txtNextDrugPickupDate = findViewById(R.id.textNextDrugPickupDateContent);
+        txtNextDrugPickupDate.setText(dbHandler.getNextDrugPickupDate(uuid));
+        txtNextDrugPickupTime = findViewById(R.id.textViewNextDrugPickupTimeContent);
+        txtNextDrugPickupTime.setText(dbHandler.getNextDrugPickupTime(uuid));
 
+        btnClientDOTCard = findViewById(R.id.btnClientDOTCard);
+        btnClientDOTCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openClientDOTCardActivity();
+            }
+        });
         btnDispenseDrugToClient = findViewById(R.id.btnDispenseDrugToClient);
         btnDispenseDrugToClient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,8 +99,16 @@ public class ClientMain extends AppCompatActivity {
         });
 
         list=(ListView)findViewById(R.id.dispensationList);
-        dbHandler = new DBHandler(this);
+
         loadClientDispensationHistory(uuid);
+    }
+
+    private void openClientDOTCardActivity() {
+        Bundle b = new Bundle();
+        b.putString("client_uuid", uuid);
+        Intent intent = new Intent(this, ClientDOTCardActivity.class);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     private void openClientTBLabsActivity() {
@@ -125,6 +147,10 @@ public class ClientMain extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         loadClientDispensationHistory(uuid);
+        if(txtNextDrugPickupTime!=null&&txtNextDrugPickupDate!=null&&dbHandler!=null) {
+            txtNextDrugPickupDate.setText(dbHandler.getNextDrugPickupDate(uuid));
+            txtNextDrugPickupTime.setText(dbHandler.getNextDrugPickupTime(uuid));
+        }
     }
 
     private void loadClientDispensationHistory(String patientGuid) {

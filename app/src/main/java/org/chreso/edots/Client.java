@@ -5,6 +5,7 @@ public class Client {
 
     private String uuid;
     private String chreso_id;
+    private String tb_id_number;
     private String nrc_number;
     private String art_number;
     private String first_name;
@@ -18,9 +19,10 @@ public class Client {
     private String facility;
     private Boolean is_client_on_server;
 
-    public Client(String uuid, String nrc_number,String chreso_id, String art_number, String first_name, String last_name, String date_of_birth, String how_many_individuals_are_in_the_same_household, String are_individuals_in_household_on_ipt, String why_are_individuals_not_on_ipt, String sex, String mobile_phone_number, String facility_id, Boolean is_client_on_server) {
+    public Client(String uuid, String nrc_number,String chreso_id, String tb_id_number, String art_number, String first_name, String last_name, String date_of_birth, String how_many_individuals_are_in_the_same_household, String are_individuals_in_household_on_ipt, String why_are_individuals_not_on_ipt, String sex, String mobile_phone_number, String facility_id, Boolean is_client_on_server) {
         this.uuid = uuid;
         this.chreso_id = chreso_id;
+        this.tb_id_number = tb_id_number;
         this.nrc_number = nrc_number;
         this.art_number = art_number;
         this.first_name = first_name;
@@ -35,9 +37,10 @@ public class Client {
         this.is_client_on_server = is_client_on_server;
     }
 
-    public Client(String uuid, String nrc_number,String chreso_id, String art_number, String first_name, String last_name, String date_of_birth, String how_many_individuals_are_in_the_same_household, String are_individuals_in_household_on_ipt, String why_are_individuals_not_on_ipt, String sex, String mobile_phone_number, String facility_id) {
+    public Client(String uuid, String nrc_number,String chreso_id, String tb_id_number,String art_number, String first_name, String last_name, String date_of_birth, String how_many_individuals_are_in_the_same_household, String are_individuals_in_household_on_ipt, String why_are_individuals_not_on_ipt, String sex, String mobile_phone_number, String facility_id) {
         this.uuid = uuid;
         this.chreso_id = chreso_id;
+        this.tb_id_number = tb_id_number;
         this.nrc_number = nrc_number;
         this.art_number = art_number;
         this.first_name = first_name;
@@ -50,6 +53,15 @@ public class Client {
         this.mobile_phone_number = mobile_phone_number;
         this.facility = facility_id;
 
+    }
+
+
+    public String getTb_id_number() {
+        return tb_id_number;
+    }
+
+    public void setTb_id_number(String tb_id_number) {
+        this.tb_id_number = tb_id_number;
     }
 
 
