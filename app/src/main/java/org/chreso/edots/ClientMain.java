@@ -106,7 +106,7 @@ public class ClientMain extends AppCompatActivity {
     private void openClientDOTCardActivity() {
         Bundle b = new Bundle();
         b.putString("client_uuid", uuid);
-        Intent intent = new Intent(this, ClientDOTCardActivity.class);
+        Intent intent = new Intent(this, ClientDOTCardPartBActivity.class);
         intent.putExtras(b);
         startActivity(intent);
     }

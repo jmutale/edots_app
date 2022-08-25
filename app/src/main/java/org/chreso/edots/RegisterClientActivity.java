@@ -21,7 +21,9 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import org.intellij.lang.annotations.Pattern;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +42,9 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
     private EditText phone;
     private EditText editReasonsNotOnIPT;
     private EditText tbIdNumber;
+    private EditText editAddress;
+    private Spinner spnTypeOfClient;
+    private EditText editTypeOfClientOther;
     @NotEmpty
     private EditText clientFirstName;
     @NotEmpty
@@ -69,6 +74,9 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
         spnFacilityClientBelongsTo = findViewById(R.id.spnFacilitiesFromDatabase);
         clientNrcNumber = findViewById(R.id.txtNRCNumber);
         tbIdNumber = findViewById(R.id.txtTBIdNumber);
+        editAddress = findViewById(R.id.editAddress);
+        spnTypeOfClient = findViewById(R.id.spnTypeOfClient);
+        editTypeOfClientOther = findViewById(R.id.editOtherTypeOfClient);
         clientFirstName = findViewById(R.id.txtFirstName);
         clientLastName = findViewById(R.id.txtLastName);
         phone = findViewById(R.id.txtPhoneNumber);
@@ -112,6 +120,7 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
     private void saveClientRecord() {
         String client_uuid = Utils.getNewUuid();
         String dateOfBirth = Utils.getDateFromDatePicker(dteDateOfBirth);
+        String registrationDate = new java.sql.Date(Calendar.getInstance().getTimeInMillis()).toString();
         String numberOfIndividualsInHousehold = editNumberOfIndividualsInHousehold.getText().toString();
         String householdOnIPT =
                 ((RadioButton)findViewById(rgClientHouseholdOnIPT.getCheckedRadioButtonId())) == null?"":
@@ -119,13 +128,16 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
         String reasonsNotOnIPT = editReasonsNotOnIPT.getText().toString();
         String nrcNumber = clientNrcNumber.getText().toString();
         String tbId = tbIdNumber.getText().toString();
+        String address = editAddress.getText().toString();
+        String typeOfClient = spnTypeOfClient.getSelectedItem().toString();
+        String typeOfClientOther = editTypeOfClientOther.getText().toString();
         String artNumber = "";
         String fname = clientFirstName.getText().toString();
         String lname = clientLastName.getText().toString();
         String phoneNumber = phone.getText().toString();
         String sex = clientSex.getSelectedItem().toString();
         String facilityUuid = getUuidFromFacilityName(spnFacilityClientBelongsTo.getSelectedItem().toString());
-        dbHandler.addNewClient(client_uuid, nrcNumber, "",tbId,artNumber,fname,lname,dateOfBirth,numberOfIndividualsInHousehold,householdOnIPT,reasonsNotOnIPT,sex,phoneNumber, facilityUuid, false);
+        dbHandler.addNewClient(client_uuid, nrcNumber, "",tbId,address,typeOfClient,typeOfClientOther,artNumber,fname,lname,dateOfBirth,registrationDate,numberOfIndividualsInHousehold,householdOnIPT,reasonsNotOnIPT,sex,phoneNumber, facilityUuid, false);
     }
 
     private String getUuidFromFacilityName(String facilityName) {

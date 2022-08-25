@@ -207,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
                         .getDefaultSharedPreferences(this).getString("token",null);
                 if(server!=null&&token!=null) {
                     if(Utils.isInternetAvailable(getApplicationContext())) {
-                        //new SyncOperations(getApplicationContext()).startDataSync();
                         new SyncAsyncTask().execute();
                     }else{
                         AlertDialog.Builder builder = new AlertDialog.Builder(this)
@@ -239,7 +238,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.register_client_item:
                 openClientRegistrationForm();
                 return true;
-
             case R.id.logout_item:
                 logout();
                 return true;
@@ -324,7 +322,6 @@ public class MainActivity extends AppCompatActivity {
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
             progressBar.setProgress(values[0]);
-
         }
 
         @Override

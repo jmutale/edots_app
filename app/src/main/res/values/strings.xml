@@ -31,6 +31,14 @@
         <item>syrp</item>
         <item>cap(s)</item>
     </string-array>
+    <string-array name="type_of_client">
+        <item>new</item>
+        <item>relapse</item>
+        <item>transfer in</item>
+        <item>treatment after lost to follow up</item>
+        <item>treatment after failure</item>
+        <item>other</item>
+    </string-array>
     <string-array name="client_tb_lab_result">
         <item></item>
         <item>Positive</item>

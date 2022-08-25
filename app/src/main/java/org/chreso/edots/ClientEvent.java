@@ -1,15 +1,22 @@
 package org.chreso.edots;
 
+import java.sql.Date;
+
 public class ClientEvent {
 
 
     private String uuid;
     private String chreso_id;
+    private String tb_id_number;
+    private String address;
+    private String type_of_client;
+    private String type_of_client_other;
     private String nrc_number;
     private String art_number;
     private String first_name;
     private String last_name;
     private String date_of_birth;
+    private String registration_date;
     private String how_many_individuals_are_in_the_same_household;
     private String are_individuals_in_household_on_ipt;
     private String why_are_individuals_not_on_ipt;
@@ -18,14 +25,19 @@ public class ClientEvent {
     private String facility;
 
 
-    public ClientEvent(String uuid, String nrc_number, String chreso_id, String art_number, String first_name, String last_name, String date_of_birth, String how_many_individuals_are_in_the_same_household, String are_individuals_in_household_on_ipt, String why_are_individuals_not_on_ipt, String sex, String mobile_phone_number, String facility_id) {
+    public ClientEvent(String uuid, String nrc_number, String chreso_id, String tb_id_number, String address, String type_of_client, String type_of_client_other, String art_number, String first_name, String last_name, String date_of_birth, String registration_date, String how_many_individuals_are_in_the_same_household, String are_individuals_in_household_on_ipt, String why_are_individuals_not_on_ipt, String sex, String mobile_phone_number, String facility_id) {
         this.uuid = uuid;
         this.chreso_id = chreso_id;
+        this.tb_id_number = tb_id_number;
+        this.address = address;
+        this.type_of_client = type_of_client;
+        this.type_of_client_other = type_of_client_other;
         this.nrc_number = nrc_number;
         this.art_number = art_number;
         this.first_name = first_name;
         this.last_name = last_name;
         this.date_of_birth = date_of_birth;
+        this.registration_date = registration_date;
         this.how_many_individuals_are_in_the_same_household = how_many_individuals_are_in_the_same_household;
         this.are_individuals_in_household_on_ipt = are_individuals_in_household_on_ipt;
         this.why_are_individuals_not_on_ipt = why_are_individuals_not_on_ipt;
@@ -33,6 +45,48 @@ public class ClientEvent {
         this.mobile_phone_number = mobile_phone_number;
         this.facility = facility_id;
 
+    }
+
+
+
+    public String getTb_id_number() {
+        return tb_id_number;
+    }
+
+    public void setTb_id_number(String tb_id_number) {
+        this.tb_id_number = tb_id_number;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getType_of_client() {
+        return type_of_client;
+    }
+
+    public void setType_of_client(String type_of_client) {
+        this.type_of_client = type_of_client;
+    }
+
+    public String getType_of_client_other() {
+        return type_of_client_other;
+    }
+
+    public void setType_of_client_other(String type_of_client_other) {
+        this.type_of_client_other = type_of_client_other;
+    }
+
+    public String getRegistration_date() {
+        return registration_date;
+    }
+
+    public void setRegistration_date(Date registration_date) {
+        this.registration_date = Utils.getFormattedDate(registration_date);
     }
 
 

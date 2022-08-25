@@ -1,0 +1,150 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtInitiationPhase"
+            android:text="INITIATION PHASE"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toTopOf="parent"/>
+
+        <DatePicker
+            android:id="@+id/editStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="10dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:ems="10"
+            android:hint="Start date"
+            android:inputType="date"
+            android:layout_below="@+id/txtInitiationPhase" />
+
+        <EditText
+            android:id="@+id/editObserverName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="28dp"
+            android:layout_toRightOf="@+id/editStartDate"
+            android:ems="10"
+            android:hint="Observer"
+            tools:layout_editor_absoluteX="366dp" />
+
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/initial_phase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_below="@+id/editStartDate"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="visible"
+            app:columnCount="9"
+            app:rowCount="9"
+            android:background="@color/teal_200">
+
+        </androidx.gridlayout.widget.GridLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtContinuationPhase"
+            android:text="CONTINUATION PHASE"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:layout_below="@id/initial_phase"
+            />
+
+
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/continuation_phase1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_below="@+id/txtContinuationPhase"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="5dp"
+            android:visibility="visible"
+            app:columnCount="9"
+            app:rowCount="9"
+            android:background="@color/teal_200">
+        </androidx.gridlayout.widget.GridLayout>
+
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/continuation_phase2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_below="@+id/continuation_phase1"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="5dp"
+            android:visibility="visible"
+            app:columnCount="9"
+            app:rowCount="9"
+            android:background="@color/teal_200">
+
+        </androidx.gridlayout.widget.GridLayout>
+
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/continuation_phase3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_below="@+id/continuation_phase2"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="10dp"
+            android:visibility="visible"
+            app:columnCount="9"
+            app:rowCount="9"
+            android:background="@color/teal_200">
+
+        </androidx.gridlayout.widget.GridLayout>
+
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/continuation_phase4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_below="@+id/continuation_phase3"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="5dp"
+            android:visibility="visible"
+            app:columnCount="9"
+            app:rowCount="9"
+            android:background="@color/teal_200">
+
+        </androidx.gridlayout.widget.GridLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:id="@+id/btnSubmitDOTCardPartB"
+            android:layout_below="@id/continuation_phase4"/>
+    </RelativeLayout>
+
+</ScrollView>
