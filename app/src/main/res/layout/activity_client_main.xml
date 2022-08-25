@@ -205,12 +205,12 @@
                 android:background="@drawable/round_button"
                 android:orientation="vertical"
                 android:text="TB Lab Results"
-                app:layout_constraintBottom_toTopOf="@id/btnClientDOTCard"
+                app:layout_constraintBottom_toTopOf="@id/btnClientDOTCardA"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
 
-                android:id="@+id/btnClientDOTCard"
+                android:id="@+id/btnClientDOTCardA"
                 android:layout_width="170dp"
                 android:layout_height="70dp"
                 android:layout_margin="5dp"
@@ -218,9 +218,22 @@
                 android:layout_marginBottom="4dp"
                 android:background="@drawable/round_button"
                 android:orientation="vertical"
-                android:text="DOT Card"
-                app:layout_constraintBottom_toBottomOf="@id/btnEdotSurvey"
+                android:text="DOT Card A"
+                app:layout_constraintBottom_toTopOf="@id/btnClientDOTCardB"
                 app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/btnClientDOTCardB"
+                android:layout_width="170dp"
+                android:layout_height="70dp"
+                android:layout_margin="5dp"
+                android:layout_marginEnd="11dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/round_button"
+                android:text="DOT Card B"
+                app:layout_constraintBottom_toBottomOf="@+id/btnClientDOTCardA"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
 
             <TextView
                 android:id="@+id/textNextDrugPickupDate"

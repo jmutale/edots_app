@@ -144,7 +144,8 @@
             android:layout_height="wrap_content"
             android:text="Submit"
             android:id="@+id/btnSubmitDOTCardPartB"
-            android:layout_below="@id/continuation_phase4"/>
+            android:layout_below="@id/continuation_phase4"
+            android:layout_margin="10dp"/>
     </RelativeLayout>
 
 </ScrollView>

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class ClientMain extends AppCompatActivity {
 
-    private Button btnDispenseDrugToClient, btnClientStatus, btnClientFeedback, btnEDOTSurvey, btnTBLabResults, btnClientDOTCard;
+    private Button btnDispenseDrugToClient, btnClientStatus, btnClientFeedback, btnEDOTSurvey, btnTBLabResults, btnClientDOTCardB, btnClientDOTCardA;
     private TextView name ,dob, gender, mobile;
     private String uuid;
     private DBHandler dbHandler;
@@ -50,12 +50,18 @@ public class ClientMain extends AppCompatActivity {
         txtNextDrugPickupDate.setText(dbHandler.getNextDrugPickupDate(uuid));
         txtNextDrugPickupTime = findViewById(R.id.textViewNextDrugPickupTimeContent);
         txtNextDrugPickupTime.setText(dbHandler.getNextDrugPickupTime(uuid));
-
-        btnClientDOTCard = findViewById(R.id.btnClientDOTCard);
-        btnClientDOTCard.setOnClickListener(new View.OnClickListener() {
+        btnClientDOTCardA = findViewById(R.id.btnClientDOTCardA);
+        btnClientDOTCardA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openClientDOTCardActivity();
+                openClientDOTCardPartAActivity();
+            }
+        });
+        btnClientDOTCardB = findViewById(R.id.btnClientDOTCardB);
+        btnClientDOTCardB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openClientDOTCardPartBActivity();
             }
         });
         btnDispenseDrugToClient = findViewById(R.id.btnDispenseDrugToClient);
@@ -103,7 +109,15 @@ public class ClientMain extends AppCompatActivity {
         loadClientDispensationHistory(uuid);
     }
 
-    private void openClientDOTCardActivity() {
+    private void openClientDOTCardPartAActivity() {
+        Bundle b = new Bundle();
+        b.putString("client_uuid", uuid);
+        Intent intent = new Intent(this, ClientDOTCardPartAActivity.class);
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+
+    private void openClientDOTCardPartBActivity() {
         Bundle b = new Bundle();
         b.putString("client_uuid", uuid);
         Intent intent = new Intent(this, ClientDOTCardPartBActivity.class);

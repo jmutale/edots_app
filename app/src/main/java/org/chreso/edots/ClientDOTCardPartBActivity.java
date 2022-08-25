@@ -1,5 +1,6 @@
 package org.chreso.edots;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.gridlayout.widget.GridLayout;
 
@@ -19,6 +20,12 @@ public class ClientDOTCardPartBActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_dotcard_part_bactivity);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         dbHandler = new DBHandler(this);
         btnSubmitClientDOTCardActivity = findViewById(R.id.btnSubmitDOTCardPartB);
         GridLayout grid = findViewById(R.id.initial_phase);
@@ -47,13 +54,13 @@ public class ClientDOTCardPartBActivity extends AppCompatActivity {
             EditText editText = new EditText(this);
             editText.setId(++checkBoxId);
             editText.setHint(String.valueOf(i));
-            editText.setScaleX((float) 3);
+            editText.setScaleX((float) 3.1);
             editText.setScaleY((float) 2);
             //editText.setPadding(5,5,5,5);
             GridLayout.LayoutParams params =
                     new GridLayout.LayoutParams();
             params.rowSpec = GridLayout.spec(0,9,GridLayout.VERTICAL);
-            params.setMargins(15,5,15,5);
+            params.setMargins(25,5,25,1);
             editText.setLayoutParams(params);
             grid2.addView(editText);
 
@@ -65,17 +72,25 @@ public class ClientDOTCardPartBActivity extends AppCompatActivity {
         for(int i=1;i<=61;i++){
             EditText editText = new EditText(this);
             editText.setId(++checkBoxId);
-            editText.setText(String.valueOf(i));
-            editText.setScaleX((float) 5);
-            editText.setScaleY((float) 1.5);
-            editText.setPadding(10,10,10,10);
+            editText.setHint(String.valueOf(i));
+            editText.setScaleX((float) 3.1);
+            editText.setScaleY((float) 2);
+            //editText.setPadding(10,10,10,10);
             GridLayout.LayoutParams params =
                     new GridLayout.LayoutParams();
             params.rowSpec = GridLayout.spec(0,8,GridLayout.VERTICAL);
+            params.setMargins(25,5,25,1);
             //params.columnSpec = GridLayout.spec(0,7,GridLayout.FILL);
             editText.setLayoutParams(params);
             grid.addView(editText);
 
         }
+
+
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
