@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class ClientMain extends AppCompatActivity {
 
-    private Button btnDispenseDrugToClient, btnClientStatus, btnClientFeedback, btnEDOTSurvey, btnTBLabResults, btnClientDOTCardB, btnClientDOTCardA;
+    private Button btnDispenseDrugToClient, btnClientStatus, btnClientFeedback, btnEDOTSurvey, btnTBLabResults, btnClientDOTCardA;
     private TextView name ,dob, gender, mobile;
     private String uuid;
     private DBHandler dbHandler;
@@ -57,13 +57,7 @@ public class ClientMain extends AppCompatActivity {
                 openClientDOTCardPartAActivity();
             }
         });
-        btnClientDOTCardB = findViewById(R.id.btnClientDOTCardB);
-        btnClientDOTCardB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openClientDOTCardPartBActivity();
-            }
-        });
+
         btnDispenseDrugToClient = findViewById(R.id.btnDispenseDrugToClient);
         btnDispenseDrugToClient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,15 +106,7 @@ public class ClientMain extends AppCompatActivity {
     private void openClientDOTCardPartAActivity() {
         Bundle b = new Bundle();
         b.putString("client_uuid", uuid);
-        Intent intent = new Intent(this, ClientDOTCardPartAActivity.class);
-        intent.putExtras(b);
-        startActivity(intent);
-    }
-
-    private void openClientDOTCardPartBActivity() {
-        Bundle b = new Bundle();
-        b.putString("client_uuid", uuid);
-        Intent intent = new Intent(this, ClientDOTCardPartBActivity.class);
+        Intent intent = new Intent(this, ClientDOTCardActivity.class);
         intent.putExtras(b);
         startActivity(intent);
     }

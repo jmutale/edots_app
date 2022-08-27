@@ -15,7 +15,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="2"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:background="@color/teal_200">
             <TextView
                 android:id="@+id/txtClientTBLabDate"
                 android:layout_width="140dp"
@@ -39,7 +40,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="3"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:background="@color/teal_200">
 
             <TextView
                 android:id="@+id/lblLevelOfTreatment"
@@ -63,7 +65,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="3"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:background="@color/teal_200">
 
             <TextView
                 android:id="@+id/lblLabTestType"
@@ -87,7 +90,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="3"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:background="@color/teal_200">
 
             <TextView
                 android:id="@+id/lblLabResult"

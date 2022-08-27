@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:background="@color/teal_200">
 
             <TextView
                 android:id="@+id/txtTypeOfTuberculosis"
@@ -38,19 +39,22 @@
                     android:id="@+id/ptb_bacteriologically_confirmed"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="PTB Bacteriologically confirmed" />
+                    android:text="PTB Bacteriologically confirmed"
+                    android:buttonTint="@color/black"/>
 
                 <CheckBox
                     android:id="@+id/ptb_clinically_confirmed"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="PTB Clinically confirmed" />
+                    android:text="PTB Clinically confirmed"
+                    android:buttonTint="@color/black"/>
 
                 <CheckBox
                     android:id="@+id/eptb"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="EPTB" />
+                    android:text="EPTB"
+                    android:buttonTint="@color/black"/>
 
             </LinearLayout>
 
@@ -61,7 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:background="@color/teal_200">
 
             <TextView
                 android:id="@+id/txtTreatmentOutcome"
@@ -83,37 +88,43 @@
                     android:id="@+id/tx_outcome_cured"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="Cured" />
+                    android:text="Cured"
+                    android:buttonTint="@color/black"/>
 
                 <CheckBox
                     android:id="@+id/tx_outcome_died"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="Died" />
+                    android:text="Died"
+                    android:buttonTint="@color/black"/>
 
                 <CheckBox
                     android:id="@+id/tx_outcome_completed"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="Completed" />
+                    android:text="Completed"
+                    android:buttonTint="@color/black"/>
 
                 <CheckBox
                     android:id="@+id/tx_outcome_not_evaluated"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="Not evaluated" />
+                    android:text="Not evaluated"
+                    android:buttonTint="@color/black"/>
 
                 <CheckBox
                     android:id="@+id/tx_outcome_rx_failed"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="Rx failed" />
+                    android:text="Rx failed"
+                    android:buttonTint="@color/black"/>
 
                 <CheckBox
                     android:id="@+id/tx_outcome_ltfu"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="Lost to follow up" />
+                    android:text="Lost to follow up"
+                    android:buttonTint="@color/black"/>
 
                 <TextView
                     android:id="@+id/txtDateOfDecision"
@@ -139,7 +150,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:background="@color/teal_200">
 
             <TextView
                 android:id="@+id/txtTypeOfRegimen"
@@ -169,7 +181,8 @@
                     android:id="@+id/two_rhze"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="2RHZE" />
+                    android:text="2RHZE"
+                    android:buttonTint="@color/black"/>
 
                 <TextView
                     android:id="@+id/txtTxRegimenContinuation"
@@ -183,13 +196,15 @@
                     android:id="@+id/four_rh"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="4 RH" />
+                    android:text="4 RH"
+                    android:buttonTint="@color/black"/>
 
                 <CheckBox
                     android:id="@+id/ten_rh"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="10RH" />
+                    android:text="10RH"
+                    android:buttonTint="@color/black"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -198,7 +213,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:background="@color/teal_200">
 
             <TextView
                 android:id="@+id/txtDiseaseSite"
@@ -220,14 +236,23 @@
                     android:id="@+id/disease_site_pulmonary"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="Pulmonary" />
+                    android:text="Pulmonary"
+                    android:buttonTint="@color/black"/>
 
                 <CheckBox
                     android:id="@+id/disease_site_extra_pulmonary"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
-                    android:text="Extra pulmonary" />
+                    android:text="Extra pulmonary"
+                    android:buttonTint="@color/black"/>
             </LinearLayout>
+
         </LinearLayout>
+        <Button
+            android:id="@+id/btnSubmitClientPartADOTCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            />
     </LinearLayout>
 </ScrollView>
