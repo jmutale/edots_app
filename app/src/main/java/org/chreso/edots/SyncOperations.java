@@ -65,7 +65,7 @@ public class SyncOperations {
 
                 @Override
                 public void onResponse(Call<ClientTBLabEvent> call, Response<ClientTBLabEvent> response) {
-                    //Toast.makeText(myContext, "Syncing client tb labs. ",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(myContext, "Syncing client tb labs. "+response.code(),Toast.LENGTH_SHORT).show();
                 }
 
                 @Override

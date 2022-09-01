@@ -4,16 +4,24 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.gridlayout.widget.GridLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Spinner;
+import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import okhttp3.internal.ws.WebSocketExtensions;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,7 +85,7 @@ public class SecondFragment extends Fragment {
         dbHandler = new DBHandler(getActivity());
         btnSubmitClientDOTCardPartBActivity = view.findViewById(R.id.btnSubmitDOTCardPartB);
         grid1 = view.findViewById(R.id.initial_phase);
-        createCheckBoxGroupInGridLayout(grid1,60);
+        createSpinner(grid1,60);
         grid2 = view.findViewById(R.id.continuation_phase1);
         createCheckBoxGroupInGridLayout(grid2,30);
         grid3 = view.findViewById(R.id.continuation_phase2);
@@ -129,20 +137,72 @@ public class SecondFragment extends Fragment {
             CheckBox checkBox = new CheckBox(getActivity());
             checkBox.setId(++checkBoxId);
             checkBox.setHint(String.valueOf(i));
-            checkBox.setScaleX((float) 1.3);
-            checkBox.setScaleY((float) 1.5);
+            checkBox.setScaleX((float) 1.1);
+            checkBox.setScaleY((float) 1.3);
             checkBox.setTextColor(Color.LTGRAY);
             checkBox.setButtonTintList(ColorStateList.valueOf(Color.DKGRAY));
             //editText.setPadding(5,5,5,5);
             GridLayout.LayoutParams params =
                     new GridLayout.LayoutParams();
-            params.rowSpec = GridLayout.spec(0,9,GridLayout.VERTICAL);
+            params.rowSpec = GridLayout.spec(0,6,GridLayout.VERTICAL);
             params.setMargins(10,5,10,1);
             checkBox.setLayoutParams(params);
             grid.addView(checkBox);
 
         }
 
+
+
+
+    }
+
+    private void createSpinner(GridLayout grid, int numberSpinners) {
+        for(int i=1;i<=numberSpinners;i++) {
+            ArrayList<String> spinnerArray = new ArrayList<String>();
+            spinnerArray.add(String.valueOf(i));
+            spinnerArray.add("MM");
+            spinnerArray.add("O");
+            Spinner spinner = new Spinner(getActivity());
+            ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, spinnerArray){
+                @Override
+                public boolean isEnabled(int position) {
+                    if(position == 0)
+                    {
+                        // Disable the first item from Spinner
+                        // First item will be use for hint
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+
+                @Override
+                public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                    View view = super.getDropDownView(position, convertView, parent);
+                    TextView tv = (TextView) view;
+                    if(position == 0){
+                        // Set the hint text color gray
+                        tv.setTextColor(Color.GRAY);
+                    }
+                    else {
+                        tv.setTextColor(Color.BLACK);
+                    }
+                    return view;
+                }
+            };
+            spinner.setAdapter(spinnerArrayAdapter);
+            GridLayout.LayoutParams params =
+                    new GridLayout.LayoutParams();
+            params.rowSpec = GridLayout.spec(0, 9, GridLayout.VERTICAL);
+            //params.columnSpec = GridLayout.spec(0,6,GridLayout.HORIZONTAL);
+            params.setMargins(1, 3, 1, 1);
+            spinner.setLayoutParams(params);
+
+
+            grid.addView(spinner);//you add the whole RadioGroup to the layout
+        }
 
     }
 }

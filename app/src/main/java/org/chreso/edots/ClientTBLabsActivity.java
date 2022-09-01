@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Select;
 
 import java.util.List;
@@ -23,7 +22,7 @@ import java.util.List;
 public class ClientTBLabsActivity extends AppCompatActivity implements Validator.ValidationListener {
 
     @Select
-    private Spinner spnLabResult;
+    private Spinner spnLabResult, spnLevelOfTreatment, spnLabTestType;
     private Validator validator;
     private DatePicker dteClientTBLabDate;
     private String client_uuid;
@@ -46,6 +45,8 @@ public class ClientTBLabsActivity extends AppCompatActivity implements Validator
         validator = new Validator(this);
         validator.setValidationListener(this);
         dteClientTBLabDate = findViewById(R.id.dteClientTBLabDate);
+        spnLevelOfTreatment = findViewById(R.id.spnClientTBLevelOfTreatment);
+        spnLabTestType = findViewById(R.id.spnClientTBLabTestType);
         spnLabResult = findViewById(R.id.spnClientTBLabResult);
         btnSubmit = findViewById(R.id.btnSubmitLabResult);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -78,9 +79,11 @@ public class ClientTBLabsActivity extends AppCompatActivity implements Validator
     private void saveClientTBLabToDatabase() {
         String client_tb_lab_uuid = Utils.getNewUuid();
         String client_tb_lab_date = Utils.getDateFromDatePicker(dteClientTBLabDate);
+        String levelOfTreatmentSelection = spnLevelOfTreatment.getSelectedItem().toString();
+        String labTestTypeSelection = spnLabTestType.getSelectedItem().toString();
         String labResult = spnLabResult.getSelectedItem().toString();
         String treatmentFailure = "";
-        dbHandler.addNewClientTBLabResult(client_tb_lab_uuid,client_tb_lab_date,client_uuid,labResult,treatmentFailure);
+        dbHandler.addNewClientTBLabResult(client_tb_lab_uuid,client_tb_lab_date,client_uuid,levelOfTreatmentSelection,labTestTypeSelection,labResult,treatmentFailure);
     }
 
 

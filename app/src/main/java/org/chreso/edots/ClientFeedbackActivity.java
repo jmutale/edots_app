@@ -66,7 +66,10 @@ public class ClientFeedbackActivity extends AppCompatActivity implements Validat
 
     private void saveClientFeedbackForm() {
         String feedbackDate = Utils.getDateFromDatePicker(dteClientFeedbackDate);
-        dbHandler.saveClientFeedbackToDatabase(Utils.getNewUuid(), feedbackDate, client_uuid, getSelectedCheckboxValuesFromCheckboxGroup(layoutAdverseReactions), getSelectedCheckboxValuesFromCheckboxGroup(layoutClientConcerns), getSelectedCheckboxValuesFromCheckboxGroup(layoutAdviceGiven));
+        String adverseReactionsSelection = getSelectedCheckboxValuesFromCheckboxGroup(layoutAdverseReactions);
+        String clientConcernsSelection = getSelectedCheckboxValuesFromCheckboxGroup(layoutClientConcerns);
+        String adviceGivenSelection = getSelectedCheckboxValuesFromCheckboxGroup(layoutAdviceGiven);
+        dbHandler.saveClientFeedbackToDatabase(Utils.getNewUuid(), feedbackDate, client_uuid, adverseReactionsSelection, clientConcernsSelection, adviceGivenSelection);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ClientFeedbackActivity.this)
                 .setTitle("Success")

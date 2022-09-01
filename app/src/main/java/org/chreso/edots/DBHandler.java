@@ -69,7 +69,6 @@ public class DBHandler extends SQLiteOpenHelper {
                 + GENERIC_INGREDIENTS_COL + " TEXT,"
                 + GENERIC_STRENGTH_COL + " TEXT)";
 
-
         sqLiteDatabase.execSQL(query);
 
         String client_table_query = "CREATE TABLE " + CLIENT_TABLE_NAME + " ("
@@ -204,7 +203,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public void addNewClient(String uuid, String nrcNumber, String chresoId, String tbIdNumber, String address, String typeOfClient, String typeOfClientOther, String artNumber, String firstName, String lastName, String dateOfBirth, String registrationDate, String howManyIndividualsAreInSameHousehold, String areIndividualsInHouseholdOnIPT, String whyAreIndividualsNotOnIPT, String sex, String mobilePhoneNumber, String facilityClientBelongsTo, Boolean is_client_on_server) {
-        String UPSERT_SQL = "INSERT OR REPLACE INTO client (uuid, nrc_number, chreso_id, tb_id_number, address, type_of_client, type_of_client_other, art_number,first_name,last_name,date_of_birth,how_many_individuals_are_in_the_same_household,are_individuals_in_household_on_ipt,why_are_individuals_not_on_ipt,sex,mobile_phone_number, facility_id, is_client_on_server)" +
+        String UPSERT_SQL = "INSERT OR REPLACE INTO client (uuid, nrc_number, chreso_id, tb_id_number, address, type_of_client, type_of_client_other, art_number,first_name,last_name,date_of_birth,registration_date,how_many_individuals_are_in_the_same_household,are_individuals_in_household_on_ipt,why_are_individuals_not_on_ipt,sex,mobile_phone_number, facility_id, is_client_on_server)" +
                 "VALUES ('" + uuid + "','" + nrcNumber + "', '" + chresoId + "','" + tbIdNumber + "','"+address+"','"+typeOfClient+"','"+typeOfClientOther+"',  '" + artNumber + "','" + firstName + "','" + lastName + "','" + dateOfBirth + "','"+registrationDate+"', '" + howManyIndividualsAreInSameHousehold + "','" + areIndividualsInHouseholdOnIPT + "','" + whyAreIndividualsNotOnIPT + "','" + sex + "','" + mobilePhoneNumber + "', '" + facilityClientBelongsTo + "', '" + is_client_on_server + "')";
         db.execSQL(UPSERT_SQL);
     }
@@ -481,9 +480,9 @@ public class DBHandler extends SQLiteOpenHelper {
         return map;
     }
 
-    public void addNewClientTBLabResult(String client_tb_lab_uuid, String client_tb_lab_date, String client_uuid, String labResult, String treatmentFailure) {
-        String UPSERT_SQL = "INSERT OR REPLACE INTO client_tb_lab(client_tb_lab_uuid, client_tb_lab_date,client_uuid, sputum_smear_or_sputum_culture_result, treatment_failure)" +
-                "VALUES ('" + client_tb_lab_uuid + "', '" + client_tb_lab_date + "', '" + client_uuid + "', '" + labResult + "','" + treatmentFailure + "')";
+    public void addNewClientTBLabResult(String client_tb_lab_uuid, String client_tb_lab_date, String client_uuid, String levelOfTreatment, String labTestType, String labResult, String treatmentFailure) {
+        String UPSERT_SQL = "INSERT OR REPLACE INTO client_tb_lab(client_tb_lab_uuid, client_tb_lab_date,client_uuid, level_of_treatment_for_lab_examination,lab_test_type,lab_result, treatment_failure)" +
+                "VALUES ('" + client_tb_lab_uuid + "', '" + client_tb_lab_date + "', '" + client_uuid + "','"+levelOfTreatment+"','"+labTestType+"', '" + labResult + "','" + treatmentFailure + "')";
         db.execSQL(UPSERT_SQL);
     }
 
@@ -495,7 +494,7 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 Date clientLabDate = null;
                 clientLabDate = Date.valueOf(c.getString(1));
-                ClientTBLab ces = new ClientTBLab(c.getString(0), clientLabDate, c.getString(2), c.getString(3), c.getString(4), c.getString(5));
+                ClientTBLab ces = new ClientTBLab(c.getString(0), clientLabDate, c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6));
                 clientTBLabRecords.add(ces);
             } while (c.moveToNext());
 

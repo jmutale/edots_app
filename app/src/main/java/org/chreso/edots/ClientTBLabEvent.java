@@ -9,6 +9,9 @@ public class ClientTBLabEvent {
     private String level_of_treatment_for_lab_examination;
     private String lab_test_type;
     private String lab_result;
+    private String treatment_failure;
+
+
 
     public String getLevel_of_treatment_for_lab_examination() {
         return level_of_treatment_for_lab_examination;
