@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.LinearLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +26,11 @@ public class FirstFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private DBHandler dbHandler;
+    private Button btnSubmitClientPartADotCard;
+    private LinearLayout layoutTypeOfTb,layoutTreatmentOutcome, layoutTypeOfRegimen, layoutDiseaseSite;
+    private DatePicker dteDateOfDecision;
 
     public FirstFragment() {
         // Required empty public constructor
@@ -58,7 +66,33 @@ public class FirstFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        dbHandler = new DBHandler(getActivity());
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_client_dotcard, container, false);
+        View view = inflater.inflate(R.layout.activity_client_dotcard_part_aactivity, container, false);
+        layoutTypeOfTb = view.findViewById(R.id.layoutTypeOfTb);
+        layoutTreatmentOutcome = view.findViewById(R.id.layoutTreatmentOutcome);
+        dteDateOfDecision = view.findViewById(R.id.dteTxOutcomeDateOfDecision);
+        layoutTypeOfRegimen = view.findViewById(R.id.layoutTypeOfRegimen);
+        layoutDiseaseSite = view.findViewById(R.id.layoutDiseaseSite);
+        btnSubmitClientPartADotCard = view.findViewById(R.id.btnSubmitClientPartADOTCard);
+        btnSubmitClientPartADotCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveClientPartADOTCardData();
+            }
+        });
+
+        return view;
+    }
+
+    private void saveClientPartADOTCardData() {
+        String client_uuid = "";
+        String dot_card_uuid = Utils.getNewUuid();
+        String typeOfTb = Utils.getSelectedCheckboxValuesFromCheckboxGroup(layoutTypeOfTb);
+        String treatmentOutcome = Utils.getSelectedCheckboxValuesFromCheckboxGroup(layoutTreatmentOutcome);
+        String dateOfDecision = Utils.getDateFromDatePicker(dteDateOfDecision);
+        String typeOfRegimen = Utils.getSelectedCheckboxValuesFromCheckboxGroup(layoutTypeOfRegimen);
+        String diseaseSite = Utils.getSelectedCheckboxValuesFromCheckboxGroup(layoutDiseaseSite);
+        dbHandler.saveEDOTPartADataToDatabase(dot_card_uuid,client_uuid,typeOfTb,treatmentOutcome,dateOfDecision,typeOfRegimen,diseaseSite);
     }
 }

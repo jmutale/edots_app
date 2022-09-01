@@ -85,6 +85,7 @@ public class SyncOperations {
         ctle.setLevel_of_treatment_for_lab_examination(ctl.getLevel_of_treatment_for_lab_examination());
         ctle.setLab_test_type(ctl.getLab_test_type());
         ctle.setLab_result(ctl.getLab_result().toLowerCase());
+        ctle.setTreatment_failure(ctl.getTreatment_failure());
         return ctle;
     }
 

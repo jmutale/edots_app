@@ -9,7 +9,17 @@ public class ClientTBLab {
     private String level_of_treatment_for_lab_examination;
     private String lab_test_type;
     private String lab_result;
-    private String treatment_failure;
+    private Boolean treatment_failure;
+
+    public Boolean getTreatment_failure() {
+        return treatment_failure;
+    }
+
+    public void setTreatment_failure(Boolean treatment_failure) {
+        this.treatment_failure = treatment_failure;
+    }
+
+
 
     public String getLevel_of_treatment_for_lab_examination() {
         return level_of_treatment_for_lab_examination;
@@ -30,7 +40,7 @@ public class ClientTBLab {
 
 
 
-    public ClientTBLab(String client_tb_lab_uuid, Date client_tb_lab_date, String client_uuid, String level_of_treatment_for_lab_examination, String lab_test_type, String lab_result, String treatment_failure) {
+    public ClientTBLab(String client_tb_lab_uuid, Date client_tb_lab_date, String client_uuid, String level_of_treatment_for_lab_examination, String lab_test_type, String lab_result, Boolean treatment_failure) {
         this.client_tb_lab_uuid = client_tb_lab_uuid;
         this.client_tb_lab_date = client_tb_lab_date;
         this.client_uuid = client_uuid;

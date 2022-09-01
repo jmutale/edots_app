@@ -66,9 +66,9 @@ public class ClientFeedbackActivity extends AppCompatActivity implements Validat
 
     private void saveClientFeedbackForm() {
         String feedbackDate = Utils.getDateFromDatePicker(dteClientFeedbackDate);
-        String adverseReactionsSelection = getSelectedCheckboxValuesFromCheckboxGroup(layoutAdverseReactions);
-        String clientConcernsSelection = getSelectedCheckboxValuesFromCheckboxGroup(layoutClientConcerns);
-        String adviceGivenSelection = getSelectedCheckboxValuesFromCheckboxGroup(layoutAdviceGiven);
+        String adverseReactionsSelection = Utils.getSelectedCheckboxValuesFromCheckboxGroup(layoutAdverseReactions);
+        String clientConcernsSelection = Utils.getSelectedCheckboxValuesFromCheckboxGroup(layoutClientConcerns);
+        String adviceGivenSelection = Utils.getSelectedCheckboxValuesFromCheckboxGroup(layoutAdviceGiven);
         dbHandler.saveClientFeedbackToDatabase(Utils.getNewUuid(), feedbackDate, client_uuid, adverseReactionsSelection, clientConcernsSelection, adviceGivenSelection);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ClientFeedbackActivity.this)
@@ -90,21 +90,6 @@ public class ClientFeedbackActivity extends AppCompatActivity implements Validat
         saveClientFeedbackForm();
     }
 
-    private String getSelectedCheckboxValuesFromCheckboxGroup(LinearLayout layout) {
-        StringBuilder builder = new StringBuilder();
-        for(int i=0;i<layout.getChildCount();i++)
-        {
-            View v = layout.getChildAt(i);
-            if(v instanceof CheckBox){
-                builder.append(((CheckBox)v).getText()).append(",");
-            }
-        }
-        String toReturn = builder.toString();
-        StringBuffer sb = new StringBuffer(toReturn);
-        //remove trailing comma
-        sb.deleteCharAt(sb.length()-1);
-        return sb.toString();
-    }
 
     @Override
     public void onValidationFailed(List<ValidationError> errors) {

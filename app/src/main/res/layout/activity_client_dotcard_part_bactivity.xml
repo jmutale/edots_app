@@ -18,8 +18,17 @@
             android:textSize="20dp"
             app:layout_constraintBottom_toTopOf="parent"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtInitiationPhaseStartDate"
+            android:text="Start Date:"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"
+            android:textSize="20dp"
+            android:layout_below="@+id/txtInitiationPhase"/>
         <DatePicker
-            android:id="@+id/editStartDate"
+            android:id="@+id/editInitiationStartDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -29,7 +38,30 @@
             android:ems="10"
             android:hint="Start date"
             android:inputType="date"
-            android:layout_below="@+id/txtInitiationPhase" />
+            android:layout_below="@+id/txtInitiationPhaseStartDate" />
+
+        <EditText
+            android:id="@+id/editDOTPlan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="28dp"
+            android:layout_toRightOf="@+id/editInitiationStartDate"
+            android:ems="10"
+            android:hint="DOT Plan:"
+            tools:layout_editor_absoluteX="366dp" />
+
+        <EditText
+            android:id="@+id/editStartWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="28dp"
+            android:layout_toRightOf="@+id/editInitiationStartDate"
+            android:layout_below="@+id/editDOTPlan"
+            android:ems="10"
+            android:hint="Start Weight:"
+            tools:layout_editor_absoluteX="366dp" />
 
         <EditText
             android:id="@+id/editObserverName"
@@ -37,7 +69,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="28dp"
-            android:layout_toRightOf="@+id/editStartDate"
+            android:layout_toRightOf="@+id/editInitiationStartDate"
+            android:layout_below="@+id/editStartWeight"
             android:ems="10"
             android:hint="Observer"
             tools:layout_editor_absoluteX="366dp" />
@@ -46,14 +79,14 @@
             android:id="@+id/initial_phase"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editStartDate"
+            android:layout_below="@+id/editInitiationStartDate"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:layout_gravity="center_horizontal"
             android:visibility="visible"
-            app:columnCount="6"
+            app:columnCount="9"
             app:rowCount="10"
             android:background="@color/teal_200">
 
@@ -70,14 +103,35 @@
             android:layout_weight="1"
             android:layout_below="@id/initial_phase"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtContinuationPhaseStartDate"
+            android:text="Start Date:"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"
+            android:textSize="20dp"
+            android:layout_below="@+id/txtContinuationPhase"/>
 
+        <DatePicker
+            android:id="@+id/editContinuationStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="10dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:ems="10"
+            android:hint="Start date"
+            android:inputType="date"
+            android:layout_below="@+id/txtContinuationPhaseStartDate" />
 
         <androidx.gridlayout.widget.GridLayout
             android:id="@+id/continuation_phase1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_below="@+id/txtContinuationPhase"
+            android:layout_below="@+id/editContinuationStartDate"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginEnd="10dp"

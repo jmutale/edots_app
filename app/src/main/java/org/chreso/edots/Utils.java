@@ -8,7 +8,10 @@ import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.view.GestureDetector;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 
 import androidx.preference.PreferenceManager;
 
@@ -94,5 +97,22 @@ public class Utils {
                     .getDefaultSharedPreferences(context).getString("token",null);
         }
         return toReturn;
+    }
+
+
+    public static String getSelectedCheckboxValuesFromCheckboxGroup(LinearLayout layout) {
+        StringBuilder builder = new StringBuilder();
+        for(int i=0;i<layout.getChildCount();i++)
+        {
+            View v = layout.getChildAt(i);
+            if(v instanceof CheckBox){
+                builder.append(((CheckBox)v).getText()).append(",");
+            }
+        }
+        String toReturn = builder.toString();
+        StringBuffer sb = new StringBuffer(toReturn);
+        //remove trailing comma
+        sb.deleteCharAt(sb.length()-1);
+        return sb.toString();
     }
 }

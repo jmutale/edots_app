@@ -82,7 +82,7 @@ public class ClientTBLabsActivity extends AppCompatActivity implements Validator
         String levelOfTreatmentSelection = spnLevelOfTreatment.getSelectedItem().toString();
         String labTestTypeSelection = spnLabTestType.getSelectedItem().toString();
         String labResult = spnLabResult.getSelectedItem().toString();
-        String treatmentFailure = "";
+        String treatmentFailure = "false";
         dbHandler.addNewClientTBLabResult(client_tb_lab_uuid,client_tb_lab_date,client_uuid,levelOfTreatmentSelection,labTestTypeSelection,labResult,treatmentFailure);
     }
 

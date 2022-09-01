@@ -27,7 +27,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 29;
+    private static final int DB_VERSION = 30;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -38,7 +38,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CLIENT_FEEDBACK_TABLE = "client_feedback";
     private static final String EDOT_SURVEY_TABLE = "edot_survey";
     private static final String CLIENT_TB_LAB_TABLE = "client_tb_lab";
-    private static final String CLIENT_DOT_CARD = "client_dot_card";
+    private static final String CLIENT_DOT_CARD_PART_A = "client_dot_card_part_a";
+    private static final String CLIENT_DOT_CARD_PART_B = "client_dot_card_part_b";
     // below variable is for our id column.
     private static final String UUID_COL = "uuid";
     private static final String GENERIC_NAME_COL = "generic_name";
@@ -162,10 +163,31 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "treatment_failure TEXT)";
         sqLiteDatabase.execSQL(client_tb_lab_query);
 
-        String client_dot_card_query = "CREATE TABLE "+ CLIENT_DOT_CARD + "("
+        String client_dot_card_query_part_a = "CREATE TABLE "+ CLIENT_DOT_CARD_PART_A + "("
                 + "dot_card_uuid TEXT,"
-                + "client_uuid TEXT)";
-        sqLiteDatabase.execSQL(client_dot_card_query);
+                + "client_uuid TEXT,"
+                + "type_of_tuberculosis TEXT,"
+                + "treatment_outcome TEXT,"
+                + "date_of_decision TEXT,"
+                + "type_of_regimen TEXT,"
+                + "disease_site TEXT)";
+        sqLiteDatabase.execSQL(client_dot_card_query_part_a);
+
+        String client_dot_card_query_part_b = "CREATE TABLE "+ CLIENT_DOT_CARD_PART_B + "("
+                + "dot_card_uuid TEXT,"
+                + "client_uuid TEXT,"
+                + "initial_phase_start_date TEXT,"
+                + "observer TEXT,"
+                + "dot_plan TEXT,"
+                + "start_weight TEXT,"
+                + "dot_plan_initiation TEXT,"
+                + "continuation_phase_start_date TEXT,"
+                + "dot_plan_continuation_month_1 TEXT,"
+                + "dot_plan_continuation_month_2 TEXT,"
+                + "dot_plan_continuation_month_3 TEXT,"
+                + "dot_plan_continuation_month_4 TEXT)";
+
+        sqLiteDatabase.execSQL(client_dot_card_query_part_b);
     }
 
     public void saveDispensationToDatabase(String dispensation_uuid, String med_drug_uuid, String patient_uuid, String dispensationDate, String dose, String items_per_dose, String frequency, String refill_date, String video_path, String location, String nextClinicAppointmentDate, String refillTime) {
@@ -382,6 +404,8 @@ public class DBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_STATUS_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + EDOT_SURVEY_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_TB_LAB_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_DOT_CARD_PART_A);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_DOT_CARD_PART_B);
         onCreate(sqLiteDatabase);
     }
 
@@ -494,7 +518,7 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 Date clientLabDate = null;
                 clientLabDate = Date.valueOf(c.getString(1));
-                ClientTBLab ces = new ClientTBLab(c.getString(0), clientLabDate, c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6));
+                ClientTBLab ces = new ClientTBLab(c.getString(0), clientLabDate, c.getString(2), c.getString(3), c.getString(4), c.getString(5), Boolean.parseBoolean(c.getString(6)));
                 clientTBLabRecords.add(ces);
             } while (c.moveToNext());
 
@@ -605,6 +629,12 @@ public class DBHandler extends SQLiteOpenHelper {
         return nextDrugPickupTime;
     }
 
-    public void saveEDOTPartBDataToDatabase() {
+    public void saveEDOTPartBDataToDatabase(String dot_card_uuid, String client_uuid, String initial_phase_start_date, String observer, String dot_plan, String start_weight, String dot_plan_initiation, String continuation_phase_start_date, String dot_plan_continuation_month_1, String dot_plan_continuation_month_2, String dot_plan_continuation_month_3, String dot_plan_continuation_month_4) {
+        String UPSERT_SQL = "INSERT OR REPLACE INTO client_dot_card_part_b(dot_card_uuid,client_uuid,initial_phase_start_date,observer,dot_plan,start_weight,dot_plan_initiation,continuation_phase_start_date,dot_plan_continuation_month_1,dot_plan_continuation_month_2,dot_plan_continuation_month_3,dot_plan_continuation_month_4)" +
+                "VALUES ('"+dot_card_uuid+"','"+client_uuid+"','"+initial_phase_start_date+"','"+observer+"','"+dot_plan+"','"+start_weight+"','"+dot_plan_initiation+"','"+continuation_phase_start_date+"','"+dot_plan_continuation_month_1+"','"+dot_plan_continuation_month_2+"','"+dot_plan_continuation_month_3+"','"+dot_plan_continuation_month_4+"')";
+        db.execSQL(UPSERT_SQL);
+    }
+
+    public void saveEDOTPartADataToDatabase(String dot_card_uuid, String client_uuid, String typeOfTb, String treatmentOutcome, String dateOfDecision, String typeOfRegimen, String diseaseSite) {
     }
 }

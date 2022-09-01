@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -42,6 +44,8 @@ public class SecondFragment extends Fragment {
     private Button btnSubmitClientDOTCardPartBActivity;
     private GridLayout grid1,grid2,grid3,grid4,grid5;
     private DBHandler dbHandler;
+    private DatePicker dteInitiationStartDate;
+    private EditText editObserverName, editDOTPlan, editStartWeight;
 
     public SecondFragment() {
         // Required empty public constructor
@@ -84,8 +88,12 @@ public class SecondFragment extends Fragment {
         View view =  inflater.inflate(R.layout.activity_client_dotcard_part_bactivity, container, false);
         dbHandler = new DBHandler(getActivity());
         btnSubmitClientDOTCardPartBActivity = view.findViewById(R.id.btnSubmitDOTCardPartB);
+        dteInitiationStartDate = view.findViewById(R.id.editInitiationStartDate);
+        editObserverName = view.findViewById(R.id.editObserverName);
+        editStartWeight = view.findViewById(R.id.editStartWeight);
+        editDOTPlan = view.findViewById(R.id.editDOTPlan);
         grid1 = view.findViewById(R.id.initial_phase);
-        createSpinner(grid1,60);
+        createCheckBoxGroupInGridLayout(grid1,60);
         grid2 = view.findViewById(R.id.continuation_phase1);
         createCheckBoxGroupInGridLayout(grid2,30);
         grid3 = view.findViewById(R.id.continuation_phase2);
@@ -106,23 +114,44 @@ public class SecondFragment extends Fragment {
 
     private void saveDOTCardPartBToDatabase() {
         String dot_card_uuid = Utils.getNewUuid();
-        String initiationData = getSelectedCheckBoxesFromGridLayout(grid1);
-        dbHandler.saveEDOTPartBDataToDatabase();
+        String client_uuid = Utils.getNewUuid();
+        String initial_phase_start_date = Utils.getDateFromDatePicker(dteInitiationStartDate);
+        String observer = editObserverName.getText().toString();
+        String dotPlan = editDOTPlan.getText().toString();
+        String startWeight = editStartWeight.getText().toString();
+        String dotPlanInitiationData =getSelectedCheckBoxesFromGridLayout(grid1);
+        String continuationPhaseStartDate = "";
+        String dotPlanContinuationDataMonth1 = getSelectedCheckBoxesFromGridLayout(grid2);
+        String dotPlanContinuationDataMonth2 = getSelectedCheckBoxesFromGridLayout(grid3);
+        String dotPlanContinuationDataMonth3 = getSelectedCheckBoxesFromGridLayout(grid4);
+        String dotPlanContinuationDataMonth4 = getSelectedCheckBoxesFromGridLayout(grid5);
+        dbHandler.saveEDOTPartBDataToDatabase(dot_card_uuid,
+                client_uuid,
+                initial_phase_start_date,
+                observer,
+                dotPlan,
+                startWeight,
+                dotPlanInitiationData,
+                continuationPhaseStartDate,
+                dotPlanContinuationDataMonth1,
+                dotPlanContinuationDataMonth2,
+                dotPlanContinuationDataMonth3,
+                dotPlanContinuationDataMonth4);
     }
 
     private String getSelectedCheckBoxesFromGridLayout(GridLayout grid) {
         HashMap<String, String> map = new HashMap<>();
-        for(int i=0;i<grid.getChildCount();i++){
+        for(int i=1;i<=grid.getChildCount();i++){
             View view = grid.getChildAt(i);
             if(view instanceof CheckBox){
                 CheckBox checkBox = ((CheckBox) view);
                 if(checkBox.isChecked()){
-                    String key = checkBox.getText().toString();
-                    map.put(key , getClientInitials());
+
+                    map.put(String.valueOf(i) , getClientInitials());
                 }
             }
         }
-        return "";
+        return map.toString();
     }
 
     private String getClientInitials() {
@@ -137,8 +166,8 @@ public class SecondFragment extends Fragment {
             CheckBox checkBox = new CheckBox(getActivity());
             checkBox.setId(++checkBoxId);
             checkBox.setHint(String.valueOf(i));
-            checkBox.setScaleX((float) 1.1);
-            checkBox.setScaleY((float) 1.3);
+            checkBox.setScaleX((float) 1.2);
+            checkBox.setScaleY((float) 1.4);
             checkBox.setTextColor(Color.LTGRAY);
             checkBox.setButtonTintList(ColorStateList.valueOf(Color.DKGRAY));
             //editText.setPadding(5,5,5,5);
