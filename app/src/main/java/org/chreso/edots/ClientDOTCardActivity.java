@@ -91,4 +91,9 @@ public class ClientDOTCardActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
+    public String getClientUuid(){
+        Bundle bundle = getIntent().getExtras();
+        return bundle.getString("client_uuid");
+    }
 }

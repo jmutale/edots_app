@@ -1,5 +1,7 @@
 package org.chreso.edots;
 
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -21,6 +23,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
         if (position == 0)
         {
             fragment = new FirstFragment();
+
         }
         else if (position == 1)
         {

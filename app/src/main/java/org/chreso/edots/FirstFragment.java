@@ -86,7 +86,8 @@ public class FirstFragment extends Fragment {
     }
 
     private void saveClientPartADOTCardData() {
-        String client_uuid = "";
+        ClientDOTCardActivity activity = (ClientDOTCardActivity)getActivity();
+        String client_uuid = activity.getClientUuid();
         String dot_card_uuid = Utils.getNewUuid();
         String typeOfTb = Utils.getSelectedCheckboxValuesFromCheckboxGroup(layoutTypeOfTb);
         String treatmentOutcome = Utils.getSelectedCheckboxValuesFromCheckboxGroup(layoutTreatmentOutcome);

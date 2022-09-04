@@ -114,7 +114,8 @@ public class SecondFragment extends Fragment {
 
     private void saveDOTCardPartBToDatabase() {
         String dot_card_uuid = Utils.getNewUuid();
-        String client_uuid = Utils.getNewUuid();
+        ClientDOTCardActivity activity = (ClientDOTCardActivity)getActivity();
+        String client_uuid = activity.getClientUuid();
         String initial_phase_start_date = Utils.getDateFromDatePicker(dteInitiationStartDate);
         String observer = editObserverName.getText().toString();
         String dotPlan = editDOTPlan.getText().toString();
