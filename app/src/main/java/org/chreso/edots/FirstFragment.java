@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +33,7 @@ public class FirstFragment extends Fragment {
     private Button btnSubmitClientPartADotCard;
     private LinearLayout layoutTypeOfTb,layoutTreatmentOutcome, layoutTypeOfRegimen, layoutDiseaseSite;
     private DatePicker dteDateOfDecision;
+    private RadioGroup typeOfTb,txOutcome,typeOfRegimen,diseaseSite;
 
     public FirstFragment() {
         // Required empty public constructor
@@ -70,6 +73,10 @@ public class FirstFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_client_dotcard_part_aactivity, container, false);
         layoutTypeOfTb = view.findViewById(R.id.layoutTypeOfTb);
+        typeOfTb = view.findViewById(R.id.rdgrpTypeOfTb);
+        txOutcome = view.findViewById(R.id.rdgrpTreatmentOutcome);
+        typeOfRegimen = view.findViewById(R.id.rdgrpTypeOfRegimen);
+        diseaseSite = view.findViewById(R.id.rdgrpDiseaseSite);
         layoutTreatmentOutcome = view.findViewById(R.id.layoutTreatmentOutcome);
         dteDateOfDecision = view.findViewById(R.id.dteTxOutcomeDateOfDecision);
         layoutTypeOfRegimen = view.findViewById(R.id.layoutTypeOfRegimen);
@@ -78,22 +85,26 @@ public class FirstFragment extends Fragment {
         btnSubmitClientPartADotCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveClientPartADOTCardData();
+                saveClientPartADOTCardData(view);
             }
         });
 
         return view;
     }
 
-    private void saveClientPartADOTCardData() {
+    private void saveClientPartADOTCardData(View view) {
         ClientDOTCardActivity activity = (ClientDOTCardActivity)getActivity();
         String client_uuid = activity.getClientUuid();
         String dot_card_uuid = Utils.getNewUuid();
-        String typeOfTb = Utils.getSelectedCheckboxValuesFromCheckboxGroup(layoutTypeOfTb);
-        String treatmentOutcome = Utils.getSelectedCheckboxValuesFromCheckboxGroup(layoutTreatmentOutcome);
+        String typeOfTbValue = (view.findViewById(typeOfTb.getCheckedRadioButtonId())) == null?"":
+                ((RadioButton)view.findViewById(typeOfTb.getCheckedRadioButtonId())).getText().toString();
+        String treatmentOutcome = (view.findViewById(txOutcome.getCheckedRadioButtonId())) == null?"":
+                ((RadioButton)view.findViewById(txOutcome.getCheckedRadioButtonId())).getText().toString();
         String dateOfDecision = Utils.getDateFromDatePicker(dteDateOfDecision);
-        String typeOfRegimen = Utils.getSelectedCheckboxValuesFromCheckboxGroup(layoutTypeOfRegimen);
-        String diseaseSite = Utils.getSelectedCheckboxValuesFromCheckboxGroup(layoutDiseaseSite);
-        dbHandler.saveEDOTPartADataToDatabase(dot_card_uuid,client_uuid,typeOfTb,treatmentOutcome,dateOfDecision,typeOfRegimen,diseaseSite);
+        String typeOfRegimenValue =(view.findViewById(typeOfRegimen.getCheckedRadioButtonId())) == null?"":
+                ((RadioButton)view.findViewById(typeOfRegimen.getCheckedRadioButtonId())).getText().toString();
+        String diseaseSiteValue = (view.findViewById(diseaseSite.getCheckedRadioButtonId())) == null?"":
+                ((RadioButton)view.findViewById(diseaseSite.getCheckedRadioButtonId())).getText().toString();
+        dbHandler.saveEDOTPartADataToDatabase(dot_card_uuid,client_uuid,typeOfTbValue,treatmentOutcome,dateOfDecision,typeOfRegimenValue,diseaseSiteValue);
     }
 }

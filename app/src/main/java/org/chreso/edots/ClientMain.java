@@ -54,7 +54,7 @@ public class ClientMain extends AppCompatActivity {
         btnClientDOTCardA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openClientDOTCardPartAActivity();
+                openClientDOTCardActivity();
             }
         });
 
@@ -103,7 +103,7 @@ public class ClientMain extends AppCompatActivity {
         loadClientDispensationHistory(uuid);
     }
 
-    private void openClientDOTCardPartAActivity() {
+    private void openClientDOTCardActivity() {
         Bundle b = new Bundle();
         b.putString("client_uuid", uuid);
         Intent intent = new Intent(this, ClientDOTCardActivity.class);

@@ -636,5 +636,9 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public void saveEDOTPartADataToDatabase(String dot_card_uuid, String client_uuid, String typeOfTb, String treatmentOutcome, String dateOfDecision, String typeOfRegimen, String diseaseSite) {
+        String UPSERT_SQL = "INSERT OR REPLACE INTO client_dot_card_part_a(dot_card_uuid,client_uuid,type_of_tuberculosis,treatment_outcome,date_of_decision,type_of_regimen, disease_site)" +
+                "VALUES ('"+dot_card_uuid+"','"+client_uuid+"','"+typeOfTb+"','"+treatmentOutcome+"','"+dateOfDecision+"','"+typeOfRegimen+"','"+diseaseSite+"')";
+        db.execSQL(UPSERT_SQL);
+
     }
 }
