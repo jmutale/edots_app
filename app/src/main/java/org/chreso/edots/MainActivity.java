@@ -307,13 +307,19 @@ public class MainActivity extends AppCompatActivity {
                 publishProgress(86);
                 Thread.sleep(1000);
                 syncOperations.syncClientEDOTSurvey();
-                publishProgress(95);
+                publishProgress(90);
                 Thread.sleep(1000);
+                syncOperations.syncClientDOTCardPartAData();
+                syncOperations.syncClientDOTCardPartBData();
                 syncOperations.syncClientTBLabData();
                 publishProgress(100);
                 Thread.sleep(500);
-            }catch(InterruptedException e){
 
+            }catch(InterruptedException e){
+                //Toast.makeText(getApplicationContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
+
+            }catch(Exception e){
+                //Toast.makeText(getApplicationContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
             }
             return null;
         }

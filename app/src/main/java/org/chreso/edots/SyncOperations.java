@@ -51,9 +51,63 @@ public class SyncOperations {
             syncClientFeedbackData();
             syncClientEDOTSurvey();
             syncClientTBLabData();
+            syncClientDOTCardPartAData();
+            syncClientDOTCardPartBData();
         }catch(Exception e){
             Toast.makeText(myContext,"Sync Error: "+e.getMessage(),Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void syncClientDOTCardPartAData() {
+        ArrayList<ClientDOTCardPartA> listOfClientDOTCardPartARecords = dbHandler.getListOfClientDOTCardPartARecords();
+        for(ClientDOTCardPartA ces: listOfClientDOTCardPartARecords){
+            ClientDOTCardPartAEvent cese = setValuesForClientDOTCardPartAEvent(ces);
+            Call<ClientDOTCardPartAEvent> call = getApiInterface().postClientDOTCardPartA(cese, "Token "+getAuthToken());
+            call.enqueue(new Callback<ClientDOTCardPartAEvent>() {
+                @Override
+                public void onResponse(Call<ClientDOTCardPartAEvent> call, Response<ClientDOTCardPartAEvent> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<ClientDOTCardPartAEvent> call, Throwable t) {
+
+                }
+            });
+
+        }
+    }
+
+    private ClientDOTCardPartAEvent setValuesForClientDOTCardPartAEvent(ClientDOTCardPartA ces) {
+        ClientDOTCardPartAEvent cdpase = new ClientDOTCardPartAEvent();
+        cdpase.setDot_card_uuid(ces.getDot_card_uuid());
+        cdpase.setClient_uuid(ces.getClient_uuid());
+        cdpase.setType_of_tuberculosis(ces.getType_of_tuberculosis());
+        cdpase.setTreatment_outcome(ces.getTreatment_outcome());
+        cdpase.setDate_of_decision(ces.getDate_of_decision());
+        cdpase.setType_of_regimen(ces.getType_of_regimen());
+        cdpase.setDisease_site(ces.getDisease_site());
+        return cdpase;
+    }
+
+    public void syncClientDOTCardPartBData() {
+        ArrayList<ClientDOTCardPartB> listOfClientDOTCardPartBRecords = dbHandler.getListOfClientDOTCardPartBRecords();
+        for(ClientDOTCardPartB ces: listOfClientDOTCardPartBRecords) {
+            ClientDOTCardPartBEvent cese = setValuesForClientDOTCardPartBEvent(ces);
+            Call<ClientDOTCardPartBEvent> call = getApiInterface().postClientDOTCardPartB(cese, "Token "+getAuthToken());
+            call.enqueue(new Callback<ClientDOTCardPartBEvent>() {
+                @Override
+                public void onResponse(Call<ClientDOTCardPartBEvent> call, Response<ClientDOTCardPartBEvent> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<ClientDOTCardPartBEvent> call, Throwable t) {
+
+                }
+            });
+        }
+
     }
 
     void syncClientTBLabData() {
@@ -65,7 +119,7 @@ public class SyncOperations {
 
                 @Override
                 public void onResponse(Call<ClientTBLabEvent> call, Response<ClientTBLabEvent> response) {
-                    //Toast.makeText(myContext, "Syncing client tb labs. "+response.code(),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(myContext, "Syncing client tb labs. "+response.errorBody(),Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -84,8 +138,7 @@ public class SyncOperations {
         ctle.setClient_uuid(ctl.getClient_uuid());
         ctle.setLevel_of_treatment_for_lab_examination(ctl.getLevel_of_treatment_for_lab_examination());
         ctle.setLab_test_type(ctl.getLab_test_type());
-        ctle.setLab_result(ctl.getLab_result().toLowerCase());
-        ctle.setTreatment_failure(ctl.getTreatment_failure());
+        ctle.setLab_result(ctl.getLab_result());
         return ctle;
     }
 
@@ -173,7 +226,7 @@ public class SyncOperations {
             call.enqueue(new Callback<ClientStatusEvent>() {
                 @Override
                 public void onResponse(Call<ClientStatusEvent> call, Response<ClientStatusEvent> response) {
-                    Toast.makeText(myContext, "Syncing client status: ", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(myContext, "Syncing client status: ", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -441,4 +494,22 @@ public class SyncOperations {
         ApiInterface api = retrofit.create(ApiInterface.class);
         return api;
     }
+    private ClientDOTCardPartBEvent setValuesForClientDOTCardPartBEvent(ClientDOTCardPartB ces) {
+        ClientDOTCardPartBEvent cdpbe = new ClientDOTCardPartBEvent();
+        cdpbe.setDot_card_uuid(ces.getDot_card_uuid());
+        cdpbe.setClient_uuid(ces.getClient_uuid());
+        cdpbe.setInitial_phase_start_date(ces.getInitial_phase_start_date());
+        cdpbe.setObserver(ces.getObserver());
+        cdpbe.setDot_plan(ces.getDot_plan());
+        cdpbe.setStart_weight(ces.getStart_weight());
+        cdpbe.setDot_plan_initiation(ces.getDot_plan_initiation());
+        cdpbe.setContinuation_phase_start_date(ces.getContinuation_phase_start_date());
+        cdpbe.setDot_plan_continuation_month_1(ces.getDot_plan_continuation_month_1());
+        cdpbe.setDot_plan_continuation_month_2(ces.getDot_plan_continuation_month_2());
+        cdpbe.setDot_plan_continuation_month_3(ces.getDot_plan_continuation_month_3());
+        cdpbe.setDot_plan_continuation_month_4(ces.getDot_plan_continuation_month_4());
+        return cdpbe;
+    }
+
 }
+

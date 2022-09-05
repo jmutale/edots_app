@@ -1,5 +1,6 @@
 package org.chreso.edots;
 
+import android.app.AlertDialog;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -138,6 +139,13 @@ public class SecondFragment extends Fragment {
                 dotPlanContinuationDataMonth2,
                 dotPlanContinuationDataMonth3,
                 dotPlanContinuationDataMonth4);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+                .setTitle("Success")
+                .setMessage("EDOT Card Part B successfully saved. Please remember to save Part A.")
+                .setCancelable(true)
+                ;
+        builder.create();
+        builder.show();
     }
 
     private String getSelectedCheckBoxesFromGridLayout(GridLayout grid) {

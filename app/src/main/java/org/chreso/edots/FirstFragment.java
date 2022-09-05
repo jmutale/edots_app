@@ -1,5 +1,7 @@
 package org.chreso.edots;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -86,6 +88,13 @@ public class FirstFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 saveClientPartADOTCardData(view);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+                        .setTitle("Success")
+                        .setMessage("EDOT Card Part A successfully saved. Please remember to save Part B.")
+                        .setCancelable(true)
+                        ;
+                builder.create();
+                builder.show();
             }
         });
 

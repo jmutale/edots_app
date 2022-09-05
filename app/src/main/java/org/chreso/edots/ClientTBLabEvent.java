@@ -9,18 +9,6 @@ public class ClientTBLabEvent {
     private String level_of_treatment_for_lab_examination;
     private String lab_test_type;
     private String lab_result;
-    private Boolean treatment_failure;
-
-    public Boolean getTreatment_failure() {
-        return treatment_failure;
-    }
-
-    public void setTreatment_failure(Boolean treatment_failure) {
-        this.treatment_failure = treatment_failure;
-    }
-
-
-
 
 
     public String getLevel_of_treatment_for_lab_examination() {

@@ -20,6 +20,12 @@ public interface ApiInterface {
     @GET("/clients")
     Call<List<Client>> getClients(@Header("Authorization") String authHeader);
 
+    @POST("/edot-card-part-a/")
+    Call<ClientDOTCardPartAEvent> postClientDOTCardPartA(@Body ClientDOTCardPartAEvent cdcpa, @Header("Authorization") String authHeader);
+
+    @POST("/edot-card-part-b/")
+    Call<ClientDOTCardPartBEvent> postClientDOTCardPartB(@Body ClientDOTCardPartBEvent cdcpb, @Header("Authorization") String authHeader);
+
     @POST("/clients/")
     Call<ClientEvent> postClient(@Body ClientEvent client, @Header("Authorization") String authHeader);
 

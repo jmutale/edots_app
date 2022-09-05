@@ -350,7 +350,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 clientDiedDate = (c.getString(5).equals("null")) ? null : Date.valueOf(c.getString(5));
                 clientTransOutDate = (c.getString(10).equals("null")) ? null : Date.valueOf(c.getString(10));
 
-                ClientStatus cs = new ClientStatus(c.getString(0), c.getString(1), c.getString(2), statusDate, c.getString(4), clientDiedDate, c.getString(6), c.getString(7), c.getString(9), clientTransOutDate, c.getString(11));
+                ClientStatus cs = new ClientStatus(c.getString(0), c.getString(1), c.getString(2), statusDate, c.getString(4), clientDiedDate, c.getString(6), c.getString(7),c.getString(8), c.getString(9),clientTransOutDate, c.getString(11));
                 clientStatuses.add(cs);
             } while (c.moveToNext());
         }
@@ -518,7 +518,7 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 Date clientLabDate = null;
                 clientLabDate = Date.valueOf(c.getString(1));
-                ClientTBLab ces = new ClientTBLab(c.getString(0), clientLabDate, c.getString(2), c.getString(3), c.getString(4), c.getString(5), Boolean.parseBoolean(c.getString(6)));
+                ClientTBLab ces = new ClientTBLab(c.getString(0), clientLabDate, c.getString(2), c.getString(3), c.getString(4), c.getString(5));
                 clientTBLabRecords.add(ces);
             } while (c.moveToNext());
 
@@ -640,5 +640,38 @@ public class DBHandler extends SQLiteOpenHelper {
                 "VALUES ('"+dot_card_uuid+"','"+client_uuid+"','"+typeOfTb+"','"+treatmentOutcome+"','"+dateOfDecision+"','"+typeOfRegimen+"','"+diseaseSite+"')";
         db.execSQL(UPSERT_SQL);
 
+    }
+
+    public ArrayList<ClientDOTCardPartA> getListOfClientDOTCardPartARecords() {
+        ArrayList<ClientDOTCardPartA> clientDOTCardPartAEntries = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM client_dot_card_part_a ", null);
+        if (c.moveToFirst()) {
+            do {
+                Date date_of_decision = null;
+                date_of_decision = Date.valueOf(c.getString(4));
+                ClientDOTCardPartA cf = new ClientDOTCardPartA(c.getString(0),c.getString(1),c.getString(2),c.getString(3), date_of_decision, c.getString(5),c.getString(6));
+                clientDOTCardPartAEntries.add(cf);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return clientDOTCardPartAEntries;
+    }
+
+    public ArrayList<ClientDOTCardPartB> getListOfClientDOTCardPartBRecords() {
+        ArrayList<ClientDOTCardPartB> clientDOTCardPartBEntries = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM client_dot_card_part_b ", null);
+        if (c.moveToFirst()) {
+            do {
+                Date initial_phase_start_date = null;
+                initial_phase_start_date = Date.valueOf(c.getString(2));
+                Date continuation_phase_start_date = null;
+                continuation_phase_start_date = Date.valueOf(c.getString(7));
+                ClientDOTCardPartB cf = new ClientDOTCardPartB(c.getString(0),c.getString(1),initial_phase_start_date,c.getString(3),c.getString(4),c.getString(5),c.getString(6),continuation_phase_start_date,c.getString(8),c.getString(9),c.getString(10),c.getString(11));
+                clientDOTCardPartBEntries.add(cf);
+            } while (c.moveToNext());
+        }c.close();
+        return clientDOTCardPartBEntries;
     }
 }
