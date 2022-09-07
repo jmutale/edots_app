@@ -10,11 +10,20 @@ public class ClientStatusEvent {
     private String client_died;
     private String client_died_date;
     private String cause_of_death;
+    private String cause_of_death_other;
     private String client_refuses_to_continue_treatment;
     private String client_is_lost_to_follow_up;
     private String client_transferred_out;
     private String client_transferred_out_date;
     private String facility_transferred_to;
+
+    public String getCause_of_death_other() {
+        return cause_of_death_other;
+    }
+
+    public void setCause_of_death_other(String cause_of_death_other) {
+        this.cause_of_death_other = cause_of_death_other;
+    }
 
     public String getClient_refuses_to_continue_treatment() {
         return client_refuses_to_continue_treatment;

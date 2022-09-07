@@ -36,6 +36,7 @@ public class ClientStatusActivity extends AppCompatActivity implements Validator
     private RadioGroup rgClientRefusesToContinueTreatment;
     private RadioGroup rgClientIsLTFU;
     private EditText editTextFacilityTransferredTo;
+    private EditText editClientOtherCauseOfDeath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +59,7 @@ public class ClientStatusActivity extends AppCompatActivity implements Validator
         dteClientTransOutDate = findViewById(R.id.dteTransferDate);
 
         rgClientDied = findViewById(R.id.rdgrpClientDied);
+        editClientOtherCauseOfDeath = findViewById(R.id.editTextCauseOfDeathOther);
         rgCauseOfDeath = findViewById(R.id.rdgrpCauseOfDeath);
         rgClientRefusesToContinueTreatment = findViewById(R.id.rdgrpClientRefusesToContinueTreatment);
         rgClientIsLTFU = findViewById(R.id.rdgrpClientIsLTFU);
@@ -74,6 +76,7 @@ public class ClientStatusActivity extends AppCompatActivity implements Validator
                     dteClientTransOutDate.setEnabled(false);
                     editTextFacilityTransferredTo.setEnabled(false);
                     dteClientDiedDate.setEnabled(true);
+
                 }
                 if(i==R.id.clientDiedNo){
                     disableOrEnableRGButton(rgClientRefusesToContinueTreatment, true);
@@ -83,6 +86,23 @@ public class ClientStatusActivity extends AppCompatActivity implements Validator
                     dteClientTransOutDate.setEnabled(true);
                     editTextFacilityTransferredTo.setEnabled(true);
                     dteClientDiedDate.setEnabled(false);
+
+                }
+            }
+        });
+        rgCauseOfDeath.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId==R.id.causeOfDeathOther){
+                    editClientOtherCauseOfDeath.setEnabled(true);
+                }
+                if(checkedId==R.id.causeOfDeathCovid){
+                    editClientOtherCauseOfDeath.setEnabled(false);
+                    editClientOtherCauseOfDeath.setText("");
+                }
+                if(checkedId==R.id.causeOfDeathTB){
+                    editClientOtherCauseOfDeath.setEnabled(false);
+                    editClientOtherCauseOfDeath.setText("");
                 }
             }
         });
@@ -130,9 +150,11 @@ public class ClientStatusActivity extends AppCompatActivity implements Validator
         String clientDied =
                 ((RadioButton)findViewById(rgClientDied.getCheckedRadioButtonId())) == null?"":
                         ((RadioButton)findViewById(rgClientDied.getCheckedRadioButtonId())).getText().toString();
+
         String clientDiedDate = clientDied==""?null:Utils.getDateFromDatePicker(dteClientDiedDate);
         String causeOfDeath = ((RadioButton)findViewById(rgCauseOfDeath.getCheckedRadioButtonId())) == null?"":
                 ((RadioButton)findViewById(rgCauseOfDeath.getCheckedRadioButtonId())).getText().toString();
+        String causeOfDeathOther = editClientOtherCauseOfDeath.getText().toString();
         String clientRefusesTreatment = ((RadioButton)findViewById(rgClientRefusesToContinueTreatment.getCheckedRadioButtonId())) == null?"":
                 ((RadioButton)findViewById(rgClientRefusesToContinueTreatment.getCheckedRadioButtonId())).getText().toString();
         String clientIsLTFU = ((RadioButton)findViewById(rgClientIsLTFU.getCheckedRadioButtonId())) == null?"":
@@ -141,7 +163,7 @@ public class ClientStatusActivity extends AppCompatActivity implements Validator
                 ((RadioButton)findViewById(rgTransOut.getCheckedRadioButtonId())).getText().toString();
         String clientTransOutDate = transOut == ""?null:Utils.getDateFromDatePicker(dteClientTransOutDate);
         String facilityTransferredTo = editTextFacilityTransferredTo.getText().toString();
-        dbHandler.saveClientStatusToDatabase(Utils.getNewUuid(),reportingFacility,client_uuid,statusDate,clientDied,clientDiedDate,causeOfDeath,clientRefusesTreatment,clientIsLTFU,transOut,clientTransOutDate,facilityTransferredTo);
+        dbHandler.saveClientStatusToDatabase(Utils.getNewUuid(),reportingFacility,client_uuid,statusDate,clientDied,clientDiedDate,causeOfDeath,causeOfDeathOther,clientRefusesTreatment,clientIsLTFU,transOut,clientTransOutDate,facilityTransferredTo);
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle("Success")
                 .setMessage("Status successfully saved.")

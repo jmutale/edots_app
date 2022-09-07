@@ -246,6 +246,7 @@ public class SyncOperations {
         cse.setClient_died(cs.getClient_died().equals("")?"":cs.getClient_died().toLowerCase());
         cse.setClient_died_date(cs.getClient_died_date());
         cse.setCause_of_death(cs.getCause_of_death());
+        cse.setCause_of_death_other(cs.getCause_of_death_other());
         cse.setClient_refuses_to_continue_treatment(cs.getClient_refuses_to_continue_treatment().equals("")?"":cs.getClient_refuses_to_continue_treatment().toLowerCase());
         cse.setClient_is_lost_to_follow_up(cs.getClient_is_lost_to_follow_up().equals("")?"":cs.getClient_is_lost_to_follow_up().toLowerCase());
         cse.setClient_transferred_out(cs.getClient_transferred_out()==null?"":cs.getClient_transferred_out().toLowerCase());

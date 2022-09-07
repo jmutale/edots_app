@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:maxLines="4"
-                    android:text="Please contact your healthcare provider if you experience any of these symptoms."/>
+                    android:text="Please visit your nearest health facility if you experience any of these symptoms."/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="190dp"

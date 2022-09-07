@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -77,6 +78,25 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
         editAddress = findViewById(R.id.editAddress);
         spnTypeOfClient = findViewById(R.id.spnTypeOfClient);
         editTypeOfClientOther = findViewById(R.id.editOtherTypeOfClient);
+        spnTypeOfClient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String text = parent.getItemAtPosition(position).toString();
+                if (text.equals("other")){
+                    editTypeOfClientOther.setEnabled(true);
+                } else {
+                    editTypeOfClientOther.setEnabled(false);
+                    editTypeOfClientOther.setText("");
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         clientFirstName = findViewById(R.id.txtFirstName);
         clientLastName = findViewById(R.id.txtLastName);
         phone = findViewById(R.id.txtPhoneNumber);

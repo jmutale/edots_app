@@ -27,7 +27,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 30;
+    private static final int DB_VERSION = 31;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -127,6 +127,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "client_died TEXT, "
                 + "client_died_date TEXT, "
                 + "cause_of_death TEXT, "
+                + "cause_of_death_other TEXT,"
                 + "client_refuses_to_continue_treatment TEXT,"
                 + "client_is_lost_to_follow_up TEXT,"
                 + "client_transferred_out TEXT, "
@@ -197,9 +198,9 @@ public class DBHandler extends SQLiteOpenHelper {
 
     }
 
-    public void saveClientStatusToDatabase(String client_status_uuid, String reporting_facility, String client_uuid, String status_date, String client_died, String client_died_date, String cause_of_death, String client_refuses_to_continue_treatment, String client_is_lost_to_follow_up, String client_transferred_out, String client_transferred_out_date, String facility_transferred_to) {
-        String INSERT_SQL = "INSERT INTO client_status(client_status_uuid,reporting_facility,client_uuid,status_date,client_died,client_died_date,cause_of_death,client_refuses_to_continue_treatment,client_is_lost_to_follow_up,client_transferred_out,client_transferred_out_date,facility_transferred_to)" +
-                "VALUES ('" + client_status_uuid + "','" + reporting_facility + "','" + client_uuid + "','" + status_date + "','" + client_died + "','" + client_died_date + "','" + cause_of_death + "','" + client_refuses_to_continue_treatment + "','" + client_is_lost_to_follow_up + "','" + client_transferred_out + "','" + client_transferred_out_date + "','" + facility_transferred_to + "')";
+    public void saveClientStatusToDatabase(String client_status_uuid, String reporting_facility, String client_uuid, String status_date, String client_died, String client_died_date, String cause_of_death, String cause_of_death_other, String client_refuses_to_continue_treatment, String client_is_lost_to_follow_up, String client_transferred_out, String client_transferred_out_date, String facility_transferred_to) {
+        String INSERT_SQL = "INSERT INTO client_status(client_status_uuid,reporting_facility,client_uuid,status_date,client_died,client_died_date,cause_of_death,cause_of_death_other,client_refuses_to_continue_treatment,client_is_lost_to_follow_up,client_transferred_out,client_transferred_out_date,facility_transferred_to)" +
+                "VALUES ('" + client_status_uuid + "','" + reporting_facility + "','" + client_uuid + "','" + status_date + "','" + client_died + "','" + client_died_date + "','" + cause_of_death + "','"+cause_of_death_other+"','" + client_refuses_to_continue_treatment + "','" + client_is_lost_to_follow_up + "','" + client_transferred_out + "','" + client_transferred_out_date + "','" + facility_transferred_to + "')";
         db.execSQL(INSERT_SQL);
     }
 
@@ -348,9 +349,9 @@ public class DBHandler extends SQLiteOpenHelper {
                 Date clientTransOutDate = null;
                 statusDate = (c.getString(3).equals("null")) ? null : Date.valueOf(c.getString(3));
                 clientDiedDate = (c.getString(5).equals("null")) ? null : Date.valueOf(c.getString(5));
-                clientTransOutDate = (c.getString(10).equals("null")) ? null : Date.valueOf(c.getString(10));
+                clientTransOutDate = (c.getString(11).equals("null")) ? null : Date.valueOf(c.getString(10));
 
-                ClientStatus cs = new ClientStatus(c.getString(0), c.getString(1), c.getString(2), statusDate, c.getString(4), clientDiedDate, c.getString(6), c.getString(7),c.getString(8), c.getString(9),clientTransOutDate, c.getString(11));
+                ClientStatus cs = new ClientStatus(c.getString(0), c.getString(1), c.getString(2), statusDate, c.getString(4), clientDiedDate, c.getString(6), c.getString(7), c.getString(8),c.getString(9), c.getString(10),clientTransOutDate, c.getString(12));
                 clientStatuses.add(cs);
             } while (c.moveToNext());
         }
