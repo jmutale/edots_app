@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -66,7 +67,6 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     private static int VIDEO_RECORD_CODE = 101;
     private Uri video_path;
     private Validator validator;
-    @NotEmpty
     private TextView txtVideoUri;
     private DatePicker dteDispensationDate;
     private DatePicker dteNextClinicAppointmentDate;
@@ -86,6 +86,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     });
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -181,6 +182,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setRefillDateToCurrentDate() {
         Calendar cal = Calendar.getInstance();
         LocalDateTime now = LocalDateTime.now();
