@@ -110,6 +110,113 @@
                 android:outlineAmbientShadowColor="@color/black" />
         </LinearLayout>
 
+        <!--X ray done-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation = "horizontal"
+            android:weightSum="3"
+            android:layout_marginTop="8dp"
+            android:background="@color/teal_200">
+
+            <TextView
+                android:id="@+id/txtXRayDoneYesNo"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="X-ray done"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <RadioGroup
+                android:id="@+id/rdgrpXRayDone"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/xrayDoneYes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yes"
+                android:buttonTint="@color/black"/>
+
+            <RadioButton
+                android:id="@+id/xrayDoneNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No"
+                android:buttonTint="@color/black"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <!--x-ray date-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="10dp"
+            android:background="@color/teal_200">
+            <TextView
+                android:id="@+id/txtClientXRayDate"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="X-ray date"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <DatePicker
+                android:id="@+id/dteClientXRayDate"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false"
+                />
+        </LinearLayout>
+        <!--x-ray results-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation = "horizontal"
+            android:weightSum="3"
+            android:layout_marginTop="8dp"
+            android:background="@color/teal_200">
+
+            <TextView
+                android:id="@+id/txtXRayResults"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="X-ray results"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <RadioGroup
+                android:id="@+id/rdgrpXRayResults"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/xrayNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Normal"
+                    android:buttonTint="@color/black"
+                    android:clickable="false"/>
+
+                <RadioButton
+                    android:id="@+id/xrayAbnormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Abnormal"
+                    android:buttonTint="@color/black"
+                    android:clickable="false"/>
+            </RadioGroup>
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

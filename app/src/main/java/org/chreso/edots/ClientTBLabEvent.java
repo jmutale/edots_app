@@ -9,7 +9,33 @@ public class ClientTBLabEvent {
     private String level_of_treatment_for_lab_examination;
     private String lab_test_type;
     private String lab_result;
+    private String x_ray_done;
+    private String x_ray_date;
+    private String x_ray_results;
 
+    public String getX_ray_done() {
+        return x_ray_done;
+    }
+
+    public void setX_ray_done(String x_ray_done) {
+        this.x_ray_done = x_ray_done;
+    }
+
+    public String getX_ray_date() {
+        return x_ray_date;
+    }
+
+    public void setX_ray_date(Date x_ray_date) {
+        this.x_ray_date = Utils.getFormattedDate(x_ray_date);
+    }
+
+    public String getX_ray_results() {
+        return x_ray_results;
+    }
+
+    public void setX_ray_results(String x_ray_results) {
+        this.x_ray_results = x_ray_results;
+    }
 
     public String getLevel_of_treatment_for_lab_examination() {
         return level_of_treatment_for_lab_examination;

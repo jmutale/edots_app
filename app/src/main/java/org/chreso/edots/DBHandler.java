@@ -27,7 +27,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 31;
+    private static final int DB_VERSION = 32;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -161,7 +161,10 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "level_of_treatment_for_lab_examination TEXT,"
                 + "lab_test_type TEXT,"
                 + "lab_result TEXT, "
-                + "treatment_failure TEXT)";
+                + "treatment_failure TEXT,"
+                + "x_ray_done TEXT,"
+                + "x_ray_date TEXT,"
+                + "x_ray_results TEXT)";
         sqLiteDatabase.execSQL(client_tb_lab_query);
 
         String client_dot_card_query_part_a = "CREATE TABLE "+ CLIENT_DOT_CARD_PART_A + "("
@@ -505,9 +508,9 @@ public class DBHandler extends SQLiteOpenHelper {
         return map;
     }
 
-    public void addNewClientTBLabResult(String client_tb_lab_uuid, String client_tb_lab_date, String client_uuid, String levelOfTreatment, String labTestType, String labResult, String treatmentFailure) {
-        String UPSERT_SQL = "INSERT OR REPLACE INTO client_tb_lab(client_tb_lab_uuid, client_tb_lab_date,client_uuid, level_of_treatment_for_lab_examination,lab_test_type,lab_result, treatment_failure)" +
-                "VALUES ('" + client_tb_lab_uuid + "', '" + client_tb_lab_date + "', '" + client_uuid + "','"+levelOfTreatment+"','"+labTestType+"', '" + labResult + "','" + treatmentFailure + "')";
+    public void addNewClientTBLabResult(String client_tb_lab_uuid, String client_tb_lab_date, String client_uuid, String levelOfTreatment, String labTestType, String labResult, String treatmentFailure, String xRayDone, String xRayDate, String xRayResult) {
+        String UPSERT_SQL = "INSERT OR REPLACE INTO client_tb_lab(client_tb_lab_uuid, client_tb_lab_date,client_uuid, level_of_treatment_for_lab_examination,lab_test_type,lab_result, treatment_failure, x_ray_done, x_ray_date, x_ray_results)" +
+                "VALUES ('" + client_tb_lab_uuid + "', '" + client_tb_lab_date + "', '" + client_uuid + "','"+levelOfTreatment+"','"+labTestType+"', '" + labResult + "','" + treatmentFailure + "', '"+xRayDone+"','"+xRayDate+"','"+xRayResult+"')";
         db.execSQL(UPSERT_SQL);
     }
 
@@ -518,8 +521,10 @@ public class DBHandler extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 Date clientLabDate = null;
+                Date clientXRayDate = null;
                 clientLabDate = Date.valueOf(c.getString(1));
-                ClientTBLab ces = new ClientTBLab(c.getString(0), clientLabDate, c.getString(2), c.getString(3), c.getString(4), c.getString(5));
+                clientXRayDate = Date.valueOf(c.getString(7));
+                ClientTBLab ces = new ClientTBLab(c.getString(0), clientLabDate, c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), clientXRayDate,c.getString(8));
                 clientTBLabRecords.add(ces);
             } while (c.moveToNext());
 

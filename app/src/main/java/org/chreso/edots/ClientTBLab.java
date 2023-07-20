@@ -9,9 +9,34 @@ public class ClientTBLab {
     private String level_of_treatment_for_lab_examination;
     private String lab_test_type;
     private String lab_result;
+    private String x_ray_done;
+    private Date x_ray_date;
+    private String x_ray_results;
 
 
+    public String getX_ray_done() {
+        return x_ray_done;
+    }
 
+    public void setX_ray_done(String x_ray_done) {
+        this.x_ray_done = x_ray_done;
+    }
+
+    public Date getX_ray_date() {
+        return x_ray_date;
+    }
+
+    public void setX_ray_date(Date x_ray_date) {
+        this.x_ray_date = x_ray_date;
+    }
+
+    public String getX_ray_results() {
+        return x_ray_results;
+    }
+
+    public void setX_ray_results(String x_ray_results) {
+        this.x_ray_results = x_ray_results;
+    }
 
     public String getLevel_of_treatment_for_lab_examination() {
         return level_of_treatment_for_lab_examination;
@@ -30,15 +55,16 @@ public class ClientTBLab {
     }
 
 
-
-
-    public ClientTBLab(String client_tb_lab_uuid, Date client_tb_lab_date, String client_uuid, String level_of_treatment_for_lab_examination, String lab_test_type, String lab_result) {
+    public ClientTBLab(String client_tb_lab_uuid, Date client_tb_lab_date, String client_uuid, String level_of_treatment_for_lab_examination, String lab_test_type, String lab_result, String x_ray_done, Date x_ray_date, String x_ray_results) {
         this.client_tb_lab_uuid = client_tb_lab_uuid;
         this.client_tb_lab_date = client_tb_lab_date;
         this.client_uuid = client_uuid;
         this.level_of_treatment_for_lab_examination = level_of_treatment_for_lab_examination;
         this.lab_test_type = lab_test_type;
         this.lab_result = lab_result;
+        this.x_ray_done = x_ray_done;
+        this.x_ray_date = x_ray_date;
+        this.x_ray_results = x_ray_results;
     }
 
     public String getClient_tb_lab_uuid() {

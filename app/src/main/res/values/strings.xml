@@ -39,6 +39,11 @@
         <item>treatment after failure</item>
         <item>other</item>
     </string-array>
+    <string-array name="client_hiv_test_result">
+        <item></item>
+        <item>Positive</item>
+        <item>Negative</item>
+    </string-array>
     <string-array name="client_tb_lab_result">
         <item></item>
         <item>Positive</item>
@@ -88,5 +93,8 @@
     <string name="pref_previously_started">app_prev_started</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_client_hivtesting_and_treatment">
+        ClientHIVTestingAndTreatmentActivity
+    </string>
 
 </resources>
