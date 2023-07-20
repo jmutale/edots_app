@@ -9,10 +9,18 @@ public class ClientTBLab {
     private String level_of_treatment_for_lab_examination;
     private String lab_test_type;
     private String lab_result;
+    private String treatment_failure;
     private String x_ray_done;
     private Date x_ray_date;
     private String x_ray_results;
 
+    public String getTreatment_failure() {
+        return treatment_failure;
+    }
+
+    public void setTreatment_failure(String treatment_failure) {
+        this.treatment_failure = treatment_failure;
+    }
 
     public String getX_ray_done() {
         return x_ray_done;
@@ -55,13 +63,14 @@ public class ClientTBLab {
     }
 
 
-    public ClientTBLab(String client_tb_lab_uuid, Date client_tb_lab_date, String client_uuid, String level_of_treatment_for_lab_examination, String lab_test_type, String lab_result, String x_ray_done, Date x_ray_date, String x_ray_results) {
+    public ClientTBLab(String client_tb_lab_uuid, Date client_tb_lab_date, String client_uuid, String level_of_treatment_for_lab_examination, String lab_test_type, String lab_result, String treatment_failure, String x_ray_done, Date x_ray_date, String x_ray_results) {
         this.client_tb_lab_uuid = client_tb_lab_uuid;
         this.client_tb_lab_date = client_tb_lab_date;
         this.client_uuid = client_uuid;
         this.level_of_treatment_for_lab_examination = level_of_treatment_for_lab_examination;
         this.lab_test_type = lab_test_type;
         this.lab_result = lab_result;
+        this.treatment_failure = treatment_failure;
         this.x_ray_done = x_ray_done;
         this.x_ray_date = x_ray_date;
         this.x_ray_results = x_ray_results;

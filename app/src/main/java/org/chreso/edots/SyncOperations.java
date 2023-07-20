@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
@@ -139,6 +140,10 @@ public class SyncOperations {
         ctle.setLevel_of_treatment_for_lab_examination(ctl.getLevel_of_treatment_for_lab_examination());
         ctle.setLab_test_type(ctl.getLab_test_type());
         ctle.setLab_result(ctl.getLab_result());
+        ctle.setTreatment_failure(ctl.getTreatment_failure());
+        ctle.setX_ray_done(ctl.getX_ray_done().toLowerCase());
+        ctle.setX_ray_date(ctl.getX_ray_date());
+        ctle.setX_ray_results(ctl.getX_ray_results().toLowerCase());
         return ctle;
     }
 

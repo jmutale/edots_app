@@ -9,9 +9,18 @@ public class ClientTBLabEvent {
     private String level_of_treatment_for_lab_examination;
     private String lab_test_type;
     private String lab_result;
+    private String treatment_failure;
     private String x_ray_done;
     private String x_ray_date;
     private String x_ray_results;
+
+    public String getTreatment_failure() {
+        return treatment_failure;
+    }
+
+    public void setTreatment_failure(String treatment_failure) {
+        this.treatment_failure = treatment_failure;
+    }
 
     public String getX_ray_done() {
         return x_ray_done;

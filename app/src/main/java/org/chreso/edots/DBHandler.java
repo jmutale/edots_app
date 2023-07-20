@@ -27,7 +27,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 32;
+    private static final int DB_VERSION = 33;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -523,8 +523,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 Date clientLabDate = null;
                 Date clientXRayDate = null;
                 clientLabDate = Date.valueOf(c.getString(1));
-                clientXRayDate = Date.valueOf(c.getString(7));
-                ClientTBLab ces = new ClientTBLab(c.getString(0), clientLabDate, c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), clientXRayDate,c.getString(8));
+                clientXRayDate = Date.valueOf(c.getString(8));
+                ClientTBLab ces = new ClientTBLab(c.getString(0), clientLabDate, c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7),clientXRayDate,c.getString(9));
                 clientTBLabRecords.add(ces);
             } while (c.moveToNext());
 
