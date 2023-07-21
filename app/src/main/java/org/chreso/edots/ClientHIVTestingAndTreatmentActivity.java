@@ -41,4 +41,10 @@ public class ClientHIVTestingAndTreatmentActivity extends AppCompatActivity impl
     public void onValidationFailed(List<ValidationError> errors) {
 
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }

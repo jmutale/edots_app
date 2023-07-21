@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class ClientMain extends AppCompatActivity {
 
-    private Button btnDispenseDrugToClient, btnClientStatus, btnClientFeedback, btnEDOTSurvey, btnTBLabResults, btnClientDOTCardA;
+    private Button btnDispenseDrugToClient, btnClientStatus, btnClientFeedback, btnEDOTSurvey, btnTBLabResults, btnClientDOTCardA, btnHIVTestingCare;
     private TextView name ,dob, gender, mobile;
     private String uuid;
     private DBHandler dbHandler;
@@ -98,9 +98,25 @@ public class ClientMain extends AppCompatActivity {
             }
         });
 
+        btnHIVTestingCare = findViewById(R.id.btnClientHIVTestingCare);
+        btnHIVTestingCare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openClientHIVTestingCareActivity();
+            }
+        });
+
         list=(ListView)findViewById(R.id.dispensationList);
 
         loadClientDispensationHistory(uuid);
+    }
+
+    private void openClientHIVTestingCareActivity() {
+        Bundle b = new Bundle();
+        b.putString("client_uuid", uuid);
+        Intent intent = new Intent(this, ClientHIVTestingAndTreatmentActivity.class);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     private void openClientDOTCardActivity() {

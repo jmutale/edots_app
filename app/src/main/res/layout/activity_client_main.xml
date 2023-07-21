@@ -37,8 +37,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="579dp"
+            android:layout_height="569dp"
             android:layout_below="@+id/profile_layout"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
@@ -218,9 +218,22 @@
                 android:background="@drawable/round_button"
                 android:orientation="vertical"
                 android:text="DOT Card"
-                app:layout_constraintBottom_toBottomOf="@id/btnClientTBLabs"
+                app:layout_constraintBottom_toTopOf="@+id/btnClientHIVTestingCare"
                 app:layout_constraintEnd_toEndOf="parent" />
 
+            <Button
+
+                android:id="@+id/btnClientHIVTestingCare"
+                android:layout_width="170dp"
+                android:layout_height="70dp"
+                android:layout_margin="5dp"
+                android:layout_marginEnd="11dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/round_button"
+                android:orientation="vertical"
+                android:text="HIV TESTING AND TX"
+                app:layout_constraintBottom_toBottomOf="@id/btnClientDOTCardA"
+                app:layout_constraintEnd_toEndOf="parent" />
 
 
             <TextView
@@ -273,7 +286,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dispConstLayoutParent"
             android:layout_width="match_parent"
-            android:layout_height="560dp"
+            android:layout_height="370dp"
             android:layout_below="@+id/constLayout1"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"

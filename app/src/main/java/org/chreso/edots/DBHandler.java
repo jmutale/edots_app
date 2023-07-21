@@ -40,6 +40,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CLIENT_TB_LAB_TABLE = "client_tb_lab";
     private static final String CLIENT_DOT_CARD_PART_A = "client_dot_card_part_a";
     private static final String CLIENT_DOT_CARD_PART_B = "client_dot_card_part_b";
+    private static final String CLIENT_HIV_COUNSELLING_AND_TESTING = "client_hiv_counselling_and_testing";
+    private static final String CLIENT_HIV_CARE = "client_hiv_care";
     // below variable is for our id column.
     private static final String UUID_COL = "uuid";
     private static final String GENERIC_NAME_COL = "generic_name";
@@ -192,6 +194,30 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "dot_plan_continuation_month_4 TEXT)";
 
         sqLiteDatabase.execSQL(client_dot_card_query_part_b);
+
+        String client_hiv_counselling_and_testing_query = "CREATE TABLE " + CLIENT_HIV_COUNSELLING_AND_TESTING +"("
+                + "hiv_counselling_and_testing_uuid TEXT,"
+                + "client_uuid TEXT,"
+                + "accepted_testing TEXT,"
+                + "if_no_accepted_during_intensive_phase TEXT,"
+                + "result_intensive TEXT,"
+                + "place_of_test TEXT,"
+                + "date_of_test TEXT,"
+                + "results TEXT,"
+                + "rest_test_counselling TEXT,"
+                + "if_no_accepted_during_continuation_phase TEXT,"
+                + "result_continuation TEXT)";
+        sqLiteDatabase.execSQL(client_hiv_counselling_and_testing_query);
+
+        String client_hiv_care_query = "CREATE TABLE " + CLIENT_HIV_CARE + "("
+                + "hiv_care_uuid TEXT,"
+                + "client_uuid TEXT,"
+                + "cpt_date_start TEXT,"
+                + "hiv_care_reg_no TEXT,"
+                + "hiv_care_date TEXT,"
+                + "arv_eligible TEXT,"
+                + "arv_start_date TEXT)";
+        sqLiteDatabase.execSQL(client_hiv_care_query);
     }
 
     public void saveDispensationToDatabase(String dispensation_uuid, String med_drug_uuid, String patient_uuid, String dispensationDate, String dose, String items_per_dose, String frequency, String refill_date, String video_path, String location, String nextClinicAppointmentDate, String refillTime) {
@@ -410,6 +436,8 @@ public class DBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_TB_LAB_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_DOT_CARD_PART_A);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_DOT_CARD_PART_B);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_HIV_COUNSELLING_AND_TESTING);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_HIV_CARE);
         onCreate(sqLiteDatabase);
     }
 
