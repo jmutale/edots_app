@@ -708,4 +708,21 @@ public class DBHandler extends SQLiteOpenHelper {
         }c.close();
         return clientDOTCardPartBEntries;
     }
+
+    public void addNewHIVTestingAndCounsellingEntry(String hivCounsellingAndTestingUuid, String client_uuid, String acceptedTesting, String acceptedDuringIntensivePhase, String resultIntensive, String placeOfTest, String dateOfTest, String hivTestResults, String retestCounselling, String acceptedDuringContinuationPhase, String resultContinuation) {
+        String UPSERT_SQL = "INSERT OR REPLACE INTO " +
+                "client_hiv_counselling_and_testing(hiv_counselling_and_testing_uuid,client_uuid,accepted_testing," +
+                "if_no_accepted_during_intensive_phase,result_intensive,place_of_test, date_of_test," +
+                "results, rest_test_counselling, if_no_accepted_during_continuation_phase," +
+                "result_continuation)" +
+                "VALUES ('"+hivCounsellingAndTestingUuid+"','"+client_uuid+"','"+acceptedTesting+"','"+acceptedDuringIntensivePhase+"','"+resultIntensive+"','"+placeOfTest+"','"+dateOfTest+"','"+hivTestResults+"','"+retestCounselling+"','"+acceptedDuringContinuationPhase+"','"+resultContinuation+"')";
+        db.execSQL(UPSERT_SQL);
+    }
+
+    public void addNewHIVCareEntry(String hivCareUuid, String client_uuid, String cptDateStart, String hivCareRegNo, String hivCareDate, String hivCareEligible, String arvStartDate) {
+        String UPSERT_SQL = "INSERT OR REPLACE INTO " +
+            "client_hiv_care(hiv_care_uuid,client_uuid,cpt_date_start, hiv_care_reg_no,hiv_care_date, arv_eligible,arv_start_date)" +
+                "VALUES ('"+hivCareUuid+"','"+client_uuid+"','"+cptDateStart+"','"+hivCareRegNo+"','"+hivCareDate+"','"+hivCareEligible+"','"+arvStartDate+"')";
+        db.execSQL(UPSERT_SQL);
+    }
 }

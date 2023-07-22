@@ -17,7 +17,7 @@
         android:orientation = "horizontal"
         android:weightSum="1"
         android:layout_marginTop="8dp"
-        android:background="@color/teal_200">
+        android:background="@color/teal_700">
 
         <TextView
             android:id="@+id/txtHIVTestingHeader"
@@ -65,6 +65,30 @@
                     android:text="No" />
             </RadioGroup>
         </LinearLayout>
+        <!--Place of test-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginTop="10dp"
+        android:background="@color/teal_200">
+        <TextView
+            android:id="@+id/txtClientHIVPlaceOfTest"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Place of test"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/editPlaceOfTest"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
         <!--Date of test-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -102,7 +126,7 @@
 
             <TextView
                 android:id="@+id/txtIfNoAcceptedDuringIntensivePhase"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="If No accepted during intensive Phase?"
@@ -110,9 +134,9 @@
 
             <RadioGroup
                 android:id="@+id/rdgrpNoIntensivePhase"
-                android:layout_width="170dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -127,6 +151,13 @@
                     android:layout_height="wrap_content"
                     android:text="No" />
             </RadioGroup>
+
+            <EditText
+                android:id="@+id/editResultAcceptedDuringIntensive"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Result"/>
         </LinearLayout>
 
         <!--HIV test result-->
@@ -139,7 +170,7 @@
             android:background="@color/teal_200">
 
             <TextView
-                android:id="@+id/lblLabResult"
+                android:id="@+id/lblHivResult"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -205,7 +236,7 @@
 
             <TextView
                 android:id="@+id/txtIfNoAcceptedDuringContinuationPhase"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="If No accepted during continuation Phase?"
@@ -213,7 +244,7 @@
 
             <RadioGroup
                 android:id="@+id/rdgrpNoContinuationPhase"
-                android:layout_width="170dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:orientation="horizontal">
@@ -230,6 +261,13 @@
                     android:layout_height="wrap_content"
                     android:text="No" />
             </RadioGroup>
+
+            <EditText
+                android:id="@+id/editResultAcceptedDuringContinuation"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Result"/>
         </LinearLayout>
 
     <!--HIV Treatment-->
@@ -239,7 +277,7 @@
         android:orientation = "horizontal"
         android:weightSum="1"
         android:layout_marginTop="8dp"
-        android:background="@color/teal_200">
+        android:background="@color/teal_700">
 
         <TextView
             android:id="@+id/txtHIVTreatment"
@@ -291,8 +329,8 @@
             android:text="HIV Care Reg No"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
-            android:id="@+id/textViewClientHIVCareRegNo"
+        <EditText
+            android:id="@+id/editClientHIVCareRegNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
