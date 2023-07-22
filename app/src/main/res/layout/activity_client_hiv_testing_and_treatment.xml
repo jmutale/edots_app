@@ -433,7 +433,7 @@
             android:weightSum="1"
             android:layout_marginTop="10dp">
             <Button
-                android:id="@+id/btnSubmitLabResult"
+                android:id="@+id/btnSubmitHIVTestingAndTreatmentData"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"

@@ -27,7 +27,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 33;
+    private static final int DB_VERSION = 34;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -724,5 +724,53 @@ public class DBHandler extends SQLiteOpenHelper {
             "client_hiv_care(hiv_care_uuid,client_uuid,cpt_date_start, hiv_care_reg_no,hiv_care_date, arv_eligible,arv_start_date)" +
                 "VALUES ('"+hivCareUuid+"','"+client_uuid+"','"+cptDateStart+"','"+hivCareRegNo+"','"+hivCareDate+"','"+hivCareEligible+"','"+arvStartDate+"')";
         db.execSQL(UPSERT_SQL);
+    }
+
+    public ArrayList<ClientHIVCounsellingAndTesting> getListOfClientHIVCounsellingAndTesting() {
+        ArrayList<ClientHIVCounsellingAndTesting> clientHIVCounsellingAndTestingEntries = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM client_hiv_counselling_and_testing", null);
+        if(c.moveToFirst()){
+            do{
+                Date date_of_test = null;
+                date_of_test=Date.valueOf(c.getString(6));
+                ClientHIVCounsellingAndTesting chct = new ClientHIVCounsellingAndTesting(c.getString(0),
+                        c.getString(1),
+                        c.getString(2),
+                        c.getString(3),
+                        c.getString(4),
+                        c.getString(5),
+                        date_of_test,
+                        c.getString(7),
+                        c.getString(8),
+                        c.getString(9),
+                        c.getString(10));
+            }while(c.moveToNext());
+        }
+        return clientHIVCounsellingAndTestingEntries;
+    }
+
+    public ArrayList<ClientHIVCare> getListOfClientHIVCare() {
+        ArrayList<ClientHIVCare> clientHIVCareEntries = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM client_hiv_care ", null);
+        if (c.moveToFirst()) {
+            do {
+                Date cpt_date_start = null;
+                cpt_date_start = Date.valueOf(c.getString(2));
+                Date hiv_care_date = null;
+                hiv_care_date = Date.valueOf(c.getString(7));
+                Date arv_start_date = null;
+                arv_start_date = Date.valueOf(c.getString(6));
+                ClientHIVCare chc = new ClientHIVCare(c.getString(0),
+                        c.getString(1),
+                        cpt_date_start,
+                        c.getString(3),
+                        hiv_care_date,
+                        c.getString(5),
+                        arv_start_date);
+            } while (c.moveToNext());
+        }c.close();
+        return clientHIVCareEntries;
     }
 }

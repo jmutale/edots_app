@@ -26,6 +26,12 @@ public interface ApiInterface {
     @POST("/edot-card-part-b/")
     Call<ClientDOTCardPartBEvent> postClientDOTCardPartB(@Body ClientDOTCardPartBEvent cdcpb, @Header("Authorization") String authHeader);
 
+    @POST("/hiv-counselling-and-testing/")
+    Call<ClientHIVCounsellingAndTestingEvent> postClientHIVCounsellingAndTesting(@Body ClientHIVCounsellingAndTestingEvent chctc, @Header("Authorization") String authHeader);
+
+    @POST("/hiv-care/")
+    Call<ClientHIVCareEvent> postClientHIVCare(@Body ClientHIVCareEvent chce, @Header("Authorization") String authHeader);
+
     @POST("/clients/")
     Call<ClientEvent> postClient(@Body ClientEvent client, @Header("Authorization") String authHeader);
 

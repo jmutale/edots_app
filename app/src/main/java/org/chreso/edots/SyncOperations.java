@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
@@ -54,9 +53,76 @@ public class SyncOperations {
             syncClientTBLabData();
             syncClientDOTCardPartAData();
             syncClientDOTCardPartBData();
+            syncClientHIVCounsellingAndTestingData();
+            syncClientHIVCareData();
         }catch(Exception e){
             Toast.makeText(myContext,"Sync Error: "+e.getMessage(),Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void syncClientHIVCounsellingAndTestingData() {
+        ArrayList<ClientHIVCounsellingAndTesting> listOfClientHIVCounsellingAndTesting = dbHandler.getListOfClientHIVCounsellingAndTesting();
+        for(ClientHIVCounsellingAndTesting chcc: listOfClientHIVCounsellingAndTesting){
+            ClientHIVCounsellingAndTestingEvent chcte = setClientHIVCousellingAndTesting(chcc);
+            Call<ClientHIVCounsellingAndTestingEvent> call = getApiInterface().postClientHIVCounsellingAndTesting(chcte,"Token "+getAuthToken());
+            call.enqueue(new Callback<ClientHIVCounsellingAndTestingEvent>() {
+                @Override
+                public void onResponse(Call<ClientHIVCounsellingAndTestingEvent> call, Response<ClientHIVCounsellingAndTestingEvent> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<ClientHIVCounsellingAndTestingEvent> call, Throwable t) {
+
+                }
+            });
+        }
+
+    }
+
+    private ClientHIVCounsellingAndTestingEvent setClientHIVCousellingAndTesting(ClientHIVCounsellingAndTesting chcc) {
+        ClientHIVCounsellingAndTestingEvent chcte = new ClientHIVCounsellingAndTestingEvent();
+        chcte.setHiv_counselling_and_testing_uuid(chcc.getHiv_counselling_and_testing_uuid());
+        chcte.setClient_uuid(chcc.getClient_uuid());
+        chcte.setAccepted_testing(chcc.getAccepted_testing());
+        chcte.setIf_no_accepted_during_intensive_phase(chcc.getIf_no_accepted_during_intensive_phase());
+        chcte.setResult_intensive(chcc.getResult_intensive());
+        chcte.setPlace_of_test(chcc.getPlace_of_test());
+        chcte.setDate_of_test(chcc.getDate_of_test());
+        chcte.setResults(chcc.getResults());
+        chcte.setRest_test_counselling(chcc.getRest_test_counselling());
+        chcte.setIf_no_accepted_during_continuation_phase(chcc.getIf_no_accepted_during_continuation_phase());
+        chcte.setResult_continuation(chcc.getResult_continuation());
+        return chcte;
+    }
+
+    private void syncClientHIVCareData(){
+        ArrayList<ClientHIVCare> listOfClientHIVCare = dbHandler.getListOfClientHIVCare();
+        for(ClientHIVCare chc: listOfClientHIVCare){
+            ClientHIVCareEvent chce = setClientHIVCareEvent(chc);
+            Call<ClientHIVCareEvent> call = getApiInterface().postClientHIVCare(chce, "Token "+getAuthToken());
+            call.enqueue(new Callback<ClientHIVCareEvent>() {
+                @Override
+                public void onResponse(Call<ClientHIVCareEvent> call, Response<ClientHIVCareEvent> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<ClientHIVCareEvent> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
+    private ClientHIVCareEvent setClientHIVCareEvent(ClientHIVCare chc) {
+        ClientHIVCareEvent chce = new ClientHIVCareEvent();
+        chce.setCpt_date_start(chc.getCpt_date_start());
+        chce.setHiv_care_reg_no(chc.getHiv_care_reg_no());
+        chce.setHiv_care_date(chc.getHiv_care_date());
+        chce.setArv_eligible(chc.getArv_eligible());
+        chce.setArv_start_date(chc.getArv_start_date());
+        return chce;
     }
 
     public void syncClientDOTCardPartAData() {

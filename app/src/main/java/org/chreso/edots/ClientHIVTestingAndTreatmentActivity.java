@@ -2,6 +2,8 @@ package org.chreso.edots;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -17,7 +19,7 @@ import com.mobsandgeeks.saripaar.Validator;
 
 import java.util.List;
 
-public class ClientHIVTestingAndTreatmentActivity extends AppCompatActivity implements Validator.ValidationListener{
+public class ClientHIVTestingAndTreatmentActivity extends AppCompatActivity {
 
     private Validator validator;
     private String client_uuid;
@@ -27,6 +29,8 @@ public class ClientHIVTestingAndTreatmentActivity extends AppCompatActivity impl
     private RadioGroup rgAcceptedTesting, rgRetestCounselling, rgIfNoAcceptedDuringIntensivePhase, rgIfNoAcceptedDuringContinuationPhase, rgHIVCareEligible;
     private DatePicker dateOfTest, cptDateStart, hivCareDate, arvStartDate;
     private Spinner results;
+
+    private Button btnSubmitNewEntry;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,20 +60,18 @@ public class ClientHIVTestingAndTreatmentActivity extends AppCompatActivity impl
         hivCareDate = findViewById(R.id.dteClientHIVCareDate);
         arvStartDate = findViewById(R.id.dteClientHIVCareARVStartDate);
         rgHIVCareEligible = findViewById(R.id.rdgrpClientHIVCareEligible);
+
+        btnSubmitNewEntry = findViewById(R.id.btnSubmitHIVTestingAndTreatmentData);
+
+        btnSubmitNewEntry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveClientHIVTestingAndTreatmentToDatabase();
+
+            }
+        });
     }
 
-    @Override
-    public void onValidationSucceeded() {
-        saveClientHIVTestingAndTreatmentToDatabase();
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("Success")
-                .setMessage("Status successfully saved.")
-                .setCancelable(true)
-                ;
-        builder.create();
-        builder.show();
-    }
 
     private void saveClientHIVTestingAndTreatmentToDatabase() {
         String hivCounsellingAndTestingUuid = Utils.getNewUuid();
@@ -102,12 +104,16 @@ public class ClientHIVTestingAndTreatmentActivity extends AppCompatActivity impl
         String _arvStartDate = Utils.getDateFromDatePicker(arvStartDate);
         dbHandler.addNewHIVCareEntry(hivCareUuid,client_uuid,_cptDateStart,_hivCareRegNo,_hivCareDate,_hivCareEligible,_arvStartDate);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("Success")
+                .setMessage("Status successfully saved.")
+                .setCancelable(true)
+                ;
+        builder.create();
+        builder.show();
     }
 
-    @Override
-    public void onValidationFailed(List<ValidationError> errors) {
 
-    }
 
     @Override
     public boolean onSupportNavigateUp() {
