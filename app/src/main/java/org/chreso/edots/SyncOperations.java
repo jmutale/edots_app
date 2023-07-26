@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
@@ -60,7 +61,7 @@ public class SyncOperations {
         }
     }
 
-    private void syncClientHIVCounsellingAndTestingData() {
+    public void syncClientHIVCounsellingAndTestingData() {
         ArrayList<ClientHIVCounsellingAndTesting> listOfClientHIVCounsellingAndTesting = dbHandler.getListOfClientHIVCounsellingAndTesting();
         for(ClientHIVCounsellingAndTesting chcc: listOfClientHIVCounsellingAndTesting){
             ClientHIVCounsellingAndTestingEvent chcte = setClientHIVCousellingAndTesting(chcc);
@@ -70,33 +71,31 @@ public class SyncOperations {
                 public void onResponse(Call<ClientHIVCounsellingAndTestingEvent> call, Response<ClientHIVCounsellingAndTestingEvent> response) {
 
                 }
-
                 @Override
                 public void onFailure(Call<ClientHIVCounsellingAndTestingEvent> call, Throwable t) {
 
                 }
             });
         }
-
     }
 
     private ClientHIVCounsellingAndTestingEvent setClientHIVCousellingAndTesting(ClientHIVCounsellingAndTesting chcc) {
         ClientHIVCounsellingAndTestingEvent chcte = new ClientHIVCounsellingAndTestingEvent();
         chcte.setHiv_counselling_and_testing_uuid(chcc.getHiv_counselling_and_testing_uuid());
         chcte.setClient_uuid(chcc.getClient_uuid());
-        chcte.setAccepted_testing(chcc.getAccepted_testing());
-        chcte.setIf_no_accepted_during_intensive_phase(chcc.getIf_no_accepted_during_intensive_phase());
+        chcte.setAccepted_testing(chcc.getAccepted_testing().toLowerCase());
+        chcte.setIf_no_accepted_during_intensive_phase(chcc.getIf_no_accepted_during_intensive_phase().toLowerCase());
         chcte.setResult_intensive(chcc.getResult_intensive());
         chcte.setPlace_of_test(chcc.getPlace_of_test());
         chcte.setDate_of_test(chcc.getDate_of_test());
         chcte.setResults(chcc.getResults());
-        chcte.setRest_test_counselling(chcc.getRest_test_counselling());
-        chcte.setIf_no_accepted_during_continuation_phase(chcc.getIf_no_accepted_during_continuation_phase());
+        chcte.setRest_test_counselling(chcc.getRest_test_counselling().toLowerCase());
+        chcte.setIf_no_accepted_during_continuation_phase(chcc.getIf_no_accepted_during_continuation_phase().toLowerCase());
         chcte.setResult_continuation(chcc.getResult_continuation());
         return chcte;
     }
 
-    private void syncClientHIVCareData(){
+    public void syncClientHIVCareData(){
         ArrayList<ClientHIVCare> listOfClientHIVCare = dbHandler.getListOfClientHIVCare();
         for(ClientHIVCare chc: listOfClientHIVCare){
             ClientHIVCareEvent chce = setClientHIVCareEvent(chc);
@@ -117,10 +116,11 @@ public class SyncOperations {
 
     private ClientHIVCareEvent setClientHIVCareEvent(ClientHIVCare chc) {
         ClientHIVCareEvent chce = new ClientHIVCareEvent();
+        chce.setHiv_care_uuid(chc.getHiv_care_uuid());
         chce.setCpt_date_start(chc.getCpt_date_start());
         chce.setHiv_care_reg_no(chc.getHiv_care_reg_no());
         chce.setHiv_care_date(chc.getHiv_care_date());
-        chce.setArv_eligible(chc.getArv_eligible());
+        chce.setArv_eligible(chc.getArv_eligible().toLowerCase());
         chce.setArv_start_date(chc.getArv_start_date());
         return chce;
     }

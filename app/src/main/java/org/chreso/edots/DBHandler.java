@@ -745,6 +745,7 @@ public class DBHandler extends SQLiteOpenHelper {
                         c.getString(8),
                         c.getString(9),
                         c.getString(10));
+                clientHIVCounsellingAndTestingEntries.add(chct);
             }while(c.moveToNext());
         }
         return clientHIVCounsellingAndTestingEntries;
@@ -759,7 +760,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 Date cpt_date_start = null;
                 cpt_date_start = Date.valueOf(c.getString(2));
                 Date hiv_care_date = null;
-                hiv_care_date = Date.valueOf(c.getString(7));
+                hiv_care_date = Date.valueOf(c.getString(4));
                 Date arv_start_date = null;
                 arv_start_date = Date.valueOf(c.getString(6));
                 ClientHIVCare chc = new ClientHIVCare(c.getString(0),
@@ -769,6 +770,7 @@ public class DBHandler extends SQLiteOpenHelper {
                         hiv_care_date,
                         c.getString(5),
                         arv_start_date);
+                clientHIVCareEntries.add(chc);
             } while (c.moveToNext());
         }c.close();
         return clientHIVCareEntries;

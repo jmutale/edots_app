@@ -1,6 +1,7 @@
 package org.chreso.edots;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -108,7 +109,12 @@ public class ClientHIVTestingAndTreatmentActivity extends AppCompatActivity {
                 .setTitle("Success")
                 .setMessage("Status successfully saved.")
                 .setCancelable(true)
-                ;
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
         builder.create();
         builder.show();
     }

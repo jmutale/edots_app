@@ -312,6 +312,8 @@ public class MainActivity extends AppCompatActivity {
                 syncOperations.syncClientDOTCardPartAData();
                 syncOperations.syncClientDOTCardPartBData();
                 syncOperations.syncClientTBLabData();
+                syncOperations.syncClientHIVCounsellingAndTestingData();
+                syncOperations.syncClientHIVCareData();
                 publishProgress(100);
                 Thread.sleep(500);
 

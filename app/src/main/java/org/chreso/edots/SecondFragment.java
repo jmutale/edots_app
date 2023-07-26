@@ -94,7 +94,7 @@ public class SecondFragment extends Fragment {
         editStartWeight = view.findViewById(R.id.editStartWeight);
         editDOTPlan = view.findViewById(R.id.editDOTPlan);
         grid1 = view.findViewById(R.id.initial_phase);
-        createCheckBoxGroupInGridLayout(grid1,60);
+        createCheckBoxGroupInGridLayout(grid1,30);
         grid2 = view.findViewById(R.id.continuation_phase1);
         createCheckBoxGroupInGridLayout(grid2,30);
         grid3 = view.findViewById(R.id.continuation_phase2);
