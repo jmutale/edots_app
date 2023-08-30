@@ -4,5 +4,10 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
-
+    <string-array name="weight">
+        <item>30-37kgs 2 tablets</item>
+        <item>38-54kgs 3 tablets</item>
+        <item>55-70kgs 4 tablets</item>
+        <item>>71kgs 5 tablets</item>
+    </string-array>
 </resources>

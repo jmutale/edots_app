@@ -46,7 +46,8 @@ public class SecondFragment extends Fragment {
     private GridLayout grid1,grid2,grid3,grid4,grid5;
     private DBHandler dbHandler;
     private DatePicker dteInitiationStartDate;
-    private EditText editObserverName, editDOTPlan, editStartWeight;
+    private EditText editObserverName, editDOTPlan;
+    private Spinner spnStartWeight;
 
     public SecondFragment() {
         // Required empty public constructor
@@ -91,7 +92,7 @@ public class SecondFragment extends Fragment {
         btnSubmitClientDOTCardPartBActivity = view.findViewById(R.id.btnSubmitDOTCardPartB);
         dteInitiationStartDate = view.findViewById(R.id.editInitiationStartDate);
         editObserverName = view.findViewById(R.id.editObserverName);
-        editStartWeight = view.findViewById(R.id.editStartWeight);
+        spnStartWeight = view.findViewById(R.id.spnStartWeight);
         editDOTPlan = view.findViewById(R.id.editDOTPlan);
         grid1 = view.findViewById(R.id.initial_phase);
         createCheckBoxGroupInGridLayout(grid1,30);
@@ -120,7 +121,7 @@ public class SecondFragment extends Fragment {
         String initial_phase_start_date = Utils.getDateFromDatePicker(dteInitiationStartDate);
         String observer = editObserverName.getText().toString();
         String dotPlan = editDOTPlan.getText().toString();
-        String startWeight = editStartWeight.getText().toString();
+        String startWeight = spnStartWeight.getSelectedItem().toString();
         String dotPlanInitiationData =getSelectedCheckBoxesFromGridLayout(grid1);
         String continuationPhaseStartDate = "";
         String dotPlanContinuationDataMonth1 = getSelectedCheckBoxesFromGridLayout(grid2);

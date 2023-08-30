@@ -51,16 +51,17 @@
             android:hint="DOT Plan:"
             tools:layout_editor_absoluteX="366dp" />
 
-        <EditText
-            android:id="@+id/editStartWeight"
+        <Spinner
+            android:id="@+id/spnStartWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/editDOTPlan"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="28dp"
             android:layout_toRightOf="@+id/editInitiationStartDate"
-            android:layout_below="@+id/editDOTPlan"
             android:ems="10"
-            android:hint="Start Weight:"
+            android:entries="@array/weight"
+            android:hint="Weight"
             tools:layout_editor_absoluteX="366dp" />
 
         <EditText
@@ -70,7 +71,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginBottom="28dp"
             android:layout_toRightOf="@+id/editInitiationStartDate"
-            android:layout_below="@+id/editStartWeight"
+            android:layout_below="@+id/spnStartWeight"
             android:ems="10"
             android:hint="Observer"
             tools:layout_editor_absoluteX="366dp" />

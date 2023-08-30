@@ -701,7 +701,14 @@ public class DBHandler extends SQLiteOpenHelper {
                 Date initial_phase_start_date = null;
                 initial_phase_start_date = Date.valueOf(c.getString(2));
                 Date continuation_phase_start_date = null;
-                continuation_phase_start_date = Date.valueOf(c.getString(7));
+                String date_value = "";
+                date_value = c.getString(7);
+                if(date_value.equals("")){
+                    continuation_phase_start_date = Date.valueOf("1900-01-1");
+                }else {
+
+                    continuation_phase_start_date = Date.valueOf(date_value);
+                }
                 ClientDOTCardPartB cf = new ClientDOTCardPartB(c.getString(0),c.getString(1),initial_phase_start_date,c.getString(3),c.getString(4),c.getString(5),c.getString(6),continuation_phase_start_date,c.getString(8),c.getString(9),c.getString(10),c.getString(11));
                 clientDOTCardPartBEntries.add(cf);
             } while (c.moveToNext());
