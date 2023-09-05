@@ -56,6 +56,14 @@
         <item>Sputum smear</item>
         <item>Other</item>
     </string-array>
+    <string-array name="vaccine_options">
+        <item></item>
+        <item>pfizer</item>
+        <item>johnson and johnson</item>
+        <item>oxford astrazeneca</item>
+        <item>sinopharm</item>
+        <item>moderna</item>
+    </string-array>
     <string-array name="level_of_treatment">
         <item></item>
         <item>initial</item>>

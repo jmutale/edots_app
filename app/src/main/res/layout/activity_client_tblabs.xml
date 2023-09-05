@@ -3,20 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:orientation="vertical" >
+        android:paddingRight="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2"
             android:layout_marginTop="10dp"
-            android:background="@color/teal_200">
+            android:background="@color/teal_200"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
             <TextView
                 android:id="@+id/txtClientTBLabDate"
                 android:layout_width="140dp"
@@ -27,21 +29,20 @@
 
             <DatePicker
                 android:id="@+id/dteClientTBLabDate"
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:datePickerMode="spinner"
+                android:layout_weight="1"
                 android:calendarViewShown="false"
-                />
+                android:datePickerMode="spinner" />
         </LinearLayout>
         <!--Level of treatment-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3"
             android:layout_marginTop="8dp"
-            android:background="@color/teal_200">
+            android:background="@color/teal_200"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
             <TextView
                 android:id="@+id/lblLevelOfTreatment"
@@ -63,10 +64,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3"
             android:layout_marginTop="8dp"
-            android:background="@color/teal_200">
+            android:background="@color/teal_200"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
             <TextView
                 android:id="@+id/lblLabTestType"
@@ -88,10 +89,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3"
             android:layout_marginTop="8dp"
-            android:background="@color/teal_200">
+            android:background="@color/teal_200"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
             <TextView
                 android:id="@+id/lblLabResult"
@@ -114,10 +115,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation = "horizontal"
-            android:weightSum="3"
             android:layout_marginTop="8dp"
-            android:background="@color/teal_200">
+            android:background="@color/teal_200"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
             <TextView
                 android:id="@+id/txtXRayDoneYesNo"
@@ -134,19 +135,19 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/xrayDoneYes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Yes"
-                android:buttonTint="@color/black"/>
+                <RadioButton
+                    android:id="@+id/xrayDoneYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/black"
+                    android:text="Yes" />
 
-            <RadioButton
-                android:id="@+id/xrayDoneNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No"
-                android:buttonTint="@color/black"/>
+                <RadioButton
+                    android:id="@+id/xrayDoneNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/black"
+                    android:text="No" />
             </RadioGroup>
         </LinearLayout>
 
@@ -154,10 +155,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2"
             android:layout_marginTop="10dp"
-            android:background="@color/teal_200">
+            android:background="@color/teal_200"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
             <TextView
                 android:id="@+id/txtClientXRayDate"
                 android:layout_width="140dp"
@@ -168,21 +170,20 @@
 
             <DatePicker
                 android:id="@+id/dteClientXRayDate"
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:datePickerMode="spinner"
+                android:layout_weight="1"
                 android:calendarViewShown="false"
-                />
+                android:datePickerMode="spinner" />
         </LinearLayout>
         <!--x-ray results-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation = "horizontal"
-            android:weightSum="3"
             android:layout_marginTop="8dp"
-            android:background="@color/teal_200">
+            android:background="@color/teal_200"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
             <TextView
                 android:id="@+id/txtXRayResults"
@@ -203,26 +204,154 @@
                     android:id="@+id/xrayNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Normal"
                     android:buttonTint="@color/black"
-                    android:clickable="false"/>
+                    android:clickable="false"
+                    android:text="Normal" />
 
                 <RadioButton
                     android:id="@+id/xrayAbnormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Abnormal"
                     android:buttonTint="@color/black"
-                    android:clickable="false"/>
+                    android:clickable="false"
+                    android:text="Abnormal" />
             </RadioGroup>
         </LinearLayout>
+        <!--covid19 data-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
+            <TextView
+                android:id="@+id/txtClientCovid19VaccineDone"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Covid-19 caccination done"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <RadioGroup
+                android:id="@+id/rdgrpCovid19VaccinationDone"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/covid19VaccinationDoneYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/black"
+                    android:text="Yes" />
+
+                <RadioButton
+                    android:id="@+id/covid19VaccinationDoneNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/black"
+                    android:text="No" />
+            </RadioGroup>
+        </LinearLayout>
+        <!--covid 19 vaccine options-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="1"
-            android:layout_marginTop="10dp">
+            android:weightSum="3"
+            android:layout_marginTop="8dp"
+            >
+
+            <TextView
+                android:id="@+id/lblCovid19VaccineOptions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Vaccine name"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <Spinner
+                android:id="@+id/spnClientCovid19VaccineName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/vaccine_options"
+                android:outlineAmbientShadowColor="@color/black"
+                />
+        </LinearLayout>
+        <!--covid 19 booster shot-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/txtClientCovid19BoosterVaccineDone"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Covid-19 booster vaccination Done"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <RadioGroup
+                android:id="@+id/rdgrpCovid19BoosterVaccinationDone"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/covid19BoosterVaccinationDoneYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/black"
+                    android:text="Yes" />
+
+                <RadioButton
+                    android:id="@+id/covid19BoosterVaccinationDoneNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/black"
+                    android:text="No" />
+            </RadioGroup>
+        </LinearLayout>
+        <!--covid 19 booster shot name-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:layout_marginTop="8dp"
+            >
+
+            <TextView
+                android:id="@+id/lblCovid19BoosterVaccineOptions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Booster vaccine name"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <Spinner
+                android:id="@+id/spnClientCovid19BoosterVaccineName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/vaccine_options"
+                android:outlineAmbientShadowColor="@color/black"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
             <Button
                 android:id="@+id/btnSubmitLabResult"
                 android:layout_width="100dp"

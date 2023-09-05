@@ -13,6 +13,44 @@ public class ClientTBLab {
     private String x_ray_done;
     private Date x_ray_date;
     private String x_ray_results;
+    private String covid_19_vaccination_done;
+    private String covid_19_vaccine;
+    private String covid_19_booster_done;
+    private String covid_19_booster_vaccine;
+
+    public String getCovid_19_vaccination_done() {
+        return covid_19_vaccination_done;
+    }
+
+    public void setCovid_19_vaccination_done(String covid_19_vaccination_done) {
+        this.covid_19_vaccination_done = covid_19_vaccination_done;
+    }
+
+    public String getCovid_19_vaccine() {
+        return covid_19_vaccine;
+    }
+
+    public void setCovid_19_vaccine(String covid_19_vaccine) {
+        this.covid_19_vaccine = covid_19_vaccine;
+    }
+
+    public String getCovid_19_booster_done() {
+        return covid_19_booster_done;
+    }
+
+    public void setCovid_19_booster_done(String covid_19_booster_done) {
+        this.covid_19_booster_done = covid_19_booster_done;
+    }
+
+    public String getCovid_19_booster_vaccine() {
+        return covid_19_booster_vaccine;
+    }
+
+    public void setCovid_19_booster_vaccine(String covid_19_booster_vaccine) {
+        this.covid_19_booster_vaccine = covid_19_booster_vaccine;
+    }
+
+
 
     public String getTreatment_failure() {
         return treatment_failure;

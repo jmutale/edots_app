@@ -24,14 +24,14 @@ import java.util.List;
 public class ClientTBLabsActivity extends AppCompatActivity implements Validator.ValidationListener {
 
     @Select
-    private Spinner spnLabResult, spnLevelOfTreatment, spnLabTestType;
+    private Spinner spnLabResult, spnLevelOfTreatment, spnLabTestType, spnCovid19VaccineName, spnCovid19BoosterVaccineName;
     private Validator validator;
     private DatePicker dteClientTBLabDate, dteXRayDate;
     private String client_uuid;
     DBHandler dbHandler;
     private Button btnSubmit;
     private RadioButton rNormal, rAbnormal;
-    private RadioGroup rgXRayDone, rgXRayResult;
+    private RadioGroup rgXRayDone, rgXRayResult, covid19VaccinationDone, covid19BoosterVaccinationDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +65,11 @@ public class ClientTBLabsActivity extends AppCompatActivity implements Validator
         rgXRayResult = findViewById(R.id.rdgrpXRayResults);
         rNormal = findViewById(R.id.xrayNormal);
         rAbnormal = findViewById(R.id.xrayAbnormal);
+
+        covid19VaccinationDone = findViewById(R.id.rdgrpCovid19VaccinationDone);
+        spnCovid19VaccineName = findViewById(R.id.spnClientCovid19VaccineName);
+        covid19BoosterVaccinationDone = findViewById(R.id.rdgrpCovid19BoosterVaccinationDone);
+        spnCovid19BoosterVaccineName = findViewById(R.id.spnClientCovid19BoosterVaccineName);
 
         rgXRayDone.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
@@ -115,7 +120,15 @@ public class ClientTBLabsActivity extends AppCompatActivity implements Validator
         String xRayDate = Utils.getDateFromDatePicker(dteXRayDate);
         String xRayResult =   ((RadioButton)findViewById(rgXRayResult.getCheckedRadioButtonId())) == null?"":
                 ((RadioButton)findViewById(rgXRayResult.getCheckedRadioButtonId())).getText().toString();
-        dbHandler.addNewClientTBLabResult(client_tb_lab_uuid,client_tb_lab_date,client_uuid,levelOfTreatmentSelection,labTestTypeSelection,labResult,treatmentFailure, xRayDone, xRayDate, xRayResult);
+
+        String covid19VaxDone = ((RadioButton)findViewById(covid19VaccinationDone.getCheckedRadioButtonId())) == null?"":
+                ((RadioButton)findViewById(covid19VaccinationDone.getCheckedRadioButtonId())).getText().toString();
+
+        String covid19VaxName = spnCovid19VaccineName.getSelectedItem().toString();
+        String covid19BoosterVaxDone = ((RadioButton)findViewById(covid19BoosterVaccinationDone.getCheckedRadioButtonId())) == null?"":
+                ((RadioButton)findViewById(covid19BoosterVaccinationDone.getCheckedRadioButtonId())).getText().toString();
+        String covid19BoosterVaxName = spnCovid19BoosterVaccineName.getSelectedItem().toString();
+        dbHandler.addNewClientTBLabResult(client_tb_lab_uuid,client_tb_lab_date,client_uuid,levelOfTreatmentSelection,labTestTypeSelection,labResult,treatmentFailure, xRayDone, xRayDate, xRayResult, covid19VaxDone, covid19VaxName, covid19BoosterVaxDone, covid19BoosterVaxName);
     }
 
 
