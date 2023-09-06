@@ -14,9 +14,27 @@ public class ClientTBLab {
     private Date x_ray_date;
     private String x_ray_results;
     private String covid_19_vaccination_done;
+    private Date covid_19_vaccination_date;
     private String covid_19_vaccine;
     private String covid_19_booster_done;
+    private Date covid_19_booster_date;
     private String covid_19_booster_vaccine;
+
+    public Date getCovid_19_vaccination_date() {
+        return covid_19_vaccination_date;
+    }
+
+    public void setCovid_19_vaccination_date(Date covid_19_vaccination_date) {
+        this.covid_19_vaccination_date = covid_19_vaccination_date;
+    }
+
+    public Date getCovid_19_booster_date() {
+        return covid_19_booster_date;
+    }
+
+    public void setCovid_19_booster_date(Date covid_19_booster_date) {
+        this.covid_19_booster_date = covid_19_booster_date;
+    }
 
     public String getCovid_19_vaccination_done() {
         return covid_19_vaccination_done;
@@ -49,7 +67,6 @@ public class ClientTBLab {
     public void setCovid_19_booster_vaccine(String covid_19_booster_vaccine) {
         this.covid_19_booster_vaccine = covid_19_booster_vaccine;
     }
-
 
 
     public String getTreatment_failure() {
@@ -101,7 +118,22 @@ public class ClientTBLab {
     }
 
 
-    public ClientTBLab(String client_tb_lab_uuid, Date client_tb_lab_date, String client_uuid, String level_of_treatment_for_lab_examination, String lab_test_type, String lab_result, String treatment_failure, String x_ray_done, Date x_ray_date, String x_ray_results) {
+    public ClientTBLab(String client_tb_lab_uuid,
+                       Date client_tb_lab_date,
+                       String client_uuid,
+                       String level_of_treatment_for_lab_examination,
+                       String lab_test_type,
+                       String lab_result,
+                       String treatment_failure,
+                       String x_ray_done,
+                       Date x_ray_date,
+                       String x_ray_results,
+                       String covid_19_vaccination_done,
+                       Date covid_19_vaccination_date,
+                       String covid_19_vaccine,
+                       String covid_19_booster_done,
+                       Date covid_19_booster_date,
+                       String covid_19_booster_vaccine) {
         this.client_tb_lab_uuid = client_tb_lab_uuid;
         this.client_tb_lab_date = client_tb_lab_date;
         this.client_uuid = client_uuid;
@@ -112,6 +144,12 @@ public class ClientTBLab {
         this.x_ray_done = x_ray_done;
         this.x_ray_date = x_ray_date;
         this.x_ray_results = x_ray_results;
+        this.covid_19_vaccination_done = covid_19_vaccination_done;
+        this.covid_19_vaccination_date = covid_19_vaccination_date;
+        this.covid_19_vaccine = covid_19_vaccine;
+        this.covid_19_booster_done = covid_19_booster_done;
+        this.covid_19_booster_date = covid_19_booster_date;
+        this.covid_19_booster_vaccine = covid_19_booster_vaccine;
     }
 
     public String getClient_tb_lab_uuid() {
@@ -145,8 +183,6 @@ public class ClientTBLab {
     public void setLab_result(String lab_result) {
         this.lab_result = lab_result;
     }
-
-
 
 
 }

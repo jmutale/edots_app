@@ -26,7 +26,7 @@ public class ClientTBLabsActivity extends AppCompatActivity implements Validator
     @Select
     private Spinner spnLabResult, spnLevelOfTreatment, spnLabTestType, spnCovid19VaccineName, spnCovid19BoosterVaccineName;
     private Validator validator;
-    private DatePicker dteClientTBLabDate, dteXRayDate;
+    private DatePicker dteClientTBLabDate, dteXRayDate, dteCovid19VaccineDate, dteCovid19BoosterVaccineDate;
     private String client_uuid;
     DBHandler dbHandler;
     private Button btnSubmit;
@@ -67,8 +67,10 @@ public class ClientTBLabsActivity extends AppCompatActivity implements Validator
         rAbnormal = findViewById(R.id.xrayAbnormal);
 
         covid19VaccinationDone = findViewById(R.id.rdgrpCovid19VaccinationDone);
+        dteCovid19VaccineDate = findViewById(R.id.dteClientCovid19VaccineDate);
         spnCovid19VaccineName = findViewById(R.id.spnClientCovid19VaccineName);
         covid19BoosterVaccinationDone = findViewById(R.id.rdgrpCovid19BoosterVaccinationDone);
+        dteCovid19BoosterVaccineDate = findViewById(R.id.dteClientCovid19BoosterVaccineDate);
         spnCovid19BoosterVaccineName = findViewById(R.id.spnClientCovid19BoosterVaccineName);
 
         rgXRayDone.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -123,12 +125,13 @@ public class ClientTBLabsActivity extends AppCompatActivity implements Validator
 
         String covid19VaxDone = ((RadioButton)findViewById(covid19VaccinationDone.getCheckedRadioButtonId())) == null?"":
                 ((RadioButton)findViewById(covid19VaccinationDone.getCheckedRadioButtonId())).getText().toString();
-
+        String covid19VaxDate = Utils.getDateFromDatePicker(dteCovid19VaccineDate);
         String covid19VaxName = spnCovid19VaccineName.getSelectedItem().toString();
         String covid19BoosterVaxDone = ((RadioButton)findViewById(covid19BoosterVaccinationDone.getCheckedRadioButtonId())) == null?"":
                 ((RadioButton)findViewById(covid19BoosterVaccinationDone.getCheckedRadioButtonId())).getText().toString();
+        String covid19BoosterVaxDate = Utils.getDateFromDatePicker(dteCovid19BoosterVaccineDate);
         String covid19BoosterVaxName = spnCovid19BoosterVaccineName.getSelectedItem().toString();
-        dbHandler.addNewClientTBLabResult(client_tb_lab_uuid,client_tb_lab_date,client_uuid,levelOfTreatmentSelection,labTestTypeSelection,labResult,treatmentFailure, xRayDone, xRayDate, xRayResult, covid19VaxDone, covid19VaxName, covid19BoosterVaxDone, covid19BoosterVaxName);
+        dbHandler.addNewClientTBLabResult(client_tb_lab_uuid,client_tb_lab_date,client_uuid,levelOfTreatmentSelection,labTestTypeSelection,labResult,treatmentFailure, xRayDone, xRayDate, xRayResult, covid19VaxDone,covid19VaxDate, covid19VaxName, covid19BoosterVaxDone,covid19BoosterVaxDate, covid19BoosterVaxName);
     }
 
 

@@ -14,9 +14,27 @@ public class ClientTBLabEvent {
     private String x_ray_date;
     private String x_ray_results;
     private String covid_19_vaccination_done;
+    private String covid_19_vaccination_date;
     private String covid_19_vaccine;
     private String covid_19_booster_done;
+    private String covid_19_booster_date;
     private String covid_19_booster_vaccine;
+
+    public String getCovid_19_vaccination_date() {
+        return covid_19_vaccination_date;
+    }
+
+    public void setCovid_19_vaccination_date(Date covid_19_vaccination_date) {
+        this.covid_19_vaccination_date = Utils.getFormattedDate(covid_19_vaccination_date);
+    }
+
+    public String getCovid_19_booster_date() {
+        return covid_19_booster_date;
+    }
+
+    public void setCovid_19_booster_date(Date covid_19_booster_date) {
+        this.covid_19_booster_date = Utils.getFormattedDate(covid_19_booster_date);
+    }
 
     public String getCovid_19_vaccination_done() {
         return covid_19_vaccination_done;

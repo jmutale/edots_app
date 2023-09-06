@@ -168,8 +168,10 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "x_ray_date TEXT,"
                 + "x_ray_results TEXT,"
                 + "covid_19_vaccination_done TEXT,"
+                + "covid_19_vaccination_date TEXT,"
                 + "covid_19_vaccine TEXT,"
                 + "covid_19_booster_done TEXT,"
+                + "covid_19_booster_date TEXT,"
                 + "covid_19_booster_vaccine TEXT)";
         sqLiteDatabase.execSQL(client_tb_lab_query);
 
@@ -540,9 +542,9 @@ public class DBHandler extends SQLiteOpenHelper {
         return map;
     }
 
-    public void addNewClientTBLabResult(String client_tb_lab_uuid, String client_tb_lab_date, String client_uuid, String levelOfTreatment, String labTestType, String labResult, String treatmentFailure, String xRayDone, String xRayDate, String xRayResult, String covid19VaccinationDone, String covid19Vaccine, String covid19BoosterDone, String covid19BoosterVaccine) {
-        String UPSERT_SQL = "INSERT OR REPLACE INTO client_tb_lab(client_tb_lab_uuid, client_tb_lab_date,client_uuid, level_of_treatment_for_lab_examination,lab_test_type,lab_result, treatment_failure, x_ray_done, x_ray_date, x_ray_results, covid_19_vaccination_done, covid_19_vaccine, covid_19_booster_done, covid_19_booster_vaccine)" +
-                "VALUES ('" + client_tb_lab_uuid + "', '" + client_tb_lab_date + "', '" + client_uuid + "','"+levelOfTreatment+"','"+labTestType+"', '" + labResult + "','" + treatmentFailure + "', '"+xRayDone+"','"+xRayDate+"','"+xRayResult+"', '"+covid19VaccinationDone+"','"+covid19Vaccine+"','"+covid19BoosterDone+"','"+covid19BoosterVaccine+"')";
+    public void addNewClientTBLabResult(String client_tb_lab_uuid, String client_tb_lab_date, String client_uuid, String levelOfTreatment, String labTestType, String labResult, String treatmentFailure, String xRayDone, String xRayDate, String xRayResult, String covid19VaccinationDone, String covid19VaccineDate, String covid19Vaccine, String covid19BoosterDone, String covid19BoosterVaccineDate, String covid19BoosterVaccine) {
+        String UPSERT_SQL = "INSERT OR REPLACE INTO client_tb_lab(client_tb_lab_uuid, client_tb_lab_date,client_uuid, level_of_treatment_for_lab_examination,lab_test_type,lab_result, treatment_failure, x_ray_done, x_ray_date, x_ray_results, covid_19_vaccination_done, covid_19_vaccination_date, covid_19_vaccine, covid_19_booster_done, covid_19_booster_date, covid_19_booster_vaccine)" +
+                "VALUES ('" + client_tb_lab_uuid + "', '" + client_tb_lab_date + "', '" + client_uuid + "','"+levelOfTreatment+"','"+labTestType+"', '" + labResult + "','" + treatmentFailure + "', '"+xRayDone+"','"+xRayDate+"','"+xRayResult+"', '"+covid19VaccinationDone+"','"+covid19VaccineDate+"','"+covid19Vaccine+"','"+covid19BoosterDone+"','"+covid19BoosterVaccineDate+"','"+covid19BoosterVaccine+"')";
         db.execSQL(UPSERT_SQL);
     }
 
@@ -554,9 +556,28 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 Date clientLabDate = null;
                 Date clientXRayDate = null;
+                Date covid19VaccineDate = null;
+                Date covid19BoosterVaccineDate = null;
                 clientLabDate = Date.valueOf(c.getString(1));
                 clientXRayDate = Date.valueOf(c.getString(8));
-                ClientTBLab ces = new ClientTBLab(c.getString(0), clientLabDate, c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7),clientXRayDate,c.getString(9));
+                covid19VaccineDate = Date.valueOf(c.getString(11));
+                covid19BoosterVaccineDate = Date.valueOf(c.getString(14));
+                ClientTBLab ces = new ClientTBLab(c.getString(0),
+                        clientLabDate,
+                        c.getString(2),
+                        c.getString(3),
+                        c.getString(4),
+                        c.getString(5),
+                        c.getString(6),
+                        c.getString(7),
+                        clientXRayDate,
+                        c.getString(9),
+                        c.getString(10),
+                        covid19VaccineDate,
+                        c.getString(12),
+                        c.getString(13),
+                        covid19BoosterVaccineDate,
+                        c.getString(15));
                 clientTBLabRecords.add(ces);
             } while (c.moveToNext());
 
