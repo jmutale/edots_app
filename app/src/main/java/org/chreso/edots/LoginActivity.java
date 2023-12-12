@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,6 +40,8 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
     @NotEmpty
     private EditText password;
 
+    private String id;
+
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -63,6 +64,7 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
         btnLogin = findViewById(R.id.btnLogin);
         username = findViewById(R.id.editTextUsername);
         password = findViewById(R.id.editTextTextPassword);
+        id = "";
         txtForgotPass = findViewById(R.id.forgetPass);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -144,8 +146,8 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
                     if (loginResponse != null) {
                         if (loginResponse.getToken() != null) {
                             setAuthToken(loginResponse.getToken());
-                            setFirstName();
-                            setOfflineLoginDetails(username, password);
+                            setFirstNameAndUserId();
+                            setOfflineLoginDetails(id, username, password);
                             goToMainActivity();
                         }else{
                             Toast.makeText(getContext(),"Something wrong's.",Toast.LENGTH_LONG).show();
@@ -168,13 +170,14 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
 
     }
 
-    private void setOfflineLoginDetails(String username, String password) {
+    private void setOfflineLoginDetails(String id, String username, String password) {
+        editor.putString("chw_id", id);
         editor.putString("username",username);
         editor.putString("password", password);
         editor.commit();
     }
 
-    private void setFirstName() {
+    private void setFirstNameAndUserId() {
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(1000, TimeUnit.SECONDS)
                 .connectTimeout(1000, TimeUnit.SECONDS)
@@ -196,6 +199,7 @@ public class LoginActivity extends EdotActivity implements Validator.ValidationL
                 if (response.isSuccessful()) {
                     LoggedInUser loggedInUser = (LoggedInUser) response.body();
                     if(loggedInUser!=null){
+                        id = loggedInUser.getId();
                         first_name = loggedInUser.getFirst_name();
                     }
                 }
