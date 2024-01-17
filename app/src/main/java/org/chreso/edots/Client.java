@@ -49,7 +49,7 @@ public class Client {
         this.is_client_on_server = is_client_on_server;
     }
 
-    public Client(String cString, String string, String uuid, String nrc_number, String chreso_id, String tb_id_number, String address, String type_of_client, String type_of_client_other, String art_number, String first_name, String last_name, String date_of_birth, String registration_date, String how_many_individuals_are_in_the_same_household, String are_individuals_in_household_on_ipt, String why_are_individuals_not_on_ipt, String sex, String mobile_phone_number, String facility_id) {
+    public Client(String uuid, String nrc_number, String chreso_id, String tb_id_number, String address, String type_of_client, String type_of_client_other, String art_number, String first_name, String last_name, String age, String date_of_birth, String registration_date, String how_many_individuals_are_in_the_same_household, String are_individuals_in_household_on_ipt, String why_are_individuals_not_on_ipt, String sex, String mobile_phone_number, String district, String facility_id) {
         this.uuid = uuid;
         this.chreso_id = chreso_id;
         this.tb_id_number = tb_id_number;
@@ -60,6 +60,7 @@ public class Client {
         this.art_number = art_number;
         this.first_name = first_name;
         this.last_name = last_name;
+        this.age = age;
         this.date_of_birth = date_of_birth;
         this.registration_date = registration_date;
         this.how_many_individuals_are_in_the_same_household = how_many_individuals_are_in_the_same_household;
@@ -67,6 +68,7 @@ public class Client {
         this.why_are_individuals_not_on_ipt = why_are_individuals_not_on_ipt;
         this.sex = sex;
         this.mobile_phone_number = mobile_phone_number;
+        this.district = district;
         this.facility = facility_id;
 
     }

@@ -24,7 +24,8 @@ import java.util.List;
 public class ClientTBLabsActivity extends AppCompatActivity implements Validator.ValidationListener {
 
     @Select
-    private Spinner spnLabResult, spnLevelOfTreatment, spnLabTestType, spnCovid19VaccineName, spnCovid19BoosterVaccineName;
+    private Spinner spnLabResult, spnLevelOfTreatment, spnLabTestType;
+    private Spinner spnCovid19VaccineName, spnCovid19BoosterVaccineName;
     private Validator validator;
     private DatePicker dteClientTBLabDate, dteXRayDate, dteCovid19VaccineDate, dteCovid19BoosterVaccineDate;
     private String client_uuid;
