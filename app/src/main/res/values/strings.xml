@@ -79,6 +79,24 @@
         <item>td</item>
         <item>qid</item>
     </string-array>
+    <string-array name="ep_districts">
+        <item></item>
+        <item>chadiza </item>
+        <item>chama</item>
+        <item>chasefu</item>
+        <item>chipangali</item>
+        <item>chipata</item>
+        <item>kasenengwa</item>
+        <item>katete</item>
+        <item>lumezi</item>
+        <item>lundazi</item>
+        <item>lusangazi</item>
+        <item>mambwe</item>
+        <item>nyimba</item>
+        <item>petauke</item>
+        <item>sinda</item>
+        <item>vubwi</item>
+    </string-array>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>

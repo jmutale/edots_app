@@ -27,7 +27,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 36;
+    private static final int DB_VERSION = 37;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -85,6 +85,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "art_number TEXT,"
                 + "first_name TEXT, "
                 + "last_name TEXT, "
+                + "age TEXT,"
                 + "date_of_birth TEXT, "
                 + "registration_date TEXT,"
                 + "how_many_individuals_are_in_the_same_household TEXT, "
@@ -92,6 +93,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "why_are_individuals_not_on_ipt TEXT, "
                 + "sex TEXT, "
                 + "mobile_phone_number TEXT,"
+                + "district TEXT,"
                 + "facility_id TEXT,"
                 + "is_client_on_server TEXT)";
         sqLiteDatabase.execSQL(client_table_query);
@@ -261,9 +263,9 @@ public class DBHandler extends SQLiteOpenHelper {
         //db.close();
     }
 
-    public void addNewClient(String uuid, String nrcNumber, String chresoId, String tbIdNumber, String address, String typeOfClient, String typeOfClientOther, String artNumber, String firstName, String lastName, String dateOfBirth, String registrationDate, String howManyIndividualsAreInSameHousehold, String areIndividualsInHouseholdOnIPT, String whyAreIndividualsNotOnIPT, String sex, String mobilePhoneNumber, String facilityClientBelongsTo, Boolean is_client_on_server) {
-        String UPSERT_SQL = "INSERT OR REPLACE INTO client (uuid, nrc_number, chreso_id, tb_id_number, address, type_of_client, type_of_client_other, art_number,first_name,last_name,date_of_birth,registration_date,how_many_individuals_are_in_the_same_household,are_individuals_in_household_on_ipt,why_are_individuals_not_on_ipt,sex,mobile_phone_number, facility_id, is_client_on_server)" +
-                "VALUES ('" + uuid + "','" + nrcNumber + "', '" + chresoId + "','" + tbIdNumber + "','"+address+"','"+typeOfClient+"','"+typeOfClientOther+"',  '" + artNumber + "','" + firstName + "','" + lastName + "','" + dateOfBirth + "','"+registrationDate+"', '" + howManyIndividualsAreInSameHousehold + "','" + areIndividualsInHouseholdOnIPT + "','" + whyAreIndividualsNotOnIPT + "','" + sex + "','" + mobilePhoneNumber + "', '" + facilityClientBelongsTo + "', '" + is_client_on_server + "')";
+    public void addNewClient(String uuid, String nrcNumber, String chresoId, String tbIdNumber, String address, String typeOfClient, String typeOfClientOther, String artNumber, String firstName, String lastName, String age, String dateOfBirth, String registrationDate, String howManyIndividualsAreInSameHousehold, String areIndividualsInHouseholdOnIPT, String whyAreIndividualsNotOnIPT, String sex, String mobilePhoneNumber, String districtClientBelongsTo, String facilityClientBelongsTo, Boolean is_client_on_server) {
+        String UPSERT_SQL = "INSERT OR REPLACE INTO client (uuid, nrc_number, chreso_id, tb_id_number, address, type_of_client, type_of_client_other, art_number,first_name,last_name,age, date_of_birth,registration_date,how_many_individuals_are_in_the_same_household,are_individuals_in_household_on_ipt,why_are_individuals_not_on_ipt,sex,mobile_phone_number,district, facility_id, is_client_on_server)" +
+                "VALUES ('" + uuid + "','" + nrcNumber + "', '" + chresoId + "','" + tbIdNumber + "','"+address+"','"+typeOfClient+"','"+typeOfClientOther+"',  '" + artNumber + "','" + firstName + "','" + lastName + "','"+age+"','" + dateOfBirth + "','"+registrationDate+"', '" + howManyIndividualsAreInSameHousehold + "','" + areIndividualsInHouseholdOnIPT + "','" + whyAreIndividualsNotOnIPT + "','" + sex + "','" + mobilePhoneNumber + "','"+districtClientBelongsTo+"' ,'" + facilityClientBelongsTo + "', '" + is_client_on_server + "')";
         db.execSQL(UPSERT_SQL);
     }
 
@@ -317,7 +319,9 @@ public class DBHandler extends SQLiteOpenHelper {
                         c.getString(14),
                         c.getString(15),
                         c.getString(16),
-                        c.getString(17));
+                        c.getString(17),
+                        c.getString(18),
+                        c.getString(19));
 
                 clients.add(client);
             } while (c.moveToNext());
@@ -597,8 +601,8 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 Date dateOfBirth = null;
                 Date registration_date = null;
-                dateOfBirth = Date.valueOf(c.getString(10));
-                registration_date = Date.valueOf(c.getString(11));
+                dateOfBirth = Date.valueOf(c.getString(11));
+                registration_date = Date.valueOf(c.getString(12));
                 ClientEvent client = new ClientEvent(c.getString(0),
                         c.getString(1),
                         c.getString(2),
@@ -609,14 +613,16 @@ public class DBHandler extends SQLiteOpenHelper {
                         c.getString(7),
                         c.getString(8),
                         c.getString(9),
+                        c.getString(10),
                         Utils.getFormattedDate(dateOfBirth),
                         Utils.getFormattedDate(registration_date),
-                        c.getString(12),
                         c.getString(13),
                         c.getString(14),
                         c.getString(15),
                         c.getString(16),
-                        c.getString(17));
+                        c.getString(17),
+                        c.getString(18),
+                        c.getString(19));
                 clientRecords.add(client);
             } while (c.moveToNext());
 

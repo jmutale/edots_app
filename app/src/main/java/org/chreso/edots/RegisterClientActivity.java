@@ -42,7 +42,7 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
     EditText editNumberOfIndividualsInHousehold;
     private EditText phone;
     private EditText editReasonsNotOnIPT;
-    private EditText tbIdNumber;
+    private EditText tbIdNumber, editAge;
     private EditText editAddress;
     private Spinner spnTypeOfClient;
     private EditText editTypeOfClientOther;
@@ -52,7 +52,7 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
     private EditText clientLastName;
     private Button btnSubmitClientRecord;
     private DatePicker dteDateOfBirth;
-    private Spinner spnFacilityClientBelongsTo;
+    private Spinner spnFacilityClientBelongsTo, spnDistrictClientBelongsTo;
     private Spinner clientSex;
     private RadioGroup rgClientHouseholdOnIPT;
 
@@ -73,6 +73,7 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
         editNumberOfIndividualsInHousehold = findViewById(R.id.editNumberOfIndividualsInHousehold);
 
         spnFacilityClientBelongsTo = findViewById(R.id.spnFacilitiesFromDatabase);
+        spnDistrictClientBelongsTo = findViewById(R.id.spnDistrictsFromDatabase);
         clientNrcNumber = findViewById(R.id.txtNRCNumber);
         tbIdNumber = findViewById(R.id.txtTBIdNumber);
         editAddress = findViewById(R.id.editAddress);
@@ -108,7 +109,7 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
                 validator.validate();
             }
         });
-
+        editAge = findViewById(R.id.txtAge);
         dteDateOfBirth = findViewById(R.id.editDateOfBirth);
 
         namesOfFacilities = dbHandler.getListOfHealthFacilitiesFromDatabase();
@@ -139,6 +140,7 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
 
     private void saveClientRecord() {
         String client_uuid = Utils.getNewUuid();
+        String ageOfClient = editAge.getText().toString();
         String dateOfBirth = Utils.getDateFromDatePicker(dteDateOfBirth);
         String registrationDate = new java.sql.Date(Calendar.getInstance().getTimeInMillis()).toString();
         String numberOfIndividualsInHousehold = editNumberOfIndividualsInHousehold.getText().toString();
@@ -156,8 +158,9 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
         String lname = clientLastName.getText().toString();
         String phoneNumber = phone.getText().toString();
         String sex = clientSex.getSelectedItem().toString();
+        String districtName = spnDistrictClientBelongsTo.getSelectedItem().toString();
         String facilityUuid = getUuidFromFacilityName(spnFacilityClientBelongsTo.getSelectedItem().toString());
-        dbHandler.addNewClient(client_uuid, nrcNumber, "",tbId,address,typeOfClient,typeOfClientOther,artNumber,fname,lname,dateOfBirth,registrationDate,numberOfIndividualsInHousehold,householdOnIPT,reasonsNotOnIPT,sex,phoneNumber, facilityUuid, false);
+        dbHandler.addNewClient(client_uuid, nrcNumber, "",tbId,address,typeOfClient,typeOfClientOther,artNumber,fname,lname,ageOfClient,dateOfBirth,registrationDate,numberOfIndividualsInHousehold,householdOnIPT,reasonsNotOnIPT,sex,phoneNumber, districtName, facilityUuid, false);
     }
 
     private String getUuidFromFacilityName(String facilityName) {
