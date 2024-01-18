@@ -43,7 +43,7 @@ public class SecondFragment extends Fragment {
     private String mParam2;
 
     private Button btnSubmitClientDOTCardPartBActivity;
-    private GridLayout grid1,grid2,grid3,grid4,grid5;
+    private GridLayout grid1,grid2,grid3,grid4,grid5, grid6;
     private DBHandler dbHandler;
     private DatePicker dteInitiationStartDate;
     private EditText editObserverName, editDOTPlan;
@@ -95,7 +95,7 @@ public class SecondFragment extends Fragment {
         spnStartWeight = view.findViewById(R.id.spnStartWeight);
         editDOTPlan = view.findViewById(R.id.editDOTPlan);
         grid1 = view.findViewById(R.id.initial_phase);
-        createCheckBoxGroupInGridLayout(grid1,30);
+        createCheckBoxGroupInGridLayout(grid1,56);
         grid2 = view.findViewById(R.id.continuation_phase1);
         createCheckBoxGroupInGridLayout(grid2,30);
         grid3 = view.findViewById(R.id.continuation_phase2);
@@ -104,6 +104,8 @@ public class SecondFragment extends Fragment {
         createCheckBoxGroupInGridLayout(grid4,30);
         grid5 = view.findViewById(R.id.continuation_phase4);
         createCheckBoxGroupInGridLayout(grid5, 30);
+        grid6 = view.findViewById(R.id.continuation_phase5);
+        createCheckBoxGroupInGridLayout(grid6, 30);
         btnSubmitClientDOTCardPartBActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

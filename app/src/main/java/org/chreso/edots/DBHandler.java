@@ -27,7 +27,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 37;
+    private static final int DB_VERSION = 38;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -170,6 +170,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "x_ray_done TEXT,"
                 + "x_ray_date TEXT,"
                 + "x_ray_results TEXT,"
+                + "refused_to_disclose_vaccination_status TEXT,"
                 + "covid_19_vaccination_done TEXT,"
                 + "covid_19_vaccination_date TEXT,"
                 + "covid_19_vaccine TEXT,"
@@ -547,9 +548,9 @@ public class DBHandler extends SQLiteOpenHelper {
         return map;
     }
 
-    public void addNewClientTBLabResult(String client_tb_lab_uuid, String client_tb_lab_date, String client_uuid, String levelOfTreatment, String labTestType, String labResult, String treatmentFailure, String xRayDone, String xRayDate, String xRayResult, String covid19VaccinationDone, String covid19VaccineDate, String covid19Vaccine, String covid19BoosterDone, String covid19BoosterVaccineDate, String covid19BoosterVaccine) {
-        String UPSERT_SQL = "INSERT OR REPLACE INTO client_tb_lab(client_tb_lab_uuid, client_tb_lab_date,client_uuid, level_of_treatment_for_lab_examination,lab_test_type,lab_result, treatment_failure, x_ray_done, x_ray_date, x_ray_results, covid_19_vaccination_done, covid_19_vaccination_date, covid_19_vaccine, covid_19_booster_done, covid_19_booster_date, covid_19_booster_vaccine)" +
-                "VALUES ('" + client_tb_lab_uuid + "', '" + client_tb_lab_date + "', '" + client_uuid + "','"+levelOfTreatment+"','"+labTestType+"', '" + labResult + "','" + treatmentFailure + "', '"+xRayDone+"','"+xRayDate+"','"+xRayResult+"', '"+covid19VaccinationDone+"','"+covid19VaccineDate+"','"+covid19Vaccine+"','"+covid19BoosterDone+"','"+covid19BoosterVaccineDate+"','"+covid19BoosterVaccine+"')";
+    public void addNewClientTBLabResult(String client_tb_lab_uuid, String client_tb_lab_date, String client_uuid, String levelOfTreatment, String labTestType, String labResult, String treatmentFailure, String xRayDone, String xRayDate, String xRayResult, String covid19VaxDisclosure, String covid19VaccinationDone, String covid19VaccineDate, String covid19Vaccine, String covid19BoosterDone, String covid19BoosterVaccineDate, String covid19BoosterVaccine) {
+        String UPSERT_SQL = "INSERT OR REPLACE INTO client_tb_lab(client_tb_lab_uuid, client_tb_lab_date,client_uuid, level_of_treatment_for_lab_examination,lab_test_type,lab_result, treatment_failure, x_ray_done, x_ray_date, x_ray_results, refused_to_disclose_vaccination_status,covid_19_vaccination_done, covid_19_vaccination_date, covid_19_vaccine, covid_19_booster_done, covid_19_booster_date, covid_19_booster_vaccine)" +
+                "VALUES ('" + client_tb_lab_uuid + "', '" + client_tb_lab_date + "', '" + client_uuid + "','"+levelOfTreatment+"','"+labTestType+"', '" + labResult + "','" + treatmentFailure + "', '"+xRayDone+"','"+xRayDate+"','"+xRayResult+"','"+covid19VaxDisclosure+"', '"+covid19VaccinationDone+"','"+covid19VaccineDate+"','"+covid19Vaccine+"','"+covid19BoosterDone+"','"+covid19BoosterVaccineDate+"','"+covid19BoosterVaccine+"')";
         db.execSQL(UPSERT_SQL);
     }
 

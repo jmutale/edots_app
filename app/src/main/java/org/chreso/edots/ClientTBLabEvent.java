@@ -13,12 +13,21 @@ public class ClientTBLabEvent {
     private String x_ray_done;
     private String x_ray_date;
     private String x_ray_results;
+    private String refused_to_disclose_vaccination_status;
     private String covid_19_vaccination_done;
     private String covid_19_vaccination_date;
     private String covid_19_vaccine;
     private String covid_19_booster_done;
     private String covid_19_booster_date;
     private String covid_19_booster_vaccine;
+
+    public String getRefused_to_disclose_vaccination_status() {
+        return refused_to_disclose_vaccination_status;
+    }
+
+    public void setRefused_to_disclose_vaccination_status(String refused_to_disclose_vaccination_status) {
+        this.refused_to_disclose_vaccination_status = refused_to_disclose_vaccination_status;
+    }
 
     public String getCovid_19_vaccination_date() {
         return covid_19_vaccination_date;

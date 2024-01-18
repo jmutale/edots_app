@@ -219,6 +219,43 @@
             android:weightSum="1">
 
             <TextView
+                android:id="@+id/txtClientCovid19Disclosure"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Client refused to disclose Covid-19 vaccination status"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <RadioGroup
+                android:id="@+id/rdgrpCovid19VaccinationStatusDisclosure"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rdgrpCovid19VaccinationStatusDisclosureYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/black"
+                    android:text="Yes" />
+
+                <RadioButton
+                    android:id="@+id/rdgrpCovid19VaccinationStatusDisclosureNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/black"
+                    android:text="No" />
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
                 android:id="@+id/txtClientCovid19VaccineDone"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
