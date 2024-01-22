@@ -15,8 +15,9 @@ public class ClientDOTCardPartB {
     private String dot_plan_continuation_month_2;
     private String dot_plan_continuation_month_3;
     private String dot_plan_continuation_month_4;
+    private String dot_plan_continuation_month_5;
 
-    public ClientDOTCardPartB(String dot_card_uuid, String client_uuid, Date initial_phase_start_date, String observer, String dot_plan, String start_weight, String dot_plan_initiation, Date continuation_phase_start_date, String dot_plan_continuation_month_1, String dot_plan_continuation_month_2, String dot_plan_continuation_month_3, String dot_plan_continuation_month_4) {
+    public ClientDOTCardPartB(String dot_card_uuid, String client_uuid, Date initial_phase_start_date, String observer, String dot_plan, String start_weight, String dot_plan_initiation, Date continuation_phase_start_date, String dot_plan_continuation_month_1, String dot_plan_continuation_month_2, String dot_plan_continuation_month_3, String dot_plan_continuation_month_4, String dot_plan_continuation_month_5) {
         this.dot_card_uuid = dot_card_uuid;
         this.client_uuid = client_uuid;
         this.initial_phase_start_date = initial_phase_start_date;
@@ -29,6 +30,7 @@ public class ClientDOTCardPartB {
         this.dot_plan_continuation_month_2 = dot_plan_continuation_month_2;
         this.dot_plan_continuation_month_3 = dot_plan_continuation_month_3;
         this.dot_plan_continuation_month_4 = dot_plan_continuation_month_4;
+        this.dot_plan_continuation_month_5 = dot_plan_continuation_month_5;
     }
 
     public String getDot_card_uuid() {

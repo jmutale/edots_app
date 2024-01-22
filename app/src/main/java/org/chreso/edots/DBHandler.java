@@ -27,7 +27,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 38;
+    private static final int DB_VERSION = 39;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -201,7 +201,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "dot_plan_continuation_month_1 TEXT,"
                 + "dot_plan_continuation_month_2 TEXT,"
                 + "dot_plan_continuation_month_3 TEXT,"
-                + "dot_plan_continuation_month_4 TEXT)";
+                + "dot_plan_continuation_month_4 TEXT,"
+                + "dot_plan_continuation_month_5 TEXT)";
 
         sqLiteDatabase.execSQL(client_dot_card_query_part_b);
 
@@ -742,7 +743,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
                     continuation_phase_start_date = Date.valueOf(date_value);
                 }
-                ClientDOTCardPartB cf = new ClientDOTCardPartB(c.getString(0),c.getString(1),initial_phase_start_date,c.getString(3),c.getString(4),c.getString(5),c.getString(6),continuation_phase_start_date,c.getString(8),c.getString(9),c.getString(10),c.getString(11));
+                ClientDOTCardPartB cf = new ClientDOTCardPartB(c.getString(0),c.getString(1),initial_phase_start_date,c.getString(3),c.getString(4),c.getString(5),c.getString(6),continuation_phase_start_date,c.getString(8),c.getString(9),c.getString(10),c.getString(11), c.getString(12));
                 clientDOTCardPartBEntries.add(cf);
             } while (c.moveToNext());
         }c.close();
