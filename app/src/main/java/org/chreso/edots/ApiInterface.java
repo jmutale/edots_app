@@ -56,6 +56,9 @@ public interface ApiInterface {
     @POST("/api-token-auth/")
     Call <AuthToken> login(@Body LoginBody loginBody);
 
+    @POST("/patient-dispensation-status/")
+    Call<PatientDispensationStatusEvent> postPatientDispensationStatus(@Body PatientDispensationStatusEvent pdse, @Header("Authorization") String authHeader);
+
     @GET("/logged-in-user-details/")
     Call <LoggedInUser> getLoggedInUser(@Header("Authorization") String authHeader);
 

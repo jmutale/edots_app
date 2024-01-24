@@ -314,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
                 syncOperations.syncClientTBLabData();
                 syncOperations.syncClientHIVCounsellingAndTestingData();
                 syncOperations.syncClientHIVCareData();
+                syncOperations.syncPatientDispensationStatusData();
                 publishProgress(100);
                 Thread.sleep(500);
 

@@ -228,7 +228,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
             String chw = PreferenceManager
                     .getDefaultSharedPreferences(getApplicationContext()).getString("chw_id",null);
             dbHandler.saveDispensationToDatabase(dispensation_uuid, meddrug_uuid, client_uuid, chw, dispensation_date, txtDose.getText().toString(), txtItemsPerDose.getText().toString(), spnFrequency.getSelectedItem().toString(), refillDate, String.valueOf(video_path), location, nextClinicAppointmentDate, refillTime);
-
+            dbHandler.savePaitentDispensationStatusToDatabase(Utils.getNewUuid(),client_uuid,Utils.PatientDispensationStatus.CONTINUATION.toString());
     }
 
     private boolean clientStatusPermits() {

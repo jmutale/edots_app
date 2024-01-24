@@ -436,6 +436,24 @@ public class SyncOperations {
 
     }
 
+    void syncPatientDispensationStatusData() {
+        ArrayList<PatientDispensationStatusEvent> listOfPatientDispensationStatusEvents = dbHandler.getListOfClientDispensationStatusEventsFromDatabase();
+        for(PatientDispensationStatusEvent pdse: listOfPatientDispensationStatusEvents){
+            Call<PatientDispensationStatusEvent> call = getApiInterface().postPatientDispensationStatus(pdse, "Token " + getAuthToken());
+            call.enqueue(new Callback<PatientDispensationStatusEvent>() {
+                @Override
+                public void onResponse(Call<PatientDispensationStatusEvent> call, Response<PatientDispensationStatusEvent> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<PatientDispensationStatusEvent> call, Throwable t) {
+
+                }
+            });
+
+        }
+    }
     private ClientDispensationEvent setValuesForClientDispensationEvent(ClientDispensation cd) {
         ClientDispensationEvent cde = new ClientDispensationEvent();
         cde.setDispensation_uuid(cd.getDispensation_uuid());
@@ -589,6 +607,7 @@ public class SyncOperations {
         cdpbe.setDot_plan_continuation_month_4(ces.getDot_plan_continuation_month_4());
         return cdpbe;
     }
+
 
 }
 

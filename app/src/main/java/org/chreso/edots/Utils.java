@@ -118,5 +118,10 @@ public class Utils {
         return sb.toString();
     }
 
+    public enum PatientDispensationStatus{
+        INITIATION,
+        CONTINUATION
+    }
+
 
 }

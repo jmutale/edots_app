@@ -33,6 +33,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
     private static final String CLIENT_TABLE_NAME = "client";
     private static final String MED_DRUG_DISPENSATION_TABLE = "med_drug_dispensation";
+    private static final String PATIENT_DISPENSATION_STATUS = "patient_dispensation_status";
     private static final String FACILITY_TABLE = "facility";
     private static final String CLIENT_STATUS_TABLE = "client_status";
     private static final String CLIENT_FEEDBACK_TABLE = "client_feedback";
@@ -114,6 +115,12 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "refill_time TEXT,"
                 + "video_uploaded_to_server TEXT DEFAULT \"false\")";
         sqLiteDatabase.execSQL(dispensation_table_query);
+
+        String patient_dispensation_status_query = "CREATE TABLE " + PATIENT_DISPENSATION_STATUS + "("
+                + "patient_dispensation_status_uuid TEXT,"
+                + "patient_uuid TEXT,"
+                + "patient_dispensation_status TEXT)";
+        sqLiteDatabase.execSQL(patient_dispensation_status_query);
 
         String facility_table_query = "CREATE TABLE " + FACILITY_TABLE + "("
                 + "facility_uuid TEXT PRIMARY KEY, "
@@ -236,6 +243,12 @@ public class DBHandler extends SQLiteOpenHelper {
                 "VALUES ('" + dispensation_uuid + "','" + med_drug_uuid + "','" + patient_uuid + "','"+chw+"','" + dispensationDate + "','" + dose + "','" + items_per_dose + "','" + frequency + "','" + refill_date + "','" + video_path + "', '" + location + "', '" + nextClinicAppointmentDate + "', '" + refillTime + "')";
         db.execSQL(INSERT_SQL);
 
+    }
+
+    public void savePaitentDispensationStatusToDatabase(String patient_dispensation_status_uuid, String patient_uuid, String patient_dspensation_status){
+        String INSERT_SQL = "INSERT INTO patient_dispensation_status (patient_dispensation_status_uuid,patient_uuid,patient_dispensation_status)" +
+                "VALUES ('"+patient_dispensation_status_uuid+"','"+patient_uuid+"','"+patient_dspensation_status+"')";
+        db.execSQL(INSERT_SQL);
     }
 
     public void saveClientStatusToDatabase(String client_status_uuid, String reporting_facility, String client_uuid, String status_date, String client_died, String client_died_date, String cause_of_death, String cause_of_death_other, String client_refuses_to_continue_treatment, String client_is_lost_to_follow_up, String client_transferred_out, String client_transferred_out_date, String facility_transferred_to) {
@@ -815,5 +828,21 @@ public class DBHandler extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }c.close();
         return clientHIVCareEntries;
+    }
+
+    public ArrayList<PatientDispensationStatusEvent> getListOfClientDispensationStatusEventsFromDatabase() {
+        ArrayList<PatientDispensationStatusEvent> clientDispensationStatusEvents = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM patient_dispensation_status ", null);
+        if (c.moveToFirst()) {
+            do {
+                PatientDispensationStatusEvent pdse = new PatientDispensationStatusEvent(
+                        c.getString(0),
+                        c.getString(1),
+                        c.getString(2));
+                clientDispensationStatusEvents.add(pdse);
+            } while (c.moveToNext());
+        }c.close();
+        return  clientDispensationStatusEvents;
     }
 }
