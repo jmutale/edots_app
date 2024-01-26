@@ -495,6 +495,7 @@ public class SyncOperations {
             c.setSex(c.getSex().toLowerCase());
             c.setArt_number(c.getArt_number()==""?null:c.getArt_number());
             c.setAre_individuals_in_household_on_ipt(c.getAre_individuals_in_household_on_ipt().toLowerCase());
+            c.setDistrict(c.getDistrict().toLowerCase());
             Call<ClientEvent> call2 = getApiInterface().postClient(c,"Token " + getAuthToken());
             call2.enqueue(new Callback<ClientEvent>() {
 
