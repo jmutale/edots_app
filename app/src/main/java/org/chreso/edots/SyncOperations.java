@@ -605,6 +605,7 @@ public class SyncOperations {
         cdpbe.setDot_plan_continuation_month_2(ces.getDot_plan_continuation_month_2());
         cdpbe.setDot_plan_continuation_month_3(ces.getDot_plan_continuation_month_3());
         cdpbe.setDot_plan_continuation_month_4(ces.getDot_plan_continuation_month_4());
+        cdpbe.setDot_plan_continuation_month_5(ces.getDot_plan_continuation_month_5());
         return cdpbe;
     }
 

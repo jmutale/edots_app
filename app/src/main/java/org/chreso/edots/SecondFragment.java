@@ -130,6 +130,7 @@ public class SecondFragment extends Fragment {
         String dotPlanContinuationDataMonth2 = getSelectedCheckBoxesFromGridLayout(grid3);
         String dotPlanContinuationDataMonth3 = getSelectedCheckBoxesFromGridLayout(grid4);
         String dotPlanContinuationDataMonth4 = getSelectedCheckBoxesFromGridLayout(grid5);
+        String dotPlanContinuationDataMonth5 = getSelectedCheckBoxesFromGridLayout(grid6);
         dbHandler.saveEDOTPartBDataToDatabase(dot_card_uuid,
                 client_uuid,
                 initial_phase_start_date,
@@ -141,7 +142,8 @@ public class SecondFragment extends Fragment {
                 dotPlanContinuationDataMonth1,
                 dotPlanContinuationDataMonth2,
                 dotPlanContinuationDataMonth3,
-                dotPlanContinuationDataMonth4);
+                dotPlanContinuationDataMonth4,
+                dotPlanContinuationDataMonth5);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                 .setTitle("Success")
                 .setMessage("EDOT Card Part B successfully saved. Please remember to save Part A.")

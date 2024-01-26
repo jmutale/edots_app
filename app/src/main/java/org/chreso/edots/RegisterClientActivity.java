@@ -15,10 +15,12 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Select;
 
 import org.intellij.lang.annotations.Pattern;
 
@@ -44,6 +46,7 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
     private EditText editReasonsNotOnIPT;
     private EditText tbIdNumber, editAge;
     private EditText editAddress;
+    @Select
     private Spinner spnTypeOfClient;
     private EditText editTypeOfClientOther;
     @NotEmpty
@@ -191,7 +194,19 @@ public class RegisterClientActivity extends AppCompatActivity implements Validat
 
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(this);
 
+            // Display error messages
+            if (view instanceof EditText) {
+                ((EditText) view).setError(message);
+            } else if (view instanceof Spinner) {
+                ((TextView) ((Spinner) view).getSelectedView()).setError(message);
+            } else if(view instanceof TextView){
+                ((TextView)view).setError(message);
+            }
+        }
     }
 
     @Override

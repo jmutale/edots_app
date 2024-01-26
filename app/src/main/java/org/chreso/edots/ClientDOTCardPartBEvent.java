@@ -15,6 +15,15 @@ public class ClientDOTCardPartBEvent {
     private String dot_plan_continuation_month_2;
     private String dot_plan_continuation_month_3;
     private String dot_plan_continuation_month_4;
+    private String dot_plan_continuation_month_5;
+
+    public String getDot_plan_continuation_month_5() {
+        return dot_plan_continuation_month_5;
+    }
+
+    public void setDot_plan_continuation_month_5(String dot_plan_continuation_month_5) {
+        this.dot_plan_continuation_month_5 = dot_plan_continuation_month_5;
+    }
 
     public String getDot_card_uuid() {
         return dot_card_uuid;

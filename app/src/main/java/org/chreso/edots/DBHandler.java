@@ -710,9 +710,9 @@ public class DBHandler extends SQLiteOpenHelper {
         return nextDrugPickupTime;
     }
 
-    public void saveEDOTPartBDataToDatabase(String dot_card_uuid, String client_uuid, String initial_phase_start_date, String observer, String dot_plan, String start_weight, String dot_plan_initiation, String continuation_phase_start_date, String dot_plan_continuation_month_1, String dot_plan_continuation_month_2, String dot_plan_continuation_month_3, String dot_plan_continuation_month_4) {
-        String UPSERT_SQL = "INSERT OR REPLACE INTO client_dot_card_part_b(dot_card_uuid,client_uuid,initial_phase_start_date,observer,dot_plan,start_weight,dot_plan_initiation,continuation_phase_start_date,dot_plan_continuation_month_1,dot_plan_continuation_month_2,dot_plan_continuation_month_3,dot_plan_continuation_month_4)" +
-                "VALUES ('"+dot_card_uuid+"','"+client_uuid+"','"+initial_phase_start_date+"','"+observer+"','"+dot_plan+"','"+start_weight+"','"+dot_plan_initiation+"','"+continuation_phase_start_date+"','"+dot_plan_continuation_month_1+"','"+dot_plan_continuation_month_2+"','"+dot_plan_continuation_month_3+"','"+dot_plan_continuation_month_4+"')";
+    public void saveEDOTPartBDataToDatabase(String dot_card_uuid, String client_uuid, String initial_phase_start_date, String observer, String dot_plan, String start_weight, String dot_plan_initiation, String continuation_phase_start_date, String dot_plan_continuation_month_1, String dot_plan_continuation_month_2, String dot_plan_continuation_month_3, String dot_plan_continuation_month_4, String dot_plan_continuation_month_5) {
+        String UPSERT_SQL = "INSERT OR REPLACE INTO client_dot_card_part_b(dot_card_uuid,client_uuid,initial_phase_start_date,observer,dot_plan,start_weight,dot_plan_initiation,continuation_phase_start_date,dot_plan_continuation_month_1,dot_plan_continuation_month_2,dot_plan_continuation_month_3,dot_plan_continuation_month_4, dot_plan_continuation_month_5)" +
+                "VALUES ('"+dot_card_uuid+"','"+client_uuid+"','"+initial_phase_start_date+"','"+observer+"','"+dot_plan+"','"+start_weight+"','"+dot_plan_initiation+"','"+continuation_phase_start_date+"','"+dot_plan_continuation_month_1+"','"+dot_plan_continuation_month_2+"','"+dot_plan_continuation_month_3+"','"+dot_plan_continuation_month_4+"','"+dot_plan_continuation_month_5+"')";
         db.execSQL(UPSERT_SQL);
     }
 
