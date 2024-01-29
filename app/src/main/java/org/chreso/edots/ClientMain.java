@@ -179,6 +179,8 @@ public class ClientMain extends AppCompatActivity {
     private void openDispensationActivity() {
         Bundle b = new Bundle();
         b.putString("client_uuid", uuid);
+        b.putString("last_seen_by", dbHandler.getCHWNameWhoLastAttendedToPatient(uuid));
+        b.putString("patient_dispensation_status", dbHandler.getCheckIfPatientIsContinuing(uuid)?"Continuation":"Initiation");
         Intent intent = new Intent(this, DispensationActivity.class);
         intent.putExtras(b);
         startActivity(intent);

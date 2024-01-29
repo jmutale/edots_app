@@ -27,7 +27,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 39;
+    private static final int DB_VERSION = 41;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -464,6 +464,7 @@ public class DBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_DOT_CARD_PART_B);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_HIV_COUNSELLING_AND_TESTING);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_HIV_CARE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PATIENT_DISPENSATION_STATUS);
         onCreate(sqLiteDatabase);
     }
 
@@ -580,9 +581,10 @@ public class DBHandler extends SQLiteOpenHelper {
                 Date covid19BoosterVaccineDate = null;
                 clientLabDate = Date.valueOf(c.getString(1));
                 clientXRayDate = Date.valueOf(c.getString(8));
-                covid19VaccineDate = Date.valueOf(c.getString(11));
-                covid19BoosterVaccineDate = Date.valueOf(c.getString(14));
-                ClientTBLab ces = new ClientTBLab(c.getString(0),
+                covid19VaccineDate = Date.valueOf(c.getString(12));
+                covid19BoosterVaccineDate = Date.valueOf(c.getString(15));
+                ClientTBLab ces = new ClientTBLab(
+                        c.getString(0),
                         clientLabDate,
                         c.getString(2),
                         c.getString(3),
@@ -593,11 +595,12 @@ public class DBHandler extends SQLiteOpenHelper {
                         clientXRayDate,
                         c.getString(9),
                         c.getString(10),
+                        c.getString(11),
                         covid19VaccineDate,
-                        c.getString(12),
                         c.getString(13),
+                        c.getString(15),
                         covid19BoosterVaccineDate,
-                        c.getString(15));
+                        c.getString(16));
                 clientTBLabRecords.add(ces);
             } while (c.moveToNext());
 
@@ -844,5 +847,27 @@ public class DBHandler extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }c.close();
         return  clientDispensationStatusEvents;
+    }
+
+    public boolean getCheckIfPatientIsContinuing(String client_uuid) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT patient_dispensation_status FROM patient_dispensation_status WHERE patient_uuid ='"+client_uuid+"'", null);
+        if(c.moveToFirst()){
+            String status = c.getString(0);
+            if(status == "CONTINUATION")
+                return true;
+        }
+        return false;
+    }
+
+    public String getCHWNameWhoLastAttendedToPatient(String client_uuid) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("select chw from med_drug_dispensation where patient_uuid = '"+client_uuid+"' order by dispensation_date desc", null);
+        if(c.moveToFirst()){
+            String chw = c.getString(0);
+            return chw;
+        }
+        return "";
     }
 }

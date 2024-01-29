@@ -137,6 +137,7 @@ public class ClientTBLab {
                        String x_ray_done,
                        Date x_ray_date,
                        String x_ray_results,
+                       String refused_to_disclose_vaccination_status,
                        String covid_19_vaccination_done,
                        Date covid_19_vaccination_date,
                        String covid_19_vaccine,
@@ -153,6 +154,7 @@ public class ClientTBLab {
         this.x_ray_done = x_ray_done;
         this.x_ray_date = x_ray_date;
         this.x_ray_results = x_ray_results;
+        this.refused_to_disclose_vaccination_status = refused_to_disclose_vaccination_status;
         this.covid_19_vaccination_done = covid_19_vaccination_done;
         this.covid_19_vaccination_date = covid_19_vaccination_date;
         this.covid_19_vaccine = covid_19_vaccine;

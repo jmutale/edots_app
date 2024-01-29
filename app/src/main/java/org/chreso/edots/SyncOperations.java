@@ -210,7 +210,7 @@ public class SyncOperations {
         ctle.setX_ray_done(ctl.getX_ray_done().toLowerCase());
         ctle.setX_ray_date(ctl.getX_ray_date());
         ctle.setX_ray_results(ctl.getX_ray_results().toLowerCase());
-        ctle.setRefused_to_disclose_vaccination_status(ctl.getRefused_to_disclose_vaccination_status());
+        ctle.setRefused_to_disclose_vaccination_status(ctl.getRefused_to_disclose_vaccination_status().toLowerCase());
         ctle.setCovid_19_vaccination_done(ctl.getCovid_19_vaccination_done().toLowerCase());
         ctle.setCovid_19_vaccination_date(ctl.getCovid_19_vaccination_date());
         ctle.setCovid_19_vaccine(ctl.getCovid_19_vaccine());

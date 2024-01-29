@@ -91,10 +91,12 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dispensation);
+        Bundle bundle = getIntent().getExtras();
         ActionBar actionBar = getSupportActionBar();
+        client_uuid = bundle.getString("client_uuid");
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-
+            actionBar.setTitle(bundle.get("patient_dispensation_status").toString() +" | Last seen by : "+ bundle.get("last_seen_by").toString());
         }
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
@@ -113,10 +115,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
         refillTimePicker = findViewById(R.id.timePickerRefill);
         dteNextClinicAppointmentDate = findViewById(R.id.editNextClinicAppointmentDate);
         setRefillDateToCurrentDate();
-        
 
-        Bundle bundle = getIntent().getExtras();
-        client_uuid = bundle.getString("client_uuid");
         spnDrugsFromDatabase = findViewById(R.id.spnDrugsFromDatabase);
         txtDose = findViewById(R.id.txtDose);
         txtItemsPerDose = findViewById(R.id.txtItemsPerDose);
@@ -182,6 +181,17 @@ public class DispensationActivity extends AppCompatActivity implements Validator
     }
 
 
+
+    private String getCHWNameWhoAttendedToPatient(String client_uuid) {
+        return dbHandler.getCHWNameWhoLastAttendedToPatient(client_uuid);
+    }
+
+    private boolean isPatientIsContinuation(String client_uuid) {
+        return dbHandler.getCheckIfPatientIsContinuing(client_uuid);
+
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setRefillDateToCurrentDate() {
         Calendar cal = Calendar.getInstance();
@@ -227,7 +237,9 @@ public class DispensationActivity extends AppCompatActivity implements Validator
             String nextClinicAppointmentDate = Utils.getDateFromDatePicker(dteNextClinicAppointmentDate);
             String chw = PreferenceManager
                     .getDefaultSharedPreferences(getApplicationContext()).getString("chw_id",null);
-            dbHandler.saveDispensationToDatabase(dispensation_uuid, meddrug_uuid, client_uuid, chw, dispensation_date, txtDose.getText().toString(), txtItemsPerDose.getText().toString(), spnFrequency.getSelectedItem().toString(), refillDate, String.valueOf(video_path), location, nextClinicAppointmentDate, refillTime);
+            String chw_first_name = PreferenceManager
+                    .getDefaultSharedPreferences(getApplicationContext()).getString("chw_id",null);
+            dbHandler.saveDispensationToDatabase(dispensation_uuid, meddrug_uuid, client_uuid, chw + ": "+ chw_first_name, dispensation_date, txtDose.getText().toString(), txtItemsPerDose.getText().toString(), spnFrequency.getSelectedItem().toString(), refillDate, String.valueOf(video_path), location, nextClinicAppointmentDate, refillTime);
             dbHandler.savePaitentDispensationStatusToDatabase(Utils.getNewUuid(),client_uuid,Utils.PatientDispensationStatus.CONTINUATION.toString());
     }
 
