@@ -9,6 +9,7 @@ public class ClientDispensationEvent {
     private String dispensation_uuid;
     private String med_drug_uuid;
     private String client_uuid;
+    private String chw;
     private String dispensation_date;
     private String dose;
     private String items_per_dose;
@@ -17,6 +18,14 @@ public class ClientDispensationEvent {
     private String video;
     private String next_clinic_appointment_date;
     private String refill_date_time;
+
+    public String getChw() {
+        return chw;
+    }
+
+    public void setChw(String chw) {
+        this.chw = chw;
+    }
 
     public String getRefill_date_time() {
         return refill_date_time;

@@ -2,11 +2,15 @@ package org.chreso.edots;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.text.Editable;
 import android.widget.Toast;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,7 +31,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 41;
+    private static final int DB_VERSION = 42;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -43,6 +47,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CLIENT_DOT_CARD_PART_B = "client_dot_card_part_b";
     private static final String CLIENT_HIV_COUNSELLING_AND_TESTING = "client_hiv_counselling_and_testing";
     private static final String CLIENT_HIV_CARE = "client_hiv_care";
+    private static final String CHW_NAME = "chw_name";
     // below variable is for our id column.
     private static final String UUID_COL = "uuid";
     private static final String GENERIC_NAME_COL = "generic_name";
@@ -236,6 +241,12 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "arv_eligible TEXT,"
                 + "arv_start_date TEXT)";
         sqLiteDatabase.execSQL(client_hiv_care_query);
+
+        String chw_name_query = "CREATE TABLE " + CHW_NAME + "("
+                + "id TEXT,"
+                + "first_name TEXT,"
+                + "last_name TEXT)";
+        sqLiteDatabase.execSQL(chw_name_query);
     }
 
     public void saveDispensationToDatabase(String dispensation_uuid, String med_drug_uuid, String patient_uuid, String chw, String dispensationDate, String dose, String items_per_dose, String frequency, String refill_date, String video_path, String location, String nextClinicAppointmentDate, String refillTime) {
@@ -352,15 +363,15 @@ public class DBHandler extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
 
-                String dispDateRaw = c.getString(3);
-                String refillDateRaw = c.getString(7);
+                String dispDateRaw = c.getString(4);
+                String refillDateRaw = c.getString(8);
                 Date nextClinicAppointmentdate = null;
                 Time refillTime = null;
                 dispensationDate = Date.valueOf(dispDateRaw);
                 refillDate = Date.valueOf(refillDateRaw);
-                nextClinicAppointmentdate = Date.valueOf(c.getString(10));
-                refillTime = Time.valueOf(c.getString(11));
-                ClientDispensation client = new ClientDispensation(c.getString(0), c.getString(1), c.getString(2), dispensationDate, c.getString(4), c.getString(5), c.getString(6), refillDate, c.getString(8), nextClinicAppointmentdate, refillTime);
+                nextClinicAppointmentdate = Date.valueOf(c.getString(11));
+                refillTime = Time.valueOf(c.getString(12));
+                ClientDispensation client = new ClientDispensation(c.getString(0), c.getString(1), c.getString(2), c.getString(3),dispensationDate, c.getString(4), c.getString(5), c.getString(6), refillDate, c.getString(8), nextClinicAppointmentdate, refillTime);
 
                 clientDispensations.add(client);
             } while (c.moveToNext());
@@ -379,11 +390,23 @@ public class DBHandler extends SQLiteOpenHelper {
                 Date refillDate = null;
                 Date nextClinicAppointmentDate = null;
                 Time refillTime = null;
-                dispensationDate = Date.valueOf(c.getString(3));
-                refillDate = Date.valueOf(c.getString(7));
-                nextClinicAppointmentDate = Date.valueOf(c.getString(10));
-                refillTime = Time.valueOf(c.getString(11));
-                ClientDispensation client = new ClientDispensation(c.getString(0), c.getString(1), c.getString(2), dispensationDate, c.getString(4), c.getString(5), c.getString(6), refillDate, c.getString(8), nextClinicAppointmentDate, refillTime);
+                dispensationDate = Date.valueOf(c.getString(4));
+                refillDate = Date.valueOf(c.getString(8));
+                nextClinicAppointmentDate = Date.valueOf(c.getString(11));
+                refillTime = Time.valueOf(c.getString(12));
+                ClientDispensation client = new ClientDispensation(
+                        c.getString(0),
+                        c.getString(1),
+                        c.getString(2),
+                        c.getString(3),
+                        dispensationDate,
+                        c.getString(5),
+                        c.getString(6),
+                        c.getString(7),
+                        refillDate,
+                        c.getString(9),
+                        nextClinicAppointmentDate,
+                        refillTime);
 
                 clientDispensations.add(client);
             } while (c.moveToNext());
@@ -465,6 +488,7 @@ public class DBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_HIV_COUNSELLING_AND_TESTING);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CLIENT_HIV_CARE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PATIENT_DISPENSATION_STATUS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CHW_NAME);
         onCreate(sqLiteDatabase);
     }
 
@@ -861,7 +885,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return false;
     }
 
-    public String getCHWNameWhoLastAttendedToPatient(String client_uuid) {
+    public String getCHWIdForChwWhoLastAttendedToPatient(String client_uuid) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("select chw from med_drug_dispensation where patient_uuid = '"+client_uuid+"' order by dispensation_date desc", null);
         if(c.moveToFirst()){
@@ -869,5 +893,38 @@ public class DBHandler extends SQLiteOpenHelper {
             return chw;
         }
         return "";
+    }
+
+    public String getChwUserFullName(String id){
+        String full_name = "";
+        if(id.equals("")||id==null){
+            return "Not Yet Seen";
+        }
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT first_name, last_name from chw_name WHERE id = '"+id+"'", null);
+        if(c.moveToFirst()){
+            String f_name = c.getString(0);
+            String l_name = c.getString(1);
+            full_name = f_name +" "+ l_name;
+        }
+        return full_name;
+
+    }
+    public void addNewChwUser(String id, String first_name, String last_name) {
+        // Using parameterized query to prevent SQL injection
+        String UPSERT_SQL = "INSERT OR REPLACE INTO chw_name(id, first_name, last_name) VALUES (?, ?, ?)";
+        // Using try-with-resources to automatically close the statement;
+
+        try (SQLiteStatement statement = db.compileStatement(UPSERT_SQL)) {
+            // Bind values to the parameters
+            statement.bindString(1, id);
+            statement.bindString(2, first_name);
+            statement.bindString(3, last_name);
+            // Execute the statement
+            statement.execute();
+        } catch (SQLException e) {
+            // Handle any exceptions here
+            e.printStackTrace();
+        }
     }
 }

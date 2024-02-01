@@ -315,6 +315,7 @@ public class MainActivity extends AppCompatActivity {
                 syncOperations.syncClientHIVCounsellingAndTestingData();
                 syncOperations.syncClientHIVCareData();
                 syncOperations.syncPatientDispensationStatusData();
+                syncOperations.syncChwUserData();
                 publishProgress(100);
                 Thread.sleep(500);
 

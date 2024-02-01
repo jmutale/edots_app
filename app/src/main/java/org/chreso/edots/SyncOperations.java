@@ -334,6 +334,38 @@ public class SyncOperations {
 
     }
 
+    void syncChwUserData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(PreferenceManager
+                        .getDefaultSharedPreferences(myContext).getString("server",null))
+                .build();
+
+        ApiInterface api = retrofit.create(ApiInterface.class);
+
+        Call<List<ChwUser>> call = api.getCheUserDetails("Token "+getAuthToken());
+
+        call.enqueue(new Callback<List<ChwUser>>() {
+
+            @Override
+            public void onResponse(Call<List<ChwUser>> call, Response<List<ChwUser>> response) {
+                if(response.body()==null){
+                    Toast.makeText(myContext,"Facility or Location data has not been created on the server.", Toast.LENGTH_LONG).show();
+                }else {
+                    for (ChwUser l : response.body()) {
+                        dbHandler.addNewChwUser(l.getId(), l.getFirst_name(), l.getLast_name());
+                        //Toast.makeText(myContext, "Syncing location: " + l.getName(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ChwUser>> call, Throwable t) {
+                Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     void syncFacilityData() {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
@@ -458,6 +490,7 @@ public class SyncOperations {
         ClientDispensationEvent cde = new ClientDispensationEvent();
         cde.setDispensation_uuid(cd.getDispensation_uuid());
         cde.setClient_uuid(cd.getClient_uuid());
+        cde.setChw(cd.getChw());
         cde.setDispensation_date(cd.getDispensation_date());
         cde.setMed_drug_uuid(cd.getMed_drug_uuid());
         cde.setRefill_date(cd.getRefill_date());

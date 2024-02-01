@@ -4,7 +4,6 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -183,7 +182,7 @@ public class DispensationActivity extends AppCompatActivity implements Validator
 
 
     private String getCHWNameWhoAttendedToPatient(String client_uuid) {
-        return dbHandler.getCHWNameWhoLastAttendedToPatient(client_uuid);
+        return dbHandler.getCHWIdForChwWhoLastAttendedToPatient(client_uuid);
     }
 
     private boolean isPatientIsContinuation(String client_uuid) {
@@ -237,9 +236,8 @@ public class DispensationActivity extends AppCompatActivity implements Validator
             String nextClinicAppointmentDate = Utils.getDateFromDatePicker(dteNextClinicAppointmentDate);
             String chw = PreferenceManager
                     .getDefaultSharedPreferences(getApplicationContext()).getString("chw_id",null);
-            String chw_first_name = PreferenceManager
-                    .getDefaultSharedPreferences(getApplicationContext()).getString("chw_id",null);
-            dbHandler.saveDispensationToDatabase(dispensation_uuid, meddrug_uuid, client_uuid, chw + ": "+ chw_first_name, dispensation_date, txtDose.getText().toString(), txtItemsPerDose.getText().toString(), spnFrequency.getSelectedItem().toString(), refillDate, String.valueOf(video_path), location, nextClinicAppointmentDate, refillTime);
+
+            dbHandler.saveDispensationToDatabase(dispensation_uuid, meddrug_uuid, client_uuid, chw, dispensation_date, txtDose.getText().toString(), txtItemsPerDose.getText().toString(), spnFrequency.getSelectedItem().toString(), refillDate, String.valueOf(video_path), location, nextClinicAppointmentDate, refillTime);
             dbHandler.savePaitentDispensationStatusToDatabase(Utils.getNewUuid(),client_uuid,Utils.PatientDispensationStatus.CONTINUATION.toString());
     }
 
@@ -265,22 +263,22 @@ public class DispensationActivity extends AppCompatActivity implements Validator
 
 
     private String getUuidFromGenericName(String genericName) {
-        String toReturn = "";
+        // Check for null or empty genericName
+        if (genericName == null || genericName.isEmpty()) {
+            return ""; // Or throw an IllegalArgumentException
+        }
         for (Map.Entry<String, String> pair : namesOfDrugs.entrySet()) {
-            if(pair.getValue() == genericName) toReturn = pair.getKey();
+            if(pair.getValue().equals(genericName))
+                return pair.getKey();
         }
-        return toReturn;
+        return "";
     }
 
 
-    private boolean isCameraPresentInDevice(){
-        if(getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)){
-            return true;
-        }
-        else {
-            return false;
-        }
+    private boolean isCameraPresentInDevice() {
+        return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
     }
+
 
     private void getCameraPermission(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){

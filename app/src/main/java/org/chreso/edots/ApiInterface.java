@@ -53,6 +53,9 @@ public interface ApiInterface {
     @GET("/locations")
     Call<List<Location>> getLocations(@Header("Authorization") String authHeader);
 
+    @GET("")
+    Call<List<ChwUser>> getCheUserDetails(@Header("Authorization") String authHeader);
+
     @POST("/api-token-auth/")
     Call <AuthToken> login(@Body LoginBody loginBody);
 

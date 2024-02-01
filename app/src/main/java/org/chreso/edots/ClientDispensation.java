@@ -10,6 +10,7 @@ public class ClientDispensation {
     private String med_drug_uuid;
     private DBHandler dbHandler;
     private String client_uuid;
+    private String chw;
     private Date dispensation_date;
     private String dose;
     private String items_per_dose;
@@ -27,7 +28,13 @@ public class ClientDispensation {
         this.refill_date_time = refill_date_time;
     }
 
+    public String getChw() {
+        return chw;
+    }
 
+    public void setChw(String chw) {
+        this.chw = chw;
+    }
 
     public Date getNext_clinic_appointment_date() {
         return next_clinic_appointment_date;
@@ -38,10 +45,11 @@ public class ClientDispensation {
     }
 
 
-    public ClientDispensation(String dispensation_uuid, String med_drug_uuid, String client_uuid, Date dispensation_date, String dose, String items_per_dose, String frequency, Date refill_date, String video_path, Date next_clinic_appointment_date, Time refill_date_time) {
+    public ClientDispensation(String dispensation_uuid, String med_drug_uuid, String client_uuid, String chw, Date dispensation_date, String dose, String items_per_dose, String frequency, Date refill_date, String video_path, Date next_clinic_appointment_date, Time refill_date_time) {
         this.dispensation_uuid = dispensation_uuid;
         this.med_drug_uuid = med_drug_uuid;
         this.client_uuid = client_uuid;
+        this.chw = chw;
         this.dispensation_date = dispensation_date;
         this.dose = dose;
         this.items_per_dose = items_per_dose;
