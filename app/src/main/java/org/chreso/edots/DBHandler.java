@@ -31,7 +31,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "edots_db";
 
     // below int is our database version
-    private static final int DB_VERSION = 42;
+    private static final int DB_VERSION = 43;
 
     // below variable is for our table name.
     private static final String MED_DRUG_TABLE_NAME = "meddrug";
@@ -243,7 +243,7 @@ public class DBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(client_hiv_care_query);
 
         String chw_name_query = "CREATE TABLE " + CHW_NAME + "("
-                + "id TEXT,"
+                + "id TEXT PRIMARY KEY,"
                 + "first_name TEXT,"
                 + "last_name TEXT)";
         sqLiteDatabase.execSQL(chw_name_query);
@@ -912,19 +912,8 @@ public class DBHandler extends SQLiteOpenHelper {
     }
     public void addNewChwUser(String id, String first_name, String last_name) {
         // Using parameterized query to prevent SQL injection
-        String UPSERT_SQL = "INSERT OR REPLACE INTO chw_name(id, first_name, last_name) VALUES (?, ?, ?)";
+        String UPSERT_SQL = "INSERT OR REPLACE INTO chw_name(id, first_name, last_name) VALUES ('"+id+"', '"+first_name+"', '"+last_name+"')";
         // Using try-with-resources to automatically close the statement;
-
-        try (SQLiteStatement statement = db.compileStatement(UPSERT_SQL)) {
-            // Bind values to the parameters
-            statement.bindString(1, id);
-            statement.bindString(2, first_name);
-            statement.bindString(3, last_name);
-            // Execute the statement
-            statement.execute();
-        } catch (SQLException e) {
-            // Handle any exceptions here
-            e.printStackTrace();
-        }
+        db.execSQL(UPSERT_SQL);
     }
 }

@@ -342,28 +342,31 @@ public class SyncOperations {
                 .build();
 
         ApiInterface api = retrofit.create(ApiInterface.class);
+        try {
+            Call<List<ChwUser>> call = api.getCheUserDetails("Token " + getAuthToken());
 
-        Call<List<ChwUser>> call = api.getCheUserDetails("Token "+getAuthToken());
+            call.enqueue(new Callback<List<ChwUser>>() {
 
-        call.enqueue(new Callback<List<ChwUser>>() {
-
-            @Override
-            public void onResponse(Call<List<ChwUser>> call, Response<List<ChwUser>> response) {
-                if(response.body()==null){
-                    Toast.makeText(myContext,"Facility or Location data has not been created on the server.", Toast.LENGTH_LONG).show();
-                }else {
-                    for (ChwUser l : response.body()) {
-                        dbHandler.addNewChwUser(l.getId(), l.getFirst_name(), l.getLast_name());
-                        //Toast.makeText(myContext, "Syncing location: " + l.getName(), Toast.LENGTH_SHORT).show();
+                @Override
+                public void onResponse(Call<List<ChwUser>> call, Response<List<ChwUser>> response) {
+                    if (response.body() == null) {
+                        Toast.makeText(myContext, "Facility or Location data has not been created on the server.", Toast.LENGTH_LONG).show();
+                    } else {
+                        for (ChwUser l : response.body()) {
+                            dbHandler.addNewChwUser(l.getId(), l.getFirst_name(), l.getLast_name());
+                            //Toast.makeText(myContext, "Syncing location: " + l.getName(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<ChwUser>> call, Throwable t) {
-                Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<List<ChwUser>> call, Throwable t) {
+                    Toast.makeText(myContext, t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }catch(Exception e){
+            Toast.makeText(myContext, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     void syncFacilityData() {
